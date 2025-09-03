@@ -154,7 +154,7 @@ const Hero = () => {
               title="现在招新中！"
               leftIcon={<TiLocationArrow />}
               containerClass="bg-gray-500 flex-center gap-1"
-              onClick={() => window.open('https://www.bing.com', '_blank')}
+              onClick={() => window.open('https://incredible-marzipan-055ab6.netlify.app/', '_blank')}
             />
           </div>
         </div>
