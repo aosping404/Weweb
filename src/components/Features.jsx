@@ -103,10 +103,10 @@ const Features = () => (
     <div className="container mx-auto px-3 md:px-10">
       <div className="px-5 py-32">
         <p className="font-circular-web text-lg text-blue-50">
-          Into the BLOOMSCROLL
+          文案5
         </p>
         <p className="max-w-md font-circular-web text-lg text-blue-50 opacity-50">
-        Imagine a social media feed filled with positivity, inspiration, and genuine connection. That's BoomScroll. We're a new platform dedicated to combating the harmful effects of doomscrolling by curating a stream of uplifting content, fostering a supportive community, and prioritizing your mental well-being.
+        文案6
         </p>
       </div>
 
@@ -115,10 +115,10 @@ const Features = () => (
           src="videos/feature-1.mp4"
           title={
             <>
-              AI-Powered Positive Content Curation
+              文案7
             </>
           }
-          description="BloomScroll utilizes AI to analyze and filter content, prioritizing uplifting, inspiring, and feel-good posts while actively removing negative news, hate speech, and misinformation"
+          description="文案8"
         
         />
       </BentoTilt>
@@ -129,10 +129,10 @@ const Features = () => (
             src="videos/feature-2.mp4"
             title={
               <>
-                Community-Driven Upliftment
+                文案9
               </>
             }
-            description="BloomScroll empowers its users to contribute to a positive environment by upvoting valuable content and flagging negativity, fostering a sense of community ownership and shared responsibility"
+            description="文案10"
           
           />
         </BentoTilt>
@@ -142,10 +142,10 @@ const Features = () => (
             src="videos/feature-3.mp4"
             title={
               <>
-                Personalized Well-being Feeds
+                文案11
               </>
             }
-            description="Users can customize their feeds by selecting topics that align with their interests and support their mental well-being, such as mental health, mindfulness, inspiration, and personal growth."
+            description="文案12"
            
           />
         </BentoTilt>
@@ -155,10 +155,10 @@ const Features = () => (
             src="videos/feature-4.mp4"
             title={
               <>
-                Mindful Scrolling Design
+                文案13
               </>
             }
-            description=" BloomScroll implements design choices that discourage excessive scrolling and promote mindful app usage, potentially including features like time-based content limits or curated content digests"
+            description="文案14"
           
           />
         </BentoTilt>
@@ -166,7 +166,7 @@ const Features = () => (
         <BentoTilt className="bento-tilt_2">
           <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
             <h1 className="bento-title special-font max-w-64 text-black">
-              M<b>o</b>re co<b>m</b>ing s<b>o</b>on.
+              文案15
             </h1>
 
             <TiLocationArrow className="m-5 scale-[5] self-end" />

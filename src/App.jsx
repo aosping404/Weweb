@@ -11,6 +11,7 @@ function App() {
 
   return (
     <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#f5cc6c]">
+      <div id="top"></div>
       <NavBar />
       <Hero />
       <About />

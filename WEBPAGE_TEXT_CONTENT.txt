@@ -1,0 +1,257 @@
+BLOOMSCROLL 网页文案内容提取
+=====================================
+提取时间：2024年12月
+文件路径：src/components/WaterfallGallery.jsx
+
+=====================================
+1. 主标题
+=====================================
+文案内容：BLOOMSCROLL 媒体库
+修改位置：第 280 行
+```jsx
+<h2 className="text-3xl font-bold text-white mb-8 text-center">
+  BLOOMSCROLL 媒体库
+</h2>
+```
+
+=====================================
+2. 文件夹选择器按钮
+=====================================
+文案内容：全部媒体
+修改位置：第 287 行
+```jsx
+<button onClick={() => setSelectedFolder('all')}>
+  全部媒体
+</button>
+```
+
+文案内容：视频库
+修改位置：第 295 行
+```jsx
+<button onClick={() => setSelectedFolder('videos')}>
+  视频库
+</button>
+```
+
+文案内容：图片库
+修改位置：第 303 行
+```jsx
+<button onClick={() => setSelectedFolder('gallery')}>
+  图片库
+</button>
+```
+
+=====================================
+3. 媒体计数显示
+=====================================
+文案内容：共 {filteredMediaData.length} 个媒体文件
+修改位置：第 315 行
+```jsx
+<div className="text-center text-white/70 text-sm">
+  共 {filteredMediaData.length} 个媒体文件
+  {selectedFolder !== 'all' && (
+    <span className="ml-2">
+      ({selectedFolder === 'videos' ? '视频' : '图片'}文件夹)
+    </span>
+  )}
+</div>
+```
+
+文案内容：视频文件夹
+修改位置：第 318 行
+```jsx
+({selectedFolder === 'videos' ? '视频' : '图片'}文件夹)
+```
+
+文案内容：图片文件夹
+修改位置：第 318 行
+```jsx
+({selectedFolder === 'videos' ? '视频' : '图片'}文件夹)
+```
+
+=====================================
+4. 刷新按钮
+=====================================
+文案内容：⏳ 扫描中...
+修改位置：第 328 行
+```jsx
+{isScanning ? '⏳ 扫描中...' : '🔄 刷新'}
+```
+
+文案内容：🔄 刷新
+修改位置：第 328 行
+```jsx
+{isScanning ? '⏳ 扫描中...' : '🔄 刷新'}
+```
+
+文案内容：重新扫描 mypub 文件夹
+修改位置：第 325 行
+```jsx
+title="重新扫描 mypub 文件夹"
+```
+
+=====================================
+5. 扫描结果显示
+=====================================
+文案内容：已扫描到 {mediaData.filter(f => f.type === 'image').length} 张图片
+修改位置：第 335 行
+```jsx
+<div className="text-center mb-4 text-white/50 text-xs">
+  已扫描到 {mediaData.filter(f => f.type === 'image').length} 张图片
+  {mediaData.filter(f => f.type === 'video').length > 0 &&
+    `，${mediaData.filter(f => f.type === 'video').length} 个视频`
+  }
+</div>
+```
+
+文案内容：，{mediaData.filter(f => f.type === 'video').length} 个视频
+修改位置：第 337 行
+```jsx
+{mediaData.filter(f => f.type === 'video').length > 0 &&
+  `，${mediaData.filter(f => f.type === 'video').length} 个视频`
+}
+```
+
+=====================================
+6. 控制台日志文案
+=====================================
+文案内容：Scanned media files:
+修改位置：第 75 行
+```jsx
+console.log('Scanned media files:', scannedFiles);
+```
+
+文案内容：Found {imageCount} images and {videoCount} videos
+修改位置：第 78 行
+```jsx
+console.log(`Found ${imageCount} images and ${videoCount} videos`);
+```
+
+文案内容：Error scanning media files:
+修改位置：第 80 行
+```jsx
+console.error('Error scanning media files:', error);
+```
+
+文案内容：layoutWaterfall called:
+修改位置：第 130 行
+```jsx
+console.log('layoutWaterfall called:', { columns, itemsCount: itemsRef.current.length });
+```
+
+文案内容：Early return:
+修改位置：第 133 行
+```jsx
+console.log('Early return:', { columns, itemsCount: itemsRef.current.length });
+```
+
+文案内容：Layout parameters:
+修改位置：第 139 行
+```jsx
+console.log('Layout parameters:', { itemWidth, gap, columns });
+```
+
+文案内容：Container styled:
+修改位置：第 147 行
+```jsx
+console.log('Container styled:', { totalWidth });
+```
+
+文案内容：First row item {i}:
+修改位置：第 155 行
+```jsx
+console.log(`First row item ${i}:`, { top: '0px', left: `${i * (itemWidth + gap)}px`, height: items[i].offsetHeight });
+```
+
+文案内容：Subsequent item {i}:
+修改位置：第 165 行
+```jsx
+console.log(`Subsequent item ${i}:`, { top: `${minHeight + gap}px`, left: `${minColumnIndex * (itemWidth + gap)}px`, column: minColumnIndex });
+```
+
+文案内容：Final column heights:
+修改位置：第 170 行
+```jsx
+console.log('Final column heights:', columnHeights);
+```
+
+文案内容：calculateColumns:
+修改位置：第 110 行
+```jsx
+console.log('calculateColumns:', { width, itemWidth, gap, optimalColumns });
+```
+
+=====================================
+7. 默认文件名和描述
+=====================================
+文案内容：Image 1, Image 2, Image 3...
+修改位置：第 65 行
+```jsx
+alt: `Image ${index + 1}`,
+```
+
+文案内容：Video 1, Video 2, Video 3...
+修改位置：第 58 行
+```jsx
+alt: `Video ${index + 1}`,
+```
+
+文案内容：play
+修改位置：第 58 行
+```jsx
+alt="play"
+```
+
+文案内容：Full size image
+修改位置：第 245 行
+```jsx
+alt="Full size image"
+```
+
+=====================================
+8. 错误处理文案
+=====================================
+文案内容：Error scanning media files:
+修改位置：第 80 行
+```jsx
+console.error('Error scanning media files:', error);
+```
+
+=====================================
+9. 文件类型检测
+=====================================
+文案内容：jpg, jpeg, png, webp, gif, bmp
+修改位置：第 62 行
+```jsx
+const isImage = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'].includes(extension);
+```
+
+文案内容：mp4, webm, ogg, mov, avi
+修改位置：第 61 行
+```jsx
+const isVideo = ['mp4', 'webm', 'ogg', 'mov', 'avi'].includes(extension);
+```
+
+=====================================
+10. 硬编码文件列表
+=====================================
+文案内容：1.jpg, 2.jpg, 3.jpg, 5.jpg, 6.png, 7.jpg, 8.png, 9.png, 11.jpg
+修改位置：第 50-52 行
+```jsx
+const fileList = [
+  '1.jpg', '2.jpg', '3.jpg', '5.jpg', '6.png', '7.jpg', '8.png', '9.png', '11.jpg'
+];
+```
+
+=====================================
+总结
+=====================================
+总共提取了约 30+ 处文案内容，包括：
+- 用户界面文案（按钮、标题、提示信息）
+- 控制台日志文案
+- 错误处理文案
+- 文件类型检测文案
+- 默认文件名和描述文案
+
+所有文案都位于 `src/components/WaterfallGallery.jsx` 文件中，
+修改时请参考对应的行号和代码上下文。

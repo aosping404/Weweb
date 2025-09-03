@@ -101,18 +101,18 @@ const Hero = () => {
       >
         <div>
 
-                <video
-                  ref={nextVdRef}
-                  src={getVideoSrc((currentIndex % totalVideos) + 1)}
-                  loop
-                  muted
-                  id="current-video"
-                  className="size-64 origin-center scale-150 object-cover object-center"
-                  onLoadedData={handleVideoLoad}
-                />
-            
-            
-     
+          <video
+            ref={nextVdRef}
+            src={getVideoSrc((currentIndex % totalVideos) + 1)}
+            loop
+            muted
+            id="current-video"
+            className="size-64 origin-center scale-150 object-cover object-center"
+            onLoadedData={handleVideoLoad}
+          />
+
+
+
 
           <video
             ref={nextVdRef}
@@ -136,24 +136,25 @@ const Hero = () => {
         </div>
 
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-[#e5f56c]">
-          SCROLL
+          滚动
         </h1>
 
         <div className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
             <h1 className="special-font hero-heading text-[#f3f56c]">
-              BLOOM
+              智能可穿戴实验室
             </h1>
 
             <p className="mb-5 max-w-96 font-robert-regular text-white">
-            BoomScroll ensures every post you see <br /> adds value to your day—motivational, inspiring, and uplifting.
+              <br />
             </p>
 
             <Button
-              id="Download BoomScroll"
-              title="Download BoomScroll"
+              id="lianjie"
+              title="现在招新中！"
               leftIcon={<TiLocationArrow />}
               containerClass="bg-gray-500 flex-center gap-1"
+              onClick={() => window.open('https://www.bing.com', '_blank')}
             />
           </div>
         </div>
@@ -162,7 +163,7 @@ const Hero = () => {
       </div>
 
       <h1 className="special-font hero-heading absolute bottom-5 right-5 text-gray-700">
-        SCROLL
+        滚动
       </h1>
     </div>
 

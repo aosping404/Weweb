@@ -3,6 +3,7 @@ import { useRef } from "react";
 
 import Button from "./Button";
 import AnimatedTitle from "./AnimatedTitle";
+import WaterfallGallery from "./WaterfallGallery";
 
 const FloatingImage = () => {
   const frameRef = useRef(null);
@@ -49,12 +50,12 @@ const FloatingImage = () => {
     <div id="story" className="min-h-dvh w-screen bg-black text-blue-50">
       <div className="flex size-full flex-col items-center py-10 pb-24">
         <p className="font-general text-sm uppercase md:text-[10px]">
-        Cross-Posting Capabilities
+          文案16
         </p>
 
         <div className="relative size-full">
           <AnimatedTitle
-            title="his would enable users to expand their reach"
+            title="文案17"
             containerClass="mt-5 pointer-events-none mix-blend-difference relative z-10"
           />
 
@@ -106,15 +107,20 @@ const FloatingImage = () => {
         <div className="-mt-80 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
           <div className="flex h-full w-fit flex-col items-center md:items-start">
             <p className="mt-3 max-w-sm text-center font-circular-web text-violet-50 md:text-start">
-            BloomScroll could allow users to cross-post content to other platforms like Facebook, Instagram, and X (formerly Twitter)1. This would enable users to expand their reach and maintain a consistent presence across multiple networks1.
+              
             </p>
 
             <Button
               id="realm-btn"
-              title="discover Our shares"
+              title=""
               containerClass="mt-5"
             />
           </div>
+        </div>
+
+        {/* 瀑布流媒体库 */}
+        <div className="mt-20 w-full">
+          <WaterfallGallery />
         </div>
       </div>
     </div>

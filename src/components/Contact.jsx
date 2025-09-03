@@ -35,7 +35,7 @@ const Contact = () => {
 
         <div className="flex flex-col items-center text-center">
           <p className="mb-10 font-general text-[10px] uppercase">
-            Join BloomScroll
+            文案20
           </p>
 
           <AnimatedTitle
@@ -43,7 +43,7 @@ const Contact = () => {
             className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
 
-          <Button title="Join our community" containerClass="mt-10 cursor-pointer" />
+          <Button title="文案21" containerClass="mt-10 cursor-pointer" />
         </div>
       </div>
     </div>

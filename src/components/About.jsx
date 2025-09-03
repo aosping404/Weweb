@@ -30,18 +30,18 @@ const About = () => {
     <div id="about" className="min-h-screen w-screen bg-[#f5cc6c]">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5">
         <p className="font-general text-sm uppercase md:text-[10px]">
-        Why Choose BoomScroll?
+        文案1
         </p>
 
         <AnimatedTitle
-          title="A safe space <br /> where positivity thrives."
+          title="文案2"
           containerClass="mt-5 !text-black text-center"
         />
 
         <div className="about-subtext">
-          <p>"We filter out negativity to ensure a positive scrolling experience."</p>
+          <p>"文案3"</p>
           <p className="text-gray-500">
-          A space for creative minds To create awsome content. 
+          文案4 
           </p>
         </div>
       </div>
