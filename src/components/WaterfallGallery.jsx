@@ -49,10 +49,14 @@ const WaterfallGallery = () => {
         'image_26.jpg',
         'image_27.jpg',
         'image_28.jpg',
-        '1.mp4',
-        '2.mp4',
+        'image_29.png',
+        'image_30.jpg',
+        'image_31.JPG',
+        'image_32.JPG',
+        'image_33.jpg',
+        'image_34.jpg',
+        'image_35.jpg',
       ];
-
       const scannedFiles = fileList.map((filename, index) => {
         const extension = filename.split('.').pop().toLowerCase();
         const isVideo = ['mp4', 'webm', 'ogg', 'mov', 'avi'].includes(extension);

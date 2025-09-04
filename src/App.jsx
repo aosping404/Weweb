@@ -146,7 +146,7 @@ function App() {
           id="lianjie"
           title="现在招新中！"
           leftIcon={<TiLocationArrow />}
-          containerClass="bg-[#6b7280] flex-center gap-1 scale-[1.3] transform border-2 border-white"
+          containerClass="bg-[#6b7280] flex-center gap-1 scale-[1.3] transform border-2 border-white shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.6),0_0_60px_rgba(255,255,255,0.4)] animate-pulse"
           onClick={() => window.open('https://incredible-marzipan-055ab6.netlify.app/', '_blank')}
         />
       </div>

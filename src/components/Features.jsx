@@ -143,13 +143,13 @@ const Features = () => (
 
       <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
         <BentoCard
-          src="/gif/limo1.gif"
+          src="/videos/2.mp4"
           title={
             <>
-              文案7
+              大狗-优宝特
             </>
           }
-          description="文案8"
+          description=""
 
         />
       </BentoTilt>
@@ -160,10 +160,10 @@ const Features = () => (
             src="videos/feature-2.mp4"
             title={
               <>
-                文案9
+                小狗-德克士
               </>
             }
-            description="文案10"
+            description=""
 
           />
         </BentoTilt>
@@ -173,23 +173,23 @@ const Features = () => (
             src="/gif/limo2.gif"
             title={
               <>
-                文案11
+                松灵多模态机器人LIMO
               </>
             }
-            description="文案12"
+            description=""
 
           />
         </BentoTilt>
 
         <BentoTilt className="bento-tilt_1 me-14 md:col-span-1 md:me-0">
           <BentoCard
-            src="videos/feature-4.mp4"
+            src="videos/3.mp4"
             title={
               <>
-                文案13
+                工业机器人
               </>
             }
-            description="文案14"
+            description="智能车间"
 
           />
         </BentoTilt>
@@ -197,7 +197,7 @@ const Features = () => (
         <BentoTilt className="bento-tilt_2">
           <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
             <h1 className="bento-title special-font max-w-64 text-black">
-              文案15
+              还有更多在等着你体验！
             </h1>
 
             <TiLocationArrow className="m-5 scale-[5] self-end" />

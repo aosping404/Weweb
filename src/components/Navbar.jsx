@@ -7,7 +7,7 @@ import { FaMusic, FaPause } from "react-icons/fa";
 
 import Button from "./Button";
 
-const navItems = ["Prologue", "About", "Contact"];
+const navItems = ["首页", "关于我们", "联系我们"];
 
 const NavBar = () => {
   // State for toggling audio and visual indicator
@@ -86,15 +86,21 @@ const NavBar = () => {
           {/* Navigation Links and Audio Button */}
           <div className="flex h-full items-center">
             <div className="hidden md:block">
-              {navItems.map((item, index) => (
-                <a
-                  key={index}
-                  href={item === "Prologue" ? "#top" : `#${item.toLowerCase()}`}
-                  className="nav-hover-btn"
-                >
-                  {item}
-                </a>
-              ))}
+              {navItems.map((item, index) => {
+                let href = "#top";
+                if (item === "关于我们") href = "#about";
+                if (item === "联系我们") href = "#contact";
+
+                return (
+                  <a
+                    key={index}
+                    href={href}
+                    className="nav-hover-btn"
+                  >
+                    {item}
+                  </a>
+                );
+              })}
             </div>
 
             <button
