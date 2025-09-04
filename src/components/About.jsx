@@ -8,6 +8,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
+    // 确保文字初始状态为清晰
+    gsap.set("#about-text", {
+      filter: "none",
+      opacity: 1,
+      clearProps: "all"
+    });
+
     const clipAnimation = gsap.timeline({
       scrollTrigger: {
         trigger: "#clip",
@@ -26,17 +33,16 @@ const About = () => {
       borderRadius: 0,
     });
 
-    // 背景模糊动画
-    clipAnimation.to("#blur-background", {
-      backdropFilter: "blur(20px)",
-      backgroundColor: "rgba(255, 255, 255, 0.8)",
-    }, 0);
-
-    // 文字模糊动画
-    clipAnimation.to("#about-text", {
-      filter: "blur(10px)",
-      opacity: 0.3,
-    }, 0);
+    // 文字模糊动画 - 使用fromTo确保起始状态正确
+    clipAnimation.fromTo("#about-text",
+      {
+        filter: "blur(0px)",
+        opacity: 1,
+      },
+      {
+        filter: "blur(10px)",
+        opacity: 0.3,
+      }, 0);
   });
 
   return (
@@ -51,7 +57,10 @@ const About = () => {
           containerClass="mt-5 !text-black text-center"
         />
 
-        <div className="about-subtext" id="about-text">
+        <div
+          className="about-subtext"
+          id="about-text"
+        >
           <p className="text-gray-800 text-center max-w-4xl">
             "智能可穿戴实验室专注于物联网技术的前沿研究与应用开发，致力于推动物联网与人工智能、边缘计算、嵌入式系统等领域的深度融合。"
           </p>
@@ -62,9 +71,6 @@ const About = () => {
       </div>
 
       <div className="h-dvh w-screen" id="clip">
-        {/* 背景模糊层 */}
-        <div className="absolute inset-0 bg-white backdrop-blur-0 transition-all duration-1000" id="blur-background"></div>
-
         <div className="mask-clip-path about-image relative z-10">
           <img
             src="img/about.png"
