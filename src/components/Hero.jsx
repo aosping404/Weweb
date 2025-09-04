@@ -65,12 +65,12 @@ const Hero = () => {
           {/* 背景纯色填充 */}
           <div className="absolute left-0 top-0 size-full bg-[#000000]"></div>
 
-          {/* 居中的GIF，2倍尺寸显示 */}
+          {/* 居中的GIF，响应式尺寸显示 */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
             <img
               src="/gif/main.gif"
               alt="Main Animation"
-              className="w-[768px] h-[768px] object-contain"
+              className="w-[768px] h-[768px] md:w-[768px] md:h-[768px] object-contain scale-[2.3] md:scale-100"
             />
           </div>
 
