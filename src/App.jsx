@@ -141,7 +141,7 @@ function App() {
       <Footer />
 
       {/* 全局浮动按钮 */}
-      <div ref={buttonRef} className="fixed left-[55px] top-3/4 -translate-y-1/2 z-[9999]">
+      <div ref={buttonRef} className="fixed left-[40px] top-3/4 -translate-y-1/2 z-[9999]">
         <Button
           id="lianjie"
           title="现在招新中！"
