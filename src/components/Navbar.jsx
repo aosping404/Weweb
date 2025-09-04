@@ -110,7 +110,7 @@ const NavBar = () => {
               <audio
                 ref={audioElementRef}
                 className="hidden"
-                src="/audio/loop.mp3"
+                src="/audio/Hidden_love.mp3"
                 loop
               />
               {isAudioPlaying ? (
