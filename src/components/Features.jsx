@@ -56,15 +56,46 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
   const handleMouseEnter = () => setHoverOpacity(1);
   const handleMouseLeave = () => setHoverOpacity(0);
 
+  // 判断文件类型
+  const isGif = src && src.toLowerCase().includes('.gif');
+  const isBiliIframe = src && src.includes('player.bilibili.com');
+  const isVideo = src && (
+    src.toLowerCase().includes('.mp4') ||
+    src.toLowerCase().includes('.webm') ||
+    src.toLowerCase().includes('.mov') ||
+    src.includes('bili.api.scc.lol') // B站直连API
+  );
+
   return (
     <div className="relative size-full">
-      <video
-        src={src}
-        loop
-        muted
-        autoPlay
-        className="absolute left-0 top-0 size-full object-cover object-center"
-      />
+      {isGif ? (
+        <img
+          src={src}
+          alt={title}
+          className="absolute left-0 top-0 size-full object-cover object-center"
+        />
+      ) : isBiliIframe ? (
+        <iframe
+          src={src}
+          className="absolute left-0 top-0 size-full border-0"
+          scrolling="no"
+          allowFullScreen
+          style={{ aspectRatio: '16/9' }}
+        />
+      ) : isVideo ? (
+        <video
+          src={src}
+          loop
+          muted
+          autoPlay
+          className="absolute left-0 top-0 size-full object-cover object-center"
+        />
+      ) : (
+        <div className="absolute left-0 top-0 size-full bg-gray-800 flex items-center justify-center">
+          <p className="text-white">不支持的文件格式</p>
+        </div>
+      )}
+
       <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-50">
         <div>
           <h1 className="bento-title special-font">{title}</h1>
@@ -102,7 +133,7 @@ const Features = () => (
   <section className="bg-black pb-52">
     <div className="container mx-auto px-3 md:px-10">
       <div className="px-5 py-32">
-                <p className="font-circular-web text-lg text-blue-50">
+        <p className="font-circular-web text-lg text-blue-50">
           丰富资源与竞赛卓越
         </p>
         <p className="max-w-md font-circular-web text-lg text-blue-50 opacity-50">
@@ -112,14 +143,14 @@ const Features = () => (
 
       <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
         <BentoCard
-          src="videos/feature-1.mp4"
+          src="/gif/limo1.gif"
           title={
             <>
               文案7
             </>
           }
           description="文案8"
-        
+
         />
       </BentoTilt>
 
@@ -133,20 +164,20 @@ const Features = () => (
               </>
             }
             description="文案10"
-          
+
           />
         </BentoTilt>
 
         <BentoTilt className="bento-tilt_1 row-span-1 ms-32 md:col-span-1 md:ms-0">
           <BentoCard
-            src="videos/feature-3.mp4"
+            src="/gif/limo2.gif"
             title={
               <>
                 文案11
               </>
             }
             description="文案12"
-           
+
           />
         </BentoTilt>
 
@@ -159,7 +190,7 @@ const Features = () => (
               </>
             }
             description="文案14"
-          
+
           />
         </BentoTilt>
 

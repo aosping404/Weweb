@@ -76,9 +76,10 @@ const NavBar = () => {
 
             <Button
               id="product-button"
-              title="contact"
+              title="学校官网"
               rightIcon={<TiLocationArrow />}
-              containerClass="bg-gray-700 md:flex hidden items-center justify-center gap-1"
+              containerClass="bg-gray-700 md:flex hidden items-center justify-center gap-1 border-2 border-white"
+              onClick={() => window.open('https://nsu.edu.cn/', '_blank')}
             />
           </div>
 

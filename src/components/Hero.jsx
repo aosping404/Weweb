@@ -78,7 +78,7 @@ const Hero = () => {
         </div>
 
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-[#5e9cdb]">
-          滚动
+          滚动未来
         </h1>
 
         <div className="absolute left-0 top-0 z-40 size-full">
@@ -98,7 +98,7 @@ const Hero = () => {
       </div>
 
       <h1 className="special-font hero-heading absolute bottom-5 right-5 text-gray-700">
-        滚动
+        滚动未来
       </h1>
     </div>
 
