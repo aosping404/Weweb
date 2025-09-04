@@ -13,6 +13,7 @@ const WaterfallGallery = () => {
   const [showScrollToBottom, setShowScrollToBottom] = useState(false); // 新增：显示滑到底部按钮
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 新增：加载更多状态
   const [preloadedImages, setPreloadedImages] = useState(new Set()); // 新增：预加载的图片
+  const [highResImages, setHighResImages] = useState(new Set()); // 新增：已加载高清图片
   const containerRef = useRef(null);
   const itemsRef = useRef([]);
   const scrollToBottomRef = useRef(null);
@@ -79,7 +80,8 @@ const WaterfallGallery = () => {
         } else if (isImage) {
           return {
             type: 'image',
-            src: `/mypub/${filename}`,
+            src: `/mypub/${filename}`, // 高清原图
+            thumbnail: `/mypub/thumbnails/${filename}`, // 缩略图
             alt: `Image ${index + 1}`,
             folder: 'gallery'
           };
@@ -261,10 +263,11 @@ const WaterfallGallery = () => {
     // 标记图片为已加载
     setLoadedImages(prev => new Set([...prev, src]));
 
-    // 延迟执行布局，确保图片尺寸已更新
-    setTimeout(() => {
+    // 立即执行布局，让图片占据瀑布流位置
+    // 使用 requestAnimationFrame 确保DOM更新完成
+    requestAnimationFrame(() => {
       layoutWaterfall();
-    }, 100);
+    });
   }, [layoutWaterfall]);
 
   // 初始化布局
@@ -289,24 +292,24 @@ const WaterfallGallery = () => {
     scanMediaFiles();
   }, [scanMediaFiles]);
 
-  // 预加载其余图片
+  // 预加载其余图片的缩略图
   useEffect(() => {
     if (mediaData.length > 0) {
-      // 获取需要预加载的图片（第16张及以后）
+      // 获取需要预加载的图片缩略图（第16张及以后）
       const imagesToPreload = mediaData
         .filter(item => item.type === 'image')
         .slice(15); // 从第16张开始
 
-      // 预加载图片
+      // 预加载缩略图
       imagesToPreload.forEach(item => {
         const img = new Image();
         img.onload = () => {
-          setPreloadedImages(prev => new Set([...prev, item.src]));
+          setPreloadedImages(prev => new Set([...prev, item.thumbnail]));
         };
         img.onerror = () => {
-          console.warn(`Failed to preload image: ${item.src}`);
+          console.warn(`Failed to preload thumbnail: ${item.thumbnail}`);
         };
-        img.src = item.src;
+        img.src = item.thumbnail;
       });
     }
   }, [mediaData]);
@@ -338,10 +341,12 @@ const WaterfallGallery = () => {
   const handleLoadMore = async () => {
     setIsLoadingMore(true);
 
-    // 短暂显示加载动画，然后立即显示内容
+    // 显示所有图片，让它们逐个加载并布局
+    setShowAll(true);
+
+    // 短暂显示加载动画，给用户反馈
     await new Promise(resolve => setTimeout(resolve, 300));
 
-    setShowAll(true);
     setIsLoadingMore(false);
   };
 
@@ -368,23 +373,196 @@ const WaterfallGallery = () => {
   };
 
   // 图片点击处理
-  const handleImageClick = (imageSrc) => {
+  const handleImageClick = (imageSrc, thumbnailSrc) => {
     const imageViewer = document.createElement('div');
     imageViewer.className = 'fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center';
+
+    // 先显示缩略图，然后加载高清图
     imageViewer.innerHTML = `
       <div class="relative w-full h-full flex items-center justify-center">
-        <button class="absolute top-4 right-4 text-white text-2xl z-10 hover:text-gray-300" onclick="this.parentElement.parentElement.remove()">×</button>
-        <img src="${imageSrc}" class="max-w-full max-h-full object-contain" alt="Full size image">
+        <!-- 关闭按钮 -->
+        <button class="close-btn absolute top-4 right-4 text-white text-2xl z-20 hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center">×</button>
+        
+        <!-- 控制按钮 -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+          <button class="zoom-btn bg-black bg-opacity-50 text-white px-4 py-2 rounded-full hover:bg-opacity-70 transition-all" data-action="zoom-out">缩小</button>
+          <button class="zoom-btn bg-black bg-opacity-50 text-white px-4 py-2 rounded-full hover:bg-opacity-70 transition-all" data-action="reset">重置</button>
+          <button class="zoom-btn bg-black bg-opacity-50 text-white px-4 py-2 rounded-full hover:bg-opacity-70 transition-all" data-action="zoom-in">放大</button>
+        </div>
+        
+        <!-- 图片容器 -->
+        <div class="image-container relative overflow-hidden cursor-grab active:cursor-grabbing" style="max-width: 90vw; max-height: 90vh;">
+          <img src="${thumbnailSrc}" class="image-content max-w-full max-h-full object-contain opacity-50 transition-all duration-300" alt="Loading..." style="transform: scale(1); transform-origin: center;">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
       </div>
     `;
 
+    // 添加类名用于样式控制
+    imageViewer.classList.add('image-viewer');
     document.body.appendChild(imageViewer);
 
+    // 图片缩放和拖拽功能
+    let scale = 1;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let translateX = 0;
+    let translateY = 0;
+
+    const imageContainer = imageViewer.querySelector('.image-container');
+    const imageContent = imageViewer.querySelector('.image-content');
+    const zoomButtons = imageViewer.querySelectorAll('.zoom-btn');
+    const closeButton = imageViewer.querySelector('.close-btn');
+
+    // 更新图片变换
+    const updateTransform = () => {
+      imageContent.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    };
+
+    // 缩放功能（以屏幕中心为基准）
+    const zoom = (direction) => {
+      const zoomFactor = 0.2;
+      const oldScale = scale;
+
+      if (direction === 'in') {
+        scale = Math.min(scale + zoomFactor, 5); // 最大5倍
+      } else if (direction === 'out') {
+        scale = Math.max(scale - zoomFactor, 0.1); // 最小0.1倍
+      } else if (direction === 'reset') {
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+        return;
+      }
+
+      // 以屏幕中心为基准缩放
+      const scaleRatio = scale / oldScale;
+      translateX = translateX * scaleRatio;
+      translateY = translateY * scaleRatio;
+
+      updateTransform();
+    };
+
+    // 鼠标滚轮缩放（以屏幕中心为基准）
+    const handleWheel = (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY > 0 ? -0.1 : 0.1;
+      const oldScale = scale;
+      scale = Math.max(0.1, Math.min(5, scale + zoomFactor));
+
+      // 以屏幕中心为基准缩放
+      const scaleRatio = scale / oldScale;
+      translateX = translateX * scaleRatio;
+      translateY = translateY * scaleRatio;
+
+      updateTransform();
+    };
+
+    // 拖拽功能
+    const handleMouseDown = (e) => {
+      if (scale > 1) {
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        imageContainer.style.cursor = 'grabbing';
+      }
+    };
+
+    const handleMouseMove = (e) => {
+      if (isDragging && scale > 1) {
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateTransform();
+      }
+    };
+
+    const handleMouseUp = () => {
+      isDragging = false;
+      imageContainer.style.cursor = scale > 1 ? 'grab' : 'default';
+    };
+
+    // 添加事件监听器
+    imageContainer.addEventListener('wheel', handleWheel);
+    imageContainer.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    // 按钮事件
+    zoomButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        if (action === 'zoom-in') zoom('in');
+        else if (action === 'zoom-out') zoom('out');
+        else if (action === 'reset') zoom('reset');
+      });
+    });
+
+    // 关闭按钮事件
+    closeButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeViewer();
+    });
+
+    // 加载高清图片
+    const highResImg = new Image();
+    highResImg.onload = () => {
+      // 高清图片加载完成，替换缩略图
+      const loadingElement = imageViewer.querySelector('.animate-spin').parentElement;
+
+      imageContent.src = imageSrc;
+      imageContent.className = 'image-content max-w-full max-h-full object-contain opacity-100 transition-all duration-300';
+      loadingElement.remove();
+
+      // 标记为已加载高清图片
+      setHighResImages(prev => new Set([...prev, imageSrc]));
+    };
+    highResImg.onerror = () => {
+      console.warn(`Failed to load high-res image: ${imageSrc}`);
+      // 加载失败时移除加载动画
+      const loadingElement = imageViewer.querySelector('.animate-spin').parentElement;
+      if (loadingElement) {
+        loadingElement.remove();
+      }
+    };
+    highResImg.src = imageSrc;
+
+    // 关闭查看器的函数
+    const closeViewer = () => {
+      // 清理事件监听器
+      imageContainer.removeEventListener('wheel', handleWheel);
+      imageContainer.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('keydown', handleKeyDown);
+      imageViewer.remove();
+    };
+
+    // 点击背景关闭
     imageViewer.addEventListener('click', (e) => {
-      if (e.target === imageViewer) {
-        imageViewer.remove();
+      // 点击空白处（背景）或图片容器时关闭
+      if (e.target === imageViewer || e.target === imageContainer) {
+        closeViewer();
       }
     });
+
+    // 键盘快捷键
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        closeViewer();
+      } else if (e.key === '+' || e.key === '=') {
+        zoom('in');
+      } else if (e.key === '-') {
+        zoom('out');
+      } else if (e.key === '0') {
+        zoom('reset');
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
   };
 
   // 计算容器总高度
@@ -480,22 +658,26 @@ const WaterfallGallery = () => {
               ) : (
                 <div
                   className="relative w-full bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
-                  onClick={() => handleImageClick(item.src)}
+                  onClick={() => handleImageClick(item.src, item.thumbnail)}
                 >
-                  {!loadedImages.has(item.src) && !preloadedImages.has(item.src) && (
+                  {!loadedImages.has(item.thumbnail) && !preloadedImages.has(item.thumbnail) && (
                     <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
                       <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     </div>
                   )}
                   <img
-                    src={item.src}
+                    src={item.thumbnail}
                     alt={item.alt}
-                    className={`w-full h-auto object-cover transition-opacity duration-300 ${loadedImages.has(item.src) || preloadedImages.has(item.src) ? 'opacity-100' : 'opacity-0'
+                    className={`w-full h-auto object-cover transition-opacity duration-300 ${loadedImages.has(item.thumbnail) || preloadedImages.has(item.thumbnail) ? 'opacity-100' : 'opacity-0'
                       }`}
                     loading="lazy"
-                    onLoad={() => handleImageLoad(index, item.src)}
+                    onLoad={() => handleImageLoad(index, item.thumbnail)}
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
+                  {/* 高清图片加载指示器 */}
+                  {highResImages.has(item.src) && (
+                    <div className="absolute top-2 right-2 w-3 h-3 bg-green-500 rounded-full"></div>
+                  )}
                 </div>
               )}
             </div>
