@@ -27,10 +27,10 @@ const About = () => {
   });
 
   return (
-    <div id="about" className="min-h-screen w-screen bg-[#f5cc6c]">
+    <div id="about" className="min-h-screen w-screen bg-[#ffffff]">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5">
         <p className="font-general text-sm uppercase md:text-[10px]">
-        文案1
+          文案1
         </p>
 
         <AnimatedTitle
@@ -39,9 +39,8 @@ const About = () => {
         />
 
         <div className="about-subtext">
-          <p>"文案3"</p>
+          <p></p>
           <p className="text-gray-500">
-          文案4 
           </p>
         </div>
       </div>
@@ -49,7 +48,7 @@ const About = () => {
       <div className="h-dvh w-screen" id="clip">
         <div className="mask-clip-path about-image">
           <img
-            src="img/about.jpg"
+            src="img/about.png"
             alt="Background"
             className="absolute left-0 top-0 size-full object-cover"
           />

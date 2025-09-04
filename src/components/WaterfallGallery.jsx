@@ -21,7 +21,36 @@ const WaterfallGallery = () => {
       // 根据您提供的文件列表，我们动态生成媒体数据
       // 自动检测文件类型（基于文件扩展名）
       const fileList = [
-        '1.jpg', '2.jpg', '3.jpg', '5.jpg', '6.png', '7.jpg', '8.png', '9.png', '11.jpg'
+        'image_01.jpg',
+        'image_02.jpg',
+        'image_03.jpg',
+        'image_04.jpg',
+        'image_05.jpg',
+        'image_06.jpg',
+        'image_07.jpg',
+        'image_08.jpg',
+        'image_09.jpg',
+        'image_10.jpg',
+        'image_11.jpg',
+        'image_12.jpg',
+        'image_13.jpg',
+        'image_14.jpg',
+        'image_15.jpg',
+        'image_16.jpg',
+        'image_17.jpg',
+        'image_18.jpg',
+        'image_19.jpg',
+        'image_20.jpg',
+        'image_21.jpg',
+        'image_22.jpg',
+        'image_23.jpg',
+        'image_24.jpg',
+        'image_25.jpg',
+        'image_26.jpg',
+        'image_27.jpg',
+        'image_28.jpg',
+        '1.mp4',
+        '2.mp4',
       ];
 
       const scannedFiles = fileList.map((filename, index) => {
