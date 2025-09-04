@@ -85,7 +85,7 @@ const NavBar = () => {
 
           {/* Navigation Links and Audio Button */}
           <div className="flex h-full items-center">
-            <div className="hidden md:block">
+            <div className="flex items-center space-x-4">
               {navItems.map((item, index) => {
                 let href = "#top";
                 if (item === "关于我们") href = "#about";
@@ -95,7 +95,7 @@ const NavBar = () => {
                   <a
                     key={index}
                     href={href}
-                    className="nav-hover-btn"
+                    className="nav-hover-btn text-sm md:text-xs"
                   >
                     {item}
                   </a>
@@ -105,7 +105,7 @@ const NavBar = () => {
 
             <button
               onClick={toggleAudioIndicator}
-              className="ml-10 flex items-center justify-center w-12 h-12 bg-black border-2 border-white rounded-full hover:bg-gray-800 transition-colors duration-300"
+              className="ml-4 flex items-center justify-center w-12 h-12 bg-black border-2 border-white rounded-full hover:bg-gray-800 transition-colors duration-300"
             >
               <audio
                 ref={audioElementRef}
