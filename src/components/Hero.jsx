@@ -91,13 +91,6 @@ const Hero = () => {
               <br />
             </p>
 
-            <Button
-              id="lianjie"
-              title="现在招新中！"
-              leftIcon={<TiLocationArrow />}
-              containerClass="bg-gray-500 flex-center gap-1 scale-[1.3] transform border-2 border-white"
-              onClick={() => window.open('https://incredible-marzipan-055ab6.netlify.app/', '_blank')}
-            />
           </div>
         </div>
 

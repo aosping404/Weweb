@@ -50,12 +50,12 @@ const FloatingImage = () => {
     <div id="story" className="min-h-dvh w-screen bg-black text-blue-50">
       <div className="flex size-full flex-col items-center py-10 pb-24">
         <p className="font-general text-sm uppercase md:text-[10px]">
-          文案16
+          项目实践与创新
         </p>
 
         <div className="relative size-full">
           <AnimatedTitle
-            title="文案17"
+            title="体验前沿AIOT技术"
             containerClass="mt-5 pointer-events-none mix-blend-difference relative z-10"
           />
 

@@ -11,39 +11,55 @@ const Contact = () => {
   return (
     <div id="contact" className="my-20 min-h-96 w-screen  px-10">
       <div className="relative rounded-lg bg-black py-24 text-blue-50 sm:overflow-hidden">
-        <div className="absolute -left-20 top-0 hidden h-full w-72 overflow-hidden sm:block lg:left-20 lg:w-96">
-          <ImageClipBox
-            src="/img/contact-1.webp"
-            clipClass="contact-clip-path-1"
-          />
-          <ImageClipBox
-            src="/img/contact-2.webp"
-            clipClass="contact-clip-path-2 lg:translate-y-40 translate-y-60"
-          />
-        </div>
-
-        <div className="absolute -top-40 left-20 w-60 sm:top-1/2 md:left-auto md:right-10 lg:top-20 lg:w-80">
-          <ImageClipBox
-            src="/img/chakra.png"
-            clipClass="absolute md:scale-125"
-          />
-          <ImageClipBox
-            src="/img/Leonardo_Phoenix_10_A_futuristic_digital_illustration_of_a_per_3.jpg"
-            clipClass="sword-man-clip-path md:scale-125"
-          />
-        </div>
+        {/* 移除所有背景图片 */}
 
         <div className="flex flex-col items-center text-center">
-          <p className="mb-10 font-general text-[10px] uppercase">
-            文案20
+          <p className="mb-10 font-general text-sm uppercase">
+            加入技术未来
           </p>
 
           <AnimatedTitle
-            title="let&#39;s b<b>u</b>ild the <br /> new era of <br /> Scrolling"
+            title="让我们<b>建</b>设 <br /> AIOT创新的 <br /> 新时代"
             className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
 
-          <Button title="文案21" containerClass="mt-10 cursor-pointer" />
+          <div className="flex flex-col items-center gap-4 mt-10">
+            {/* 动态箭头指向二维码 */}
+            <div className="flex items-center">
+              <svg
+                className="w-6 h-6 text-white animate-pulse"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+              <div className="flex space-x-1 ml-2">
+                <div className="w-1 h-1 bg-white rounded-full animate-bounce"></div>
+                <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
+            </div>
+
+            {/* 二维码图片框 */}
+            <div className="flex flex-col items-center">
+              <div className="w-24 h-24 bg-white border-2 border-white rounded-lg overflow-hidden shadow-lg">
+                <img
+                  src="/img/qrcode.png"
+                  alt="联系方式二维码"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-sm text-white mt-3 text-center font-medium">
+                扫码加入我们！
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

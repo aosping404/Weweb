@@ -102,11 +102,11 @@ const Features = () => (
   <section className="bg-black pb-52">
     <div className="container mx-auto px-3 md:px-10">
       <div className="px-5 py-32">
-        <p className="font-circular-web text-lg text-blue-50">
-          文案5
+                <p className="font-circular-web text-lg text-blue-50">
+          丰富资源与竞赛卓越
         </p>
         <p className="max-w-md font-circular-web text-lg text-blue-50 opacity-50">
-        文案6
+          实验室拥有丰富的硬件资源和软件平台，为学生提供从理论学习到项目实践的全方位支持。2024年仅国家级A类竞赛获奖20余项！
         </p>
       </div>
 
