@@ -12,6 +12,7 @@ const WaterfallGallery = () => {
   const [loadedImages, setLoadedImages] = useState(new Set()); // 新增：已加载的图片
   const [showScrollToBottom, setShowScrollToBottom] = useState(false); // 新增：显示滑到底部按钮
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 新增：加载更多状态
+  const [preloadedImages, setPreloadedImages] = useState(new Set()); // 新增：预加载的图片
   const containerRef = useRef(null);
   const itemsRef = useRef([]);
   const scrollToBottomRef = useRef(null);
@@ -288,6 +289,28 @@ const WaterfallGallery = () => {
     scanMediaFiles();
   }, [scanMediaFiles]);
 
+  // 预加载其余图片
+  useEffect(() => {
+    if (mediaData.length > 0) {
+      // 获取需要预加载的图片（第16张及以后）
+      const imagesToPreload = mediaData
+        .filter(item => item.type === 'image')
+        .slice(15); // 从第16张开始
+
+      // 预加载图片
+      imagesToPreload.forEach(item => {
+        const img = new Image();
+        img.onload = () => {
+          setPreloadedImages(prev => new Set([...prev, item.src]));
+        };
+        img.onerror = () => {
+          console.warn(`Failed to preload image: ${item.src}`);
+        };
+        img.src = item.src;
+      });
+    }
+  }, [mediaData]);
+
   // 监听滚动，显示/隐藏滑到底部按钮
   useEffect(() => {
     const handleScroll = () => {
@@ -315,8 +338,8 @@ const WaterfallGallery = () => {
   const handleLoadMore = async () => {
     setIsLoadingMore(true);
 
-    // 模拟加载延迟，让用户看到加载动画
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // 短暂显示加载动画，然后立即显示内容
+    await new Promise(resolve => setTimeout(resolve, 300));
 
     setShowAll(true);
     setIsLoadingMore(false);
@@ -459,7 +482,7 @@ const WaterfallGallery = () => {
                   className="relative w-full bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
                   onClick={() => handleImageClick(item.src)}
                 >
-                  {!loadedImages.has(item.src) && (
+                  {!loadedImages.has(item.src) && !preloadedImages.has(item.src) && (
                     <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
                       <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     </div>
@@ -467,7 +490,7 @@ const WaterfallGallery = () => {
                   <img
                     src={item.src}
                     alt={item.alt}
-                    className={`w-full h-auto object-cover transition-opacity duration-300 ${loadedImages.has(item.src) ? 'opacity-100' : 'opacity-0'
+                    className={`w-full h-auto object-cover transition-opacity duration-300 ${loadedImages.has(item.src) || preloadedImages.has(item.src) ? 'opacity-100' : 'opacity-0'
                       }`}
                     loading="lazy"
                     onLoad={() => handleImageLoad(index, item.src)}
