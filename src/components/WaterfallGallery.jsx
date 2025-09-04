@@ -8,8 +8,13 @@ const WaterfallGallery = () => {
   const [selectedFolder, setSelectedFolder] = useState('all'); // 新增：选中的文件夹
   const [isScanning, setIsScanning] = useState(false); // 新增：扫描状态
   const [screenSize, setScreenSize] = useState('desktop'); // 新增：屏幕尺寸状态
+  const [showAll, setShowAll] = useState(false); // 新增：是否显示所有照片
+  const [loadedImages, setLoadedImages] = useState(new Set()); // 新增：已加载的图片
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false); // 新增：显示滑到底部按钮
+  const [isLoadingMore, setIsLoadingMore] = useState(false); // 新增：加载更多状态
   const containerRef = useRef(null);
   const itemsRef = useRef([]);
+  const scrollToBottomRef = useRef(null);
 
   // 媒体数据 - 动态扫描 mypub 文件夹
   const [mediaData, setMediaData] = useState([]);
@@ -105,13 +110,17 @@ const WaterfallGallery = () => {
     }
   }, []);
 
-  // 根据选中的文件夹过滤媒体数据
+  // 根据选中的文件夹过滤媒体数据，并限制显示数量
   const filteredMediaData = useMemo(() => {
-    if (selectedFolder === 'all') {
-      return mediaData;
+    let filtered = selectedFolder === 'all' ? mediaData : mediaData.filter(item => item.folder === selectedFolder);
+
+    // 如果未点击"查看更多"，只显示前15张图片
+    if (!showAll) {
+      filtered = filtered.slice(0, 15);
     }
-    return mediaData.filter(item => item.folder === selectedFolder);
-  }, [selectedFolder, mediaData]);
+
+    return filtered;
+  }, [selectedFolder, mediaData, showAll]);
 
   // 计算每行可容纳的瀑布流块个数
   const calculateColumns = useCallback(() => {
@@ -247,7 +256,10 @@ const WaterfallGallery = () => {
   }, [calculateColumns, layoutWaterfall]);
 
   // 图片加载完成后重新布局
-  const handleImageLoad = useCallback((index) => {
+  const handleImageLoad = useCallback((index, src) => {
+    // 标记图片为已加载
+    setLoadedImages(prev => new Set([...prev, src]));
+
     // 延迟执行布局，确保图片尺寸已更新
     setTimeout(() => {
       layoutWaterfall();
@@ -275,6 +287,40 @@ const WaterfallGallery = () => {
   useEffect(() => {
     scanMediaFiles();
   }, [scanMediaFiles]);
+
+  // 监听滚动，显示/隐藏滑到底部按钮
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      // 当滚动超过一定距离时显示滑到底部按钮
+      setShowScrollToBottom(scrollTop > windowHeight * 0.5);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 滑到底部功能
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
+
+  // 加载更多功能
+  const handleLoadMore = async () => {
+    setIsLoadingMore(true);
+
+    // 模拟加载延迟，让用户看到加载动画
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    setShowAll(true);
+    setIsLoadingMore(false);
+  };
 
   // 视频点击处理
   const handleVideoClick = (videoSrc) => {
@@ -413,12 +459,18 @@ const WaterfallGallery = () => {
                   className="relative w-full bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
                   onClick={() => handleImageClick(item.src)}
                 >
+                  {!loadedImages.has(item.src) && (
+                    <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+                      <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
                   <img
                     src={item.src}
                     alt={item.alt}
-                    className="w-full h-auto object-cover"
+                    className={`w-full h-auto object-cover transition-opacity duration-300 ${loadedImages.has(item.src) ? 'opacity-100' : 'opacity-0'
+                      }`}
                     loading="lazy"
-                    onLoad={() => handleImageLoad(index)}
+                    onLoad={() => handleImageLoad(index, item.src)}
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
                 </div>
@@ -426,6 +478,42 @@ const WaterfallGallery = () => {
             </div>
           ))}
         </div>
+
+        {/* 查看更多按钮 */}
+        {!showAll && mediaData.length > 15 && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={handleLoadMore}
+              disabled={isLoadingMore}
+              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg flex items-center gap-2 ${isLoadingMore
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-white text-black hover:bg-gray-100'
+                }`}
+            >
+              {isLoadingMore ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
+                  加载中...
+                </>
+              ) : (
+                `查看更多 (${mediaData.length - 15} 张)`
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* 滑到底部按钮 */}
+        {showScrollToBottom && (
+          <button
+            ref={scrollToBottomRef}
+            onClick={scrollToBottom}
+            className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-white text-black rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-center"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   );
