@@ -63,6 +63,8 @@ const WaterfallGallery = () => {
         'image_33.jpg',
         'image_34.jpg',
         'image_35.jpg',
+        'image_36.jpg',
+        'image_37.jpg',
       ];
       const scannedFiles = fileList.map((filename, index) => {
         const extension = filename.split('.').pop().toLowerCase();

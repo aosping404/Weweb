@@ -10,7 +10,7 @@ from pathlib import Path
 
 def rename_files():
     # 设置mypub文件夹路径
-    mypub_path = Path("public/mypub")
+    mypub_path = Path("public/mypub/thumbnails")
     
     if not mypub_path.exists():
         print(f"错误: 文件夹 {mypub_path} 不存在")
