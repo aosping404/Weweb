@@ -27,6 +27,8 @@ const WaterfallGallery = () => {
     try {
       // 根据您提供的文件列表，我们动态生成媒体数据
       // 自动检测文件类型（基于文件扩展名）
+      // 动态扫描文件列表 - 根据实际文件生成
+      // 运行 rename_files.py 后会生成正确的文件列表
       const fileList = [
         'image_01.jpg',
         'image_02.jpg',
@@ -55,11 +57,11 @@ const WaterfallGallery = () => {
         'image_25.jpg',
         'image_26.jpg',
         'image_27.jpg',
-        'image_28.jpg',
-        'image_29.png',
-        'image_30.jpg',
+        'image_28.png',
+        'image_29.jpg',
+        'image_30.JPG',
         'image_31.JPG',
-        'image_32.JPG',
+        'image_32.jpg',
         'image_33.jpg',
         'image_34.jpg',
         'image_35.jpg',
