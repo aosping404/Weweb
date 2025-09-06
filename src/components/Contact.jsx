@@ -22,7 +22,6 @@ const Contact = () => {
             title="让我们<b>建</b>设 <br /> AIOT创新的 <br /> 新时代"
             className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
-
           <div className="flex flex-col items-center gap-4 mt-10">
             {/* 动态箭头指向二维码 */}
             <div className="flex items-center">
@@ -46,18 +45,35 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* 二维码图片框 */}
-            <div className="flex flex-col items-center">
-              <div className="w-24 h-24 bg-white border-2 border-white rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src="/img/qrcode.png"
-                  alt="联系方式二维码"
-                  className="w-full h-full object-cover"
-                />
+            {/* 二维码容器 - 支持多个二维码 */}
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              {/* 第一个二维码 */}
+              <div className="flex flex-col items-center">
+                <div className="w-24 h-24 bg-white border-2 border-white rounded-lg overflow-hidden shadow-lg">
+                  <img
+                    src="/img/httpsaosworking.space.png"
+                    alt="我们的招新网站"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-sm text-white mt-3 text-center font-medium">
+                  招新申请官网
+                </p>
               </div>
-              <p className="text-sm text-white mt-3 text-center font-medium">
-                扫码加入我们！
-              </p>
+
+              {/* 第二个二维码 */}
+              <div className="flex flex-col items-center">
+                <div className="w-24 h-24 bg-white border-2 border-white rounded-lg overflow-hidden shadow-lg">
+                  <img
+                    src="/img/qq.jpg"
+                    alt="扫码加入QQ群"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-sm text-white mt-3 text-center font-medium">
+                  扫码加入QQ群
+                </p>
+              </div>
             </div>
           </div>
         </div>

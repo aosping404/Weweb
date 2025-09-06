@@ -1,11 +1,4 @@
-import { FaDiscord, FaTwitter, FaYoutube, FaMedium } from "react-icons/fa";
-
-const socialLinks = [
-  { href: "https://discord.com", icon: <FaDiscord /> },
-  { href: "https://twitter.com", icon: <FaTwitter /> },
-  { href: "https://youtube.com", icon: <FaYoutube /> },
-  { href: "https://medium.com", icon: <FaMedium /> },
-];
+import { FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -15,18 +8,16 @@ const Footer = () => {
           Intelligent Wearable Technology Lab © 2025
         </p>
 
-        <div className="flex justify-center gap-4  md:justify-start">
-          {socialLinks.map((link, index) => (
-            <a
-              key={index}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-black transition-colors duration-500 ease-in-out hover:text-white"
-            >
-              {link.icon}
-            </a>
-          ))}
+        <div className="flex justify-center md:justify-start">
+          <a
+            href="https://github.com/aosping404"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black transition-colors duration-500 ease-in-out hover:text-white -ml-[100px]"
+            title="访问我的GitHub博客"
+          >
+            <FaGithub className="text-xl" />
+          </a>
         </div>
 
         <a

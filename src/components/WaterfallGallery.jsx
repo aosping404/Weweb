@@ -144,8 +144,8 @@ const WaterfallGallery = () => {
       optimalColumns = 1;
       setScreenSize('mobile');
     } else if (width < 1024) {
-      // 平板端：3列布局
-      optimalColumns = 3;
+      // 平板端：2列布局
+      optimalColumns = 2;
       setScreenSize('tablet');
     } else {
       // 桌面端：3列布局
@@ -153,7 +153,7 @@ const WaterfallGallery = () => {
       setScreenSize('desktop');
     }
 
-    console.log('calculateColumns:', { width, gap, optimalColumns, screenSize: screenSize === 'mobile' ? 'mobile (1列)' : screenSize === 'tablet' ? 'tablet (3列)' : 'desktop (3列)' });
+    console.log('calculateColumns:', { width, gap, optimalColumns, screenSize: screenSize === 'mobile' ? 'mobile (1列)' : screenSize === 'tablet' ? 'tablet (2列)' : 'desktop (3列)' });
 
     setColumns(optimalColumns);
     setContainerWidth(width);
@@ -192,9 +192,9 @@ const WaterfallGallery = () => {
       const containerPadding = 32; // 左右各16px边距
       itemWidth = Math.floor(width - containerPadding);
     } else if (width < 1024) {
-      // 平板端：3列布局，自适应宽度
+      // 平板端：2列布局，自适应宽度
       const containerPadding = 48; // 左右各24px边距
-      itemWidth = Math.floor((width - containerPadding - gap * 2) / 3);
+      itemWidth = Math.floor((width - containerPadding - gap) / 2);
     } else {
       // 桌面端：3列布局，固定宽度
       itemWidth = 420;

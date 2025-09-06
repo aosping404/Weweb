@@ -95,7 +95,7 @@ const NavBar = () => {
                   <a
                     key={index}
                     href={href}
-                    className="nav-hover-btn text-sm md:text-xs"
+                    className="nav-hover-btn text-base md:text-sm"
                   >
                     {item}
                   </a>
@@ -105,7 +105,7 @@ const NavBar = () => {
 
             <button
               onClick={toggleAudioIndicator}
-              className="ml-4 flex items-center justify-center w-12 h-12 bg-black border-2 border-white rounded-full hover:bg-gray-800 transition-colors duration-300"
+              className="ml-4 flex items-center justify-center w-12 h-12 hover:bg-gray-800 transition-colors duration-300"
             >
               <audio
                 ref={audioElementRef}
@@ -116,7 +116,12 @@ const NavBar = () => {
               {isAudioPlaying ? (
                 <FaPause className="text-white text-lg" />
               ) : (
-                <FaMusic className="text-white text-lg" />
+                <div className="flex items-end space-x-1 h-6">
+                  <div className="w-1.5 h-4 bg-white rounded-full animate-bounce shadow-sm" style={{ animationDelay: '0ms', animationDuration: '0.6s' }}></div>
+                  <div className="w-1.5 h-5 bg-white rounded-full animate-bounce shadow-sm" style={{ animationDelay: '100ms', animationDuration: '0.8s' }}></div>
+                  <div className="w-1.5 h-3 bg-white rounded-full animate-bounce shadow-sm" style={{ animationDelay: '200ms', animationDuration: '0.7s' }}></div>
+                  <div className="w-1.5 h-6 bg-white rounded-full animate-bounce shadow-sm" style={{ animationDelay: '300ms', animationDuration: '0.9s' }}></div>
+                </div>
               )}
             </button>
           </div>
