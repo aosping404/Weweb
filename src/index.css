@@ -588,3 +588,86 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* 加载动画关键帧 */
+@keyframes loadingProgress {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* 加载动画增强效果 */
+@keyframes loadingGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* 从按钮位置扩展的动画 */
+@keyframes expandFromButton {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 按钮位置扩展动画 */
+@keyframes buttonExpand {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* 极简加载动画 - 马斯克风格 */
+@keyframes minimalFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 极简旋转动画 */
+@keyframes minimalSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -14,9 +14,11 @@ const WaterfallGallery = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 新增：加载更多状态
   const [preloadedImages, setPreloadedImages] = useState(new Set()); // 新增：预加载的图片
   const [highResImages, setHighResImages] = useState(new Set()); // 新增：已加载高清图片
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0, width: 0, height: 0 }); // 新增：按钮位置信息
   const containerRef = useRef(null);
   const itemsRef = useRef([]);
   const scrollToBottomRef = useRef(null);
+  const loadMoreButtonRef = useRef(null); // 新增：加载更多按钮的ref
 
   // 媒体数据 - 动态扫描 mypub 文件夹
   const [mediaData, setMediaData] = useState([]);
@@ -343,13 +345,24 @@ const WaterfallGallery = () => {
 
   // 加载更多功能
   const handleLoadMore = async () => {
+    // 获取按钮位置
+    if (loadMoreButtonRef.current) {
+      const rect = loadMoreButtonRef.current.getBoundingClientRect();
+      setButtonPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        width: rect.width,
+        height: rect.height
+      });
+    }
+
     setIsLoadingMore(true);
+
+    // 显示加载动画2秒，给用户更好的体验
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // 显示所有图片，让它们逐个加载并布局
     setShowAll(true);
-
-    // 短暂显示加载动画，给用户反馈
-    await new Promise(resolve => setTimeout(resolve, 300));
 
     setIsLoadingMore(false);
   };
@@ -686,12 +699,42 @@ const WaterfallGallery = () => {
               )}
             </div>
           ))}
+
+          {/* 局部加载动画 - 限制在瀑布流容器内 */}
+          {isLoadingMore && (
+            <div className="absolute inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm rounded-lg">
+              {/* 极简加载动画 - 定位在按钮位置 */}
+              <div
+                className="absolute flex flex-col items-center justify-center"
+                style={{
+                  left: buttonPosition.x - 80,
+                  top: buttonPosition.y - 80,
+                  width: 160,
+                  height: 160,
+                  animation: 'minimalFadeIn 0.4s ease-out forwards'
+                }}
+              >
+                {/* 极简旋转器 */}
+                <div className="relative mb-6 w-6 h-6">
+                  <div className="absolute inset-0 border border-white border-opacity-30 rounded-full"></div>
+                  <div className="absolute inset-0 border border-transparent border-t-white rounded-full animate-spin" style={{ animationDuration: '1.2s' }}></div>
+                </div>
+
+                {/* 极简文字 */}
+                <div className="text-center">
+                  <p className="text-white text-xs font-normal tracking-widest uppercase">Loading</p>
+                  <div className="w-12 h-px bg-white mx-auto mt-2 opacity-60"></div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 查看更多按钮 */}
         {!showAll && mediaData.length > 15 && (
           <div className="flex justify-center mt-8">
             <button
+              ref={loadMoreButtonRef}
               onClick={handleLoadMore}
               disabled={isLoadingMore}
               className={`px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg flex items-center gap-2 ${isLoadingMore
@@ -710,6 +753,7 @@ const WaterfallGallery = () => {
             </button>
           </div>
         )}
+
 
         {/* 滑到底部按钮 */}
         {showScrollToBottom && (

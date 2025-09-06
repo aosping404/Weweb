@@ -16,8 +16,10 @@ function App() {
   const { y: currentScrollY } = useWindowScroll();
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isButtonExpanded, setIsButtonExpanded] = useState(false); // 新增：按钮弹出状态
   const scrollTimeoutRef = useRef(null);
   const buttonRef = useRef(null);
+  const expandTimeoutRef = useRef(null);
 
   useEffect(() => {
     // 清除之前的定时器
@@ -31,7 +33,7 @@ function App() {
     // 设置1秒后停止滚动的定时器
     scrollTimeoutRef.current = setTimeout(() => {
       setIsScrolling(false);
-    }, 1000);
+    }, 5000);
 
     setLastScrollY(currentScrollY);
 
@@ -43,6 +45,15 @@ function App() {
     };
   }, [currentScrollY]);
 
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (expandTimeoutRef.current) {
+        clearTimeout(expandTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // 招新按钮滚动动画
   useEffect(() => {
     if (buttonRef.current) {
@@ -53,6 +64,33 @@ function App() {
       });
     }
   }, [isScrolling]);
+
+  // 招新按钮悬停处理
+  const handleButtonMouseEnter = () => {
+    // 清除之前的定时器
+    if (expandTimeoutRef.current) {
+      clearTimeout(expandTimeoutRef.current);
+    }
+    setIsButtonExpanded(true);
+  };
+
+  const handleButtonMouseLeave = () => {
+    // 延迟收起，给用户时间点击
+    expandTimeoutRef.current = setTimeout(() => {
+      setIsButtonExpanded(false);
+    }, 200);
+  };
+
+  // 招新按钮点击处理
+  const handleButtonClick = () => {
+    if (isButtonExpanded) {
+      // 只有在弹出状态下才跳转
+      window.open('https://aosworking.space', '_blank');
+    } else {
+      // 如果未弹出，先弹出
+      setIsButtonExpanded(true);
+    }
+  };
 
   // 禁用复制、剪切、选择内容和右键菜单
   useEffect(() => {
@@ -141,14 +179,22 @@ function App() {
       <Footer />
 
       {/* 全局浮动按钮 */}
-      <div ref={buttonRef} className="fixed left-[40px] top-3/4 -translate-y-1/2 z-[9999]">
-        <Button
-          id="lianjie"
-          title="现在招新中！"
-          leftIcon={<TiLocationArrow />}
-          containerClass="bg-[#6b7280] flex-center gap-1 scale-[1.3] transform border-2 border-white shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.6),0_0_60px_rgba(255,255,255,0.4)] animate-pulse"
-          onClick={() => window.open('https://incredible-marzipan-055ab6.netlify.app/', '_blank')}
-        />
+      <div
+        ref={buttonRef}
+        className="fixed left-[50px] top-3/4 -translate-y-1/2 z-[9999]"
+        onMouseEnter={handleButtonMouseEnter}
+        onMouseLeave={handleButtonMouseLeave}
+      >
+        <div className="relative">
+          <Button
+            id="lianjie"
+            title="现在招新中！"
+            leftIcon={<TiLocationArrow />}
+            containerClass={`bg-[#6b7280] flex-center gap-1 scale-[1.3] transform border-2 border-white shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.6),0_0_60px_rgba(255,255,255,0.4)] transition-all duration-300 ${isButtonExpanded ? 'scale-[1.4] shadow-[0_0_30px_rgba(255,255,255,1),0_0_60px_rgba(255,255,255,0.8),0_0_90px_rgba(255,255,255,0.6)]' : 'animate-pulse'
+              }`}
+            onClick={handleButtonClick}
+          />
+        </div>
       </div>
     </main>
   );
