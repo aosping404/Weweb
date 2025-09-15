@@ -1,5 +1,6 @@
 import AnimatedTitle from "./AnimatedTitle";
 import Button from "./Button";
+import { useState } from "react";
 
 const ImageClipBox = ({ src, clipClass }) => (
   <div className={clipClass}>
@@ -8,6 +9,19 @@ const ImageClipBox = ({ src, clipClass }) => (
 );
 
 const Contact = () => {
+  const [copied, setCopied] = useState(false);
+  const qqGroupNumber = "1060292011";
+
+  const handleCopyQQGroup = async () => {
+    try {
+      await navigator.clipboard.writeText(qqGroupNumber);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // 2秒后重置状态
+    } catch (err) {
+      console.error('复制失败:', err);
+    }
+  };
+
   return (
     <div id="contact" className="my-20 min-h-96 w-screen  px-10">
       <div className="relative rounded-lg bg-black py-24 text-blue-50 sm:overflow-hidden">
@@ -48,31 +62,36 @@ const Contact = () => {
             {/* 二维码容器 - 支持多个二维码 */}
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* 第一个二维码 */}
-              <div className="flex flex-col items-center">
-                <div className="w-24 h-24 bg-white border-2 border-white rounded-lg overflow-hidden shadow-lg">
-                  <img
-                    src="/img/httpsaosworking.space.png"
-                    alt="我们的招新网站"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <p className="text-sm text-white mt-3 text-center font-medium">
-                  招新申请官网
-                </p>
-              </div>
-
               {/* 第二个二维码 */}
               <div className="flex flex-col items-center">
-                <div className="w-24 h-24 bg-white border-2 border-white rounded-lg overflow-hidden shadow-lg">
-                  <img
-                    src="/img/qq.jpg"
-                    alt="扫码加入QQ群"
-                    className="w-full h-full object-cover"
-                  />
+                <div
+                  className="text-sm text-white mt-3 text-center font-medium cursor-pointer transition-colors duration-200 flex items-center gap-2"
+                  style={{ '--hover-color': '#5e9cdb' }}
+                  onMouseEnter={(e) => e.target.style.color = '#5e9cdb'}
+                  onMouseLeave={(e) => e.target.style.color = 'white'}
+                  onClick={handleCopyQQGroup}
+                  title="点击复制QQ群号"
+                >
+                  <span>加入QQ群: {qqGroupNumber}</span>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
                 </div>
-                <p className="text-sm text-white mt-3 text-center font-medium">
-                  扫码加入QQ群
-                </p>
+                {copied && (
+                  <p className="text-xs mt-1 animate-pulse" style={{ color: '#5e9cdb' }}>
+                    已复制到剪贴板！
+                  </p>
+                )}
               </div>
             </div>
           </div>
