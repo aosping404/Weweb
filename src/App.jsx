@@ -2,7 +2,7 @@ import About from "./components/About";
 import Hero from "./components/Hero";
 import ModernNavbar from "./components/ModernNavbar";
 import CosmicGallery from "./components/CosmicGallery";
-import Panorama from "./components/Panorama";
+import CleanPage from "./components/CleanPage";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -98,7 +98,7 @@ function AppContent() {
         <div className="content-mobile">
           <Hero />
           <About />
-          <Panorama />
+          <CleanPage />
           <Story />
           <CosmicGallery />
           <Contact />

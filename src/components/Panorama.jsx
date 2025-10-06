@@ -49,26 +49,24 @@ const Panorama = () => {
     <div 
       ref={containerRef}
       id="panorama" 
-      className={`${isMobile ? 'h-[70vh]' : 'h-[80vh]'} w-screen bg-[#0a0a0f] text-white relative overflow-hidden page-container ${isMobile ? 'panorama-mobile-container' : ''}`}
+      className={`${isMobile ? 'h-[70vh]' : 'h-[80vh]'} w-screen bg-white text-black relative page-container`}
       style={{
         position: 'relative',
-        zIndex: 1,
-        isolation: 'isolate',
-        contain: 'layout style paint'
+        zIndex: 1
       }}
     >
 
       {/* 全景展示区域 */}
       <div 
         ref={iframeRef}
-        className={`relative w-full ${isMobile ? 'h-[60vh] pt-12' : 'h-[70vh] pt-16'}`}
+        className={`relative w-full ${isMobile ? 'h-[70vh] pt-12' : 'h-[80vh] pt-16'}`}
         style={{ 
           pointerEvents: 'auto',
-          isolation: 'isolate',
-          touchAction: isMobile ? 'none' : 'auto'
+          touchAction: 'auto'
         }}
       >
-        <iframe
+        {/* 暂时注释掉全景图iframe，使用白色背景方便布局 */}
+        {/* <iframe
           src={isMobile ? "/panorama/mobile.html" : "/panorama/"}
           style={{
             width: '90%',
@@ -88,7 +86,7 @@ const Panorama = () => {
           sandbox="allow-scripts allow-forms allow-popups allow-presentation allow-orientation-lock allow-pointer-lock"
           loading="eager"
           referrerPolicy="same-origin"
-        />
+        /> */}
       </div>
 
     </div>
