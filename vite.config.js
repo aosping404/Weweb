@@ -9,7 +9,7 @@ export default defineConfig({
       strict: false
     },
     middlewareMode: false,
-    port: 9989,
+    port: 9990,
     host: '0.0.0.0'
   },
   publicDir: 'public',

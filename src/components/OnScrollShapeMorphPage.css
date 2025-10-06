@@ -1,0 +1,14 @@
+/* OnScrollShapeMorphPage 页面样式 - 修复滚动问题 */
+
+.onscroll-shape-morph-page {
+  min-height: 100vh;
+  background: #000;
+  position: relative;
+  /* 移除 overflow: hidden 以允许滚动 */
+}
+
+.onscroll-shape-morph-content {
+  width: 100%;
+  /* 移除固定高度，让内容自然撑开 */
+  position: relative;
+}

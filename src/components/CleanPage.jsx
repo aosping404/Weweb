@@ -58,9 +58,7 @@ const CleanPage = () => {
         style={{
           border: '2px solid #fff',
           boxShadow: 'inset 1px 1px 0 #fff, inset -1px -1px 0 #000, 1px 1px 0 #fff, -1px -1px 0 #000',
-          imageRendering: 'pixelated',
-          imageRendering: '-moz-crisp-edges',
-          imageRendering: 'crisp-edges'
+          imageRendering: 'pixelated'
         }}
       >
         {isFullscreen ? 'EXIT' : 'FULLSCREEN'}

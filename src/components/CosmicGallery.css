@@ -1,24 +1,9 @@
-/* 参考cankao.txt的设计，使用TheGoodMonolith字体 - 仅限相册组件 */
-.cosmic-gallery {
-  font-family: "TheGoodMonolith", sans-serif;
-}
+@import url("https://fonts.cdnfonts.com/css/thegoodmonolith");
 
 .cosmic-gallery *,
 .cosmic-gallery *::after,
 .cosmic-gallery *::before {
   box-sizing: border-box;
-}
-
-.cosmic-gallery {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-  background-color: #000;
-  color: #fff;
-  padding-bottom: 0;
-  border-radius: 0;
 }
 
 .cosmic-gallery {
@@ -30,22 +15,32 @@
   --line-max-height: 50px;
 }
 
+.cosmic-gallery {
+  margin: 0;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: "TheGoodMonolith", sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+  padding-top: 80px; /* 为顶部导航留出空间 */
+}
+
 .cosmic-gallery .slides {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 80px); /* 减去导航栏高度 */
   overflow: hidden;
   display: grid;
   grid-template-rows: 100%;
   grid-template-columns: 100%;
   place-items: center;
-  pointer-events: none; /* 确保不拦截点击事件 */
 }
 
 .cosmic-gallery .slide {
   width: 100%;
   height: 100%;
   grid-area: 1 / 1 / -1 / -1;
-  pointer-events: auto; /* 恢复slide的交互 */
+  pointer-events: none;
   opacity: 0;
   overflow: hidden;
   position: relative;
@@ -69,22 +64,23 @@
 }
 
 .cosmic-gallery .scroll-hint {
-  position: absolute;
-  top: 2rem;
+  position: fixed;
+  top: 6rem; /* 调整位置避免被导航栏遮挡 */
   right: 2rem;
   color: #fff;
-  z-index: 30;
+  z-index: 10; /* 进一步降低 z-index 确保不遮挡菜单 */
   font-size: 1rem;
 }
 
+/* 底部UI容器 */
 .cosmic-gallery .bottom-ui-container {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 720px;
   max-width: 100%;
-  z-index: 40;
+  z-index: 10; /* 进一步降低 z-index 确保不遮挡菜单 */
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
@@ -163,6 +159,7 @@
   opacity: 0;
 }
 
+/* 拖拽指示器样式 */
 .cosmic-gallery .drag-indicator {
   width: 100%;
   height: 50px;
@@ -193,6 +190,7 @@
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  z-index: 1; /* 确保缩略图容器不遮挡菜单 */
 }
 
 .cosmic-gallery .slide-thumbs {
@@ -200,7 +198,7 @@
   position: relative;
   background: transparent;
   padding: 0;
-  z-index: 11;
+  z-index: 1; /* 降低 z-index */
   gap: 0;
 }
 
@@ -221,7 +219,7 @@
   box-shadow: none;
   margin: 0;
   position: relative;
-  z-index: 12;
+  z-index: 2; /* 降低 z-index */
 }
 
 .cosmic-gallery .slide-thumb:hover {
@@ -234,4 +232,52 @@
   border: none;
   outline: none;
   box-shadow: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .cosmic-gallery .bottom-ui-container {
+    width: 90%;
+    padding-bottom: 1rem;
+  }
+  
+  .cosmic-gallery .slide-section {
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+  }
+  
+  .cosmic-gallery .slide-title {
+    font-size: 1rem;
+  }
+  
+  .cosmic-gallery .slide-thumb {
+    width: 80px;
+    height: 60px;
+  }
+  
+  .cosmic-gallery .scroll-hint {
+    top: 5rem; /* 调整移动端位置避免被导航栏遮挡 */
+    right: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cosmic-gallery .bottom-ui-container {
+    width: 95%;
+  }
+  
+  .cosmic-gallery .slide-section {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .cosmic-gallery .slide-thumb {
+    width: 60px;
+    height: 45px;
+  }
+  
+  .cosmic-gallery .counter-nav {
+    width: 16px;
+  }
 }

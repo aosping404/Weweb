@@ -1,16 +1,129 @@
 import About from "./components/About";
 import Hero from "./components/Hero";
 import ModernNavbar from "./components/ModernNavbar";
-import CosmicGallery from "./components/CosmicGallery";
+import GalleryPage from "./components/GalleryPage";
+import OnScrollShapeMorphPage from "./components/OnScrollShapeMorphPage";
 import CleanPage from "./components/CleanPage";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
 import { ScanningProvider } from "./context/ScanningContext";
 
 
 function AppContent() {
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'gallery' 或 'onscroll'
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // GSAP设置
+  useEffect(() => {
+    gsap.registerPlugin(CustomEase);
+    gsap.set("body", { autoAlpha: 1 });
+
+    // 设置默认缓动
+    gsap.defaults({
+      ease: "power2.inOut",
+      duration: 0.7
+    });
+  }, []);
+
+  // 导航到相册页面
+  const navigateToGallery = () => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+
+    // 退出首页动画
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setCurrentPage('gallery');
+        setIsTransitioning(false);
+      }
+    });
+
+    tl.to(".content-mobile", {
+      autoAlpha: 0,
+      y: -50,
+      duration: 0.6,
+      ease: "power2.in"
+    });
+  };
+
+  // 导航到 OnScrollShapeMorph 页面
+  const navigateToOnScroll = () => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+
+    // 退出首页动画
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setCurrentPage('onscroll');
+        setIsTransitioning(false);
+      }
+    });
+
+    tl.to(".content-mobile", {
+      autoAlpha: 0,
+      y: -50,
+      duration: 0.6,
+      ease: "power2.in"
+    });
+  };
+
+  // 返回首页
+  const backToHome = (targetSection = null) => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+
+    // 退出相册或作品集页面动画
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setCurrentPage('home');
+        setIsTransitioning(false);
+
+        // 如果有指定目标区域，延迟滚动到该位置
+        if (targetSection) {
+          setTimeout(() => {
+            const element = document.querySelector(targetSection);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100); // 等待页面切换动画完成后
+        }
+      }
+    });
+
+    // 根据当前页面选择退出动画的目标元素
+    const exitTarget = currentPage === 'gallery' ? ".gallery-page" : ".onscroll-shape-morph-page";
+    tl.to(exitTarget, {
+      autoAlpha: 0,
+      y: 50,
+      duration: 0.6,
+      ease: "power2.in"
+    });
+  };
+
+  // 页面进入动画
+  useEffect(() => {
+    if (currentPage === 'home') {
+      // 首页进入动画
+      gsap.fromTo(".content-mobile", {
+        autoAlpha: 0,
+        y: 50
+      }, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        delay: 0.1
+      });
+    }
+  }, [currentPage]);
+
   // 禁用复制、剪切、选择内容和右键菜单
   useEffect(() => {
     const handleContextMenu = (e) => {
@@ -88,22 +201,30 @@ function AppContent() {
 
   return (
     <ScanningProvider>
-      {/* 导航栏 - 移出main元素确保固定定位 */}
-      <ModernNavbar />
-      
+      {/* 导航栏 - 只在首页显示 */}
+      {currentPage === 'home' && <ModernNavbar onNavigateToGallery={navigateToGallery} onNavigateToOnScroll={navigateToOnScroll} />}
+
       <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#0a0a0f] page-container">
         <div id="top"></div>
-        
-        {/* 页面内容 */}
-        <div className="content-mobile">
-          <Hero />
-          <About />
-          <CleanPage />
-          <Story />
-          <CosmicGallery />
-          <Contact />
-          <Footer />
-        </div>
+
+        {/* 根据当前页面显示不同内容 */}
+        {currentPage === 'home' ? (
+          /* 首页内容 */
+          <div className="content-mobile">
+            <Hero />
+            <About />
+            <CleanPage />
+            <Story />
+            <Contact />
+            <Footer />
+          </div>
+        ) : currentPage === 'gallery' ? (
+          /* 相册页面 */
+          <GalleryPage onBackToHome={backToHome} />
+        ) : (
+          /* OnScrollShapeMorph 页面 */
+          <OnScrollShapeMorphPage onBackToHome={backToHome} />
+        )}
       </main>
     </ScanningProvider>
   );

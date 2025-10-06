@@ -126,7 +126,7 @@ header {
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
-  z-index: 40;
+  z-index: 9998; /* 确保菜单遮罩层优先于其他内容 */
 }
 
 /* Menu panel */
@@ -139,7 +139,7 @@ header {
   background: #0a0a0f;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
-  z-index: 50;
+  z-index: 9999; /* 确保菜单面板优先于其他内容 */
   overflow-y: auto;
 }
 
@@ -212,12 +212,28 @@ header {
   justify-content: space-between;
 }
 
+.menu-nav-link-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .menu-nav-link-text {
   font-size: 2.75rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 0.75;
+}
+
+.menu-nav-link-subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  opacity: 0.8;
+  margin-top: 0.25rem;
 }
 
 .menu-nav-link-text.pixel-font {
