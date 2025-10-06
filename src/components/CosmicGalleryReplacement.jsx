@@ -601,7 +601,7 @@ const CosmicGalleryReplacement = () => {
       }
       
       observerInstance = Observer.create({
-        type: "wheel,touch,pointer",
+        type: "touch,pointer", // 移除wheel，禁用滚轮翻页
         onDown: () => {
           if (!isAnimating && currentSlideshowInstance) {
             console.log("Observer down - prev");
@@ -614,7 +614,6 @@ const CosmicGalleryReplacement = () => {
             currentSlideshowInstance.next();
           }
         },
-        wheelSpeed: -1,
         tolerance: 10,
         target: slidesRef.current
       });

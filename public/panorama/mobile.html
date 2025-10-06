@@ -56,10 +56,8 @@
     <div id="container">
         <div id="loading">Loading...</div>
         <div id="touch-info">
-            <div>触摸控制已启用</div>
             <div style="font-size: 12px; margin-top: 4px;">
                 双指滑动：控制全景图<br/>
-                单指滑动：翻页操作
             </div>
         </div>
     </div>
@@ -94,14 +92,17 @@
         function handleTouchStart(e) {
             touchStartTime = Date.now();
             touchStartY = e.touches[0].clientY;
-            isPanoramaTouch = e.touches.length === 2; // 双指触摸
             
-            if (e.touches.length === 1) {
-                // 单指触摸，准备翻页
-                e.preventDefault();
-            } else if (e.touches.length === 2) {
+            if (e.touches.length === 2) {
                 // 双指触摸，控制全景图
+                isPanoramaTouch = true;
                 e.preventDefault();
+                console.log("Two finger touch - panorama control");
+            } else if (e.touches.length === 1) {
+                // 单指触摸，准备翻页
+                isPanoramaTouch = false;
+                e.preventDefault();
+                console.log("One finger touch - page control");
             }
         }
 
@@ -110,9 +111,12 @@
                 // 双指滑动控制全景图
                 e.preventDefault();
                 isPanoramaTouch = true;
-            } else if (e.touches.length === 1 && !isPanoramaTouch) {
+                console.log("Two finger move - panorama control active");
+            } else if (e.touches.length === 1) {
                 // 单指滑动翻页
                 e.preventDefault();
+                isPanoramaTouch = false;
+                console.log("One finger move - page control active");
             }
         }
 
@@ -127,6 +131,7 @@
                     console.log("Page turn gesture detected");
                 }
                 isPanoramaTouch = false;
+                console.log("Touch ended");
             }
         }
 
