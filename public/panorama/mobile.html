@@ -36,7 +36,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
-        #gyro-info {
+        #touch-info {
             position: absolute;
             top: 20px;
             left: 20px;
@@ -46,46 +46,20 @@
             background: rgba(0,0,0,0.7);
             padding: 10px;
             border-radius: 5px;
-            display: none;
+            display: block;
             max-width: 200px;
             line-height: 1.4;
-        }
-        #debug-info {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 8px;
-            border-radius: 5px;
-            display: none;
-            max-width: 150px;
-            line-height: 1.3;
         }
     </style>
 </head>
 <body>
     <div id="container">
         <div id="loading">Loading...</div>
-        <div id="gyro-info">
-            <div>陀螺仪控制已启用</div>
-            <div>请允许设备方向权限</div>
-            <div style="font-size: 10px; margin-top: 4px; opacity: 0.8;">
-                仅使用陀螺仪控制，不支持触摸滑动<br/>
-                加载完成后3秒启动陀螺仪
-            </div>
-        </div>
-        <div id="debug-info">
-            <div>陀螺仪调试</div>
-            <div>Beta: <span id="beta-value">0</span>°</div>
-            <div>Tilt: <span id="tilt-value">0</span>°</div>
-            <div style="font-size: 9px; margin-top: 4px; opacity: 0.8;">
-                仅左右控制<br/>
-                垂直视角固定<br/>
-                禁用上下控制<br/>
-                <span style="color: #10b981;">水平模式</span>
+        <div id="touch-info">
+            <div>触摸控制已启用</div>
+            <div style="font-size: 12px; margin-top: 4px;">
+                双指滑动：控制全景图<br/>
+                单指滑动：翻页操作
             </div>
         </div>
     </div>
@@ -96,10 +70,10 @@
     
     <script type="text/javascript">
         let pano;
-        let isGyroEnabled = false;
-        let gyroData = { alpha: 0, beta: 0, gamma: 0 };
-        let lastGyroData = { alpha: 0, beta: 0, gamma: 0 };
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let touchStartTime = 0;
+        let touchStartY = 0;
+        let isPanoramaTouch = false;
 
         // 创建全景播放器
         function initPano() {
@@ -110,131 +84,49 @@
             console.log("Loading XML from:", xmlPath);
             pano.readConfigUrlAsync(xmlPath);
             
-            // 移动端特殊配置
+            // 移动端配置：保留自动旋转，启用触摸控制
             if (isMobile) {
-                // 禁用自动旋转
-                setTimeout(() => {
-                    try {
-                        if (typeof pano.setAutorotate === 'function') {
-                            pano.setAutorotate(false);
-                            console.log("Auto-rotate disabled for mobile");
-                        }
-                    } catch (e) {
-                        console.log("Could not disable auto-rotate:", e);
-                    }
-                }, 1000);
-                
-                // 延迟启用陀螺仪控制
-                setTimeout(() => {
-                    // 调试：显示可用的方法
-                    console.log("Pano2VR available methods:", Object.getOwnPropertyNames(pano));
-                    initGyroscope();
-                }, 3000); // 等待3秒后启用陀螺仪控制
+                console.log("Mobile device detected, touch controls enabled");
             }
         }
 
-        // 初始化陀螺仪
-        function initGyroscope() {
-            if (typeof DeviceOrientationEvent !== 'undefined') {
-                // 请求权限（iOS 13+）
-                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    DeviceOrientationEvent.requestPermission()
-                        .then(response => {
-                            if (response === 'granted') {
-                                enableGyroscope();
-                            } else {
-                                showGyroInfo('陀螺仪权限被拒绝');
-                            }
-                        })
-                        .catch(console.error);
-                } else {
-                    enableGyroscope();
-                }
-            } else {
-                showGyroInfo('设备不支持陀螺仪');
-            }
-        }
-
-        // 启用陀螺仪
-        function enableGyroscope() {
-            isGyroEnabled = true;
-            showGyroInfo('陀螺仪控制已启用');
+        // 触摸控制函数
+        function handleTouchStart(e) {
+            touchStartTime = Date.now();
+            touchStartY = e.touches[0].clientY;
+            isPanoramaTouch = e.touches.length === 2; // 双指触摸
             
-            // 显示调试信息
-            const debugInfo = document.getElementById('debug-info');
-            if (debugInfo) {
-                debugInfo.style.display = 'block';
+            if (e.touches.length === 1) {
+                // 单指触摸，准备翻页
+                e.preventDefault();
+            } else if (e.touches.length === 2) {
+                // 双指触摸，控制全景图
+                e.preventDefault();
             }
+        }
+
+        function handleTouchMove(e) {
+            if (e.touches.length === 2) {
+                // 双指滑动控制全景图
+                e.preventDefault();
+                isPanoramaTouch = true;
+            } else if (e.touches.length === 1 && !isPanoramaTouch) {
+                // 单指滑动翻页
+                e.preventDefault();
+            }
+        }
+
+        function handleTouchEnd(e) {
+            const touchDuration = Date.now() - touchStartTime;
+            const touchDistance = Math.abs(e.changedTouches[0].clientY - touchStartY);
             
-            window.addEventListener('deviceorientation', handleOrientation, true);
-        }
-
-        // 处理设备方向变化
-        function handleOrientation(event) {
-            if (!isGyroEnabled || !pano) return;
-
-            gyroData.alpha = event.alpha || 0; // 绕Z轴旋转 (0-360)
-            gyroData.beta = event.beta || 0;   // 绕X轴旋转 (-180到180)
-            gyroData.gamma = event.gamma || 0; // 绕Y轴旋转 (-90到90)
-
-            // 计算旋转增量
-            let deltaAlpha = gyroData.alpha - lastGyroData.alpha;
-            let deltaBeta = gyroData.beta - lastGyroData.beta;
-
-            // 处理alpha的360度边界
-            if (deltaAlpha > 180) deltaAlpha -= 360;
-            if (deltaAlpha < -180) deltaAlpha += 360;
-
-            // 应用旋转到全景图
-            if (Math.abs(deltaAlpha) > 0.5 || Math.abs(deltaBeta) > 0.5) {
-                try {
-                    // 恢复到之前正确的映射代码，但禁用上下控制
-                    // 只保留左右控制，固定垂直视角
-                    let pan = gyroData.alpha; // 水平旋转保持不变
-                    let tilt = 0; // 固定垂直视角，禁用上下控制
-
-                    // 更新调试信息显示
-                    const betaValue = document.getElementById('beta-value');
-                    const tiltValue = document.getElementById('tilt-value');
-                    if (betaValue) betaValue.textContent = Math.round(gyroData.beta);
-                    if (tiltValue) tiltValue.textContent = Math.round(tilt);
-                    
-                    // 输出详细调试信息到控制台
-                    console.log("Gyro Debug:", {
-                        beta: Math.round(gyroData.beta),
-                        tilt: Math.round(tilt),
-                        alpha: Math.round(gyroData.alpha),
-                        gamma: Math.round(gyroData.gamma)
-                    });
-
-                    // 尝试不同的API方法
-                    if (typeof pano.setPanTilt === 'function') {
-                        pano.setPanTilt(pan, tilt);
-                    } else if (typeof pano.setPan === 'function' && typeof pano.setTilt === 'function') {
-                        pano.setPan(pan);
-                        pano.setTilt(tilt);
-                    } else if (typeof pano.setViewerSize === 'function') {
-                        // 如果API不可用，至少确保播放器正常工作
-                        console.log("Gyro data:", { pan, tilt, beta: gyroData.beta });
-                    }
-                } catch (e) {
-                    console.log("Gyro control error:", e);
+            if (e.touches.length === 0) {
+                // 触摸结束
+                if (touchDuration < 300 && touchDistance < 10 && !isPanoramaTouch) {
+                    // 短时间轻触，可能是翻页操作
+                    console.log("Page turn gesture detected");
                 }
-            }
-
-            // 更新上次数据
-            lastGyroData = { ...gyroData };
-        }
-
-        // 显示陀螺仪信息
-        function showGyroInfo(message) {
-            const info = document.getElementById('gyro-info');
-            if (info) {
-                info.innerHTML = message;
-                info.style.display = 'block';
-                setTimeout(() => {
-                    info.style.display = 'none';
-                }, 3000);
+                isPanoramaTouch = false;
             }
         }
 
@@ -243,62 +135,21 @@
             initPano();
         });
 
-        // 完全禁用移动端手指滑动控制全景图
+        // 移动端触摸控制
         if (isMobile) {
-            // 禁用所有触摸事件
-            document.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                return false;
-            }, { passive: false, capture: true });
-            
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                return false;
-            }, { passive: false, capture: true });
-            
-            document.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                return false;
-            }, { passive: false, capture: true });
-            
-            // 禁用鼠标事件（防止某些设备的鼠标模拟）
-            document.addEventListener('mousedown', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }, { passive: false, capture: true });
-            
-            document.addEventListener('mousemove', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }, { passive: false, capture: true });
-            
-            document.addEventListener('mouseup', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }, { passive: false, capture: true });
+            document.addEventListener('touchstart', handleTouchStart, { passive: false });
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
+            document.addEventListener('touchend', handleTouchEnd, { passive: false });
         }
 
         // 处理页面可见性变化
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
-                // 页面隐藏时暂停陀螺仪
-                isGyroEnabled = false;
+                // 页面隐藏时暂停
+                console.log("Page hidden");
             } else {
-                // 页面显示时恢复陀螺仪
-                if (isMobile) {
-                    setTimeout(() => {
-                        isGyroEnabled = true;
-                    }, 100);
-                }
+                // 页面显示时恢复
+                console.log("Page visible");
             }
         });
     </script>
