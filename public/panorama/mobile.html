@@ -73,7 +73,8 @@
             <div>陀螺仪控制已启用</div>
             <div>请允许设备方向权限</div>
             <div style="font-size: 10px; margin-top: 4px; opacity: 0.8;">
-                仅使用陀螺仪控制，不支持触摸滑动
+                仅使用陀螺仪控制，不支持触摸滑动<br/>
+                加载完成后3秒启动陀螺仪
             </div>
         </div>
         <div id="debug-info">
@@ -111,12 +112,24 @@
             
             // 移动端特殊配置
             if (isMobile) {
-                // 启用陀螺仪控制
+                // 禁用自动旋转
+                setTimeout(() => {
+                    try {
+                        if (typeof pano.setAutorotate === 'function') {
+                            pano.setAutorotate(false);
+                            console.log("Auto-rotate disabled for mobile");
+                        }
+                    } catch (e) {
+                        console.log("Could not disable auto-rotate:", e);
+                    }
+                }, 1000);
+                
+                // 延迟启用陀螺仪控制
                 setTimeout(() => {
                     // 调试：显示可用的方法
                     console.log("Pano2VR available methods:", Object.getOwnPropertyNames(pano));
                     initGyroscope();
-                }, 2000); // 等待播放器完全加载
+                }, 3000); // 等待3秒后启用陀螺仪控制
             }
         }
 
@@ -230,24 +243,49 @@
             initPano();
         });
 
-        // 禁用移动端手指滑动控制全景图
-        document.addEventListener('touchmove', function(e) {
-            // 完全阻止触摸滑动，只使用陀螺仪控制
-            e.preventDefault();
-            e.stopPropagation();
-        }, { passive: false });
-        
-        // 禁用触摸开始事件，防止意外触发
-        document.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }, { passive: false });
-        
-        // 禁用触摸结束事件
-        document.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }, { passive: false });
+        // 完全禁用移动端手指滑动控制全景图
+        if (isMobile) {
+            // 禁用所有触摸事件
+            document.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }, { passive: false, capture: true });
+            
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }, { passive: false, capture: true });
+            
+            document.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }, { passive: false, capture: true });
+            
+            // 禁用鼠标事件（防止某些设备的鼠标模拟）
+            document.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }, { passive: false, capture: true });
+            
+            document.addEventListener('mousemove', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }, { passive: false, capture: true });
+            
+            document.addEventListener('mouseup', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }, { passive: false, capture: true });
+        }
 
         // 处理页面可见性变化
         document.addEventListener('visibilitychange', function() {
