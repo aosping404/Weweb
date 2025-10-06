@@ -132,7 +132,7 @@ const Panorama = () => {
       <div className={`absolute left-1/2 transform -translate-x-1/2 z-50 ${isMobile ? 'bottom-4' : 'bottom-8'}`}>
         <div className={`bg-black/50 backdrop-blur-md rounded-full border border-white/20 ${isMobile ? 'px-4 py-2' : 'px-6 py-3'}`}>
           <p className={`text-white text-center ${isMobile ? 'text-xs' : 'text-sm'}`}>
-            {isMobile ? '倾斜设备或滑动屏幕探索全景' : '拖拽鼠标或使用滚轮探索全景'}
+            {isMobile ? '倾斜设备探索全景（仅陀螺仪控制）' : '拖拽鼠标或使用滚轮探索全景'}
           </p>
         </div>
       </div>
