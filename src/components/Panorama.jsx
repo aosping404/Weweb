@@ -86,11 +86,11 @@ const Panorama = () => {
       }}
     >
       {/* 标题 */}
-      <div className={`absolute z-50 text-right ${isMobile ? 'top-4 right-4' : 'top-20 right-8'}`}>
-        <h1 className={`font-bold bg-gradient-to-r from-[#5e9cdb] to-[#8bb3e8] bg-clip-text text-transparent ${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
+      <div className={`absolute z-50 text-right ${isMobile ? 'top-12 right-4' : 'top-28 right-8'}`}>
+        <h1 className={`art-font art-heading font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`} style={{ fontSize: isMobile ? '1.5rem' : '2rem' }}>
           360度全景
         </h1>
-        <p className={`text-white/60 mt-2 ${isMobile ? 'text-xs' : 'text-sm'}`}>
+        <p className={`art-font text-white/60 mt-2 ${isMobile ? 'text-2xl' : 'text-3xl'}`} style={{ fontSize: isMobile ? '1.5rem' : '2rem' }}>
           {isMobile ? '移动端体验' : '桌面端体验'}
         </p>
       </div>
@@ -131,7 +131,7 @@ const Panorama = () => {
       {/* 操作提示 */}
       <div className={`absolute left-1/2 transform -translate-x-1/2 z-50 ${isMobile ? 'bottom-4' : 'bottom-8'}`}>
         <div className={`bg-black/50 backdrop-blur-md rounded-full border border-white/20 ${isMobile ? 'px-4 py-2' : 'px-6 py-3'}`}>
-          <p className={`text-white text-center ${isMobile ? 'text-xs' : 'text-sm'}`}>
+          <p className={`art-font text-white text-center ${isMobile ? 'text-xs' : 'text-sm'}`}>
             {isMobile ? '双指滑动控制全景图，单指滑动翻页' : '拖拽鼠标或使用滚轮探索全景'}
           </p>
         </div>

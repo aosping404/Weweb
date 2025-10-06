@@ -1,0 +1,102 @@
+/* 全局艺术风格 - 采用相册设计 */
+@import url("https://fonts.cdnfonts.com/css/thegoodmonolith");
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+/* 全局字体设置 */
+body {
+  font-family: "TheGoodMonolith", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 艺术风格变量 */
+:root {
+  --art-color-primary: #5e9cdb;
+  --art-color-secondary: #8bb3e8;
+  --art-color-text: #fff;
+  --art-color-bg: #000;
+  --art-font-family: "TheGoodMonolith", sans-serif;
+}
+
+/* 艺术风格类 */
+.art-font {
+  font-family: var(--art-font-family);
+}
+
+/* 像素风格字体 */
+.pixel-font {
+  font-family: "Press Start 2P", "Courier New", monospace !important;
+  font-size: 0.7rem !important;
+  line-height: 1.6 !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+  letter-spacing: 0.1em !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* 像素风格字体 - 无发光效果 */
+.pixel-font-no-glow {
+  font-family: "Press Start 2P", "Courier New", monospace !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+  letter-spacing: 0.1em !important;
+  color: #ffffff !important;
+}
+
+.art-text-primary {
+  color: var(--art-color-primary);
+}
+
+.art-text-secondary {
+  color: var(--art-color-secondary);
+}
+
+.art-bg {
+  background-color: var(--art-color-bg);
+}
+
+/* 艺术风格按钮 */
+.art-button {
+  font-family: var(--art-font-family);
+  background: linear-gradient(135deg, var(--art-color-primary), var(--art-color-secondary));
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.art-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(94, 156, 219, 0.3);
+}
+
+/* 艺术风格标题 */
+.art-heading {
+  font-family: var(--art-font-family);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 艺术风格装饰线 */
+.art-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--art-color-primary), transparent);
+  margin: 1rem 0;
+}
+
+/* 艺术风格卡片 */
+.art-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(94, 156, 219, 0.2);
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.art-card:hover {
+  border-color: rgba(94, 156, 219, 0.4);
+  box-shadow: 0 4px 12px rgba(94, 156, 219, 0.1);
+}

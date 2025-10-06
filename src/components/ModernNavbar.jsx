@@ -142,11 +142,13 @@ const ModernNavbar = () => {
               <div className="menu-button-text">
                 <p 
                   ref={el => menuButtonTextsRef.current[0] = el}
+                  className="art-font"
                 >
                   Menu
                 </p>
                 <p 
                   ref={el => menuButtonTextsRef.current[1] = el}
+                  className="art-font"
                 >
                   Close
                 </p>
@@ -216,7 +218,7 @@ const ModernNavbar = () => {
                     className="menu-nav-link"
                   >
                     <div className="menu-nav-link-content">
-                      <span className="menu-nav-link-text">
+                      <span className={`menu-nav-link-text ${item.name === '360度全景' ? 'normal-font' : (item.isPixel ? 'pixel-font' : 'art-font')}`}>
                         {item.name}
                       </span>
                       <span className="menu-nav-link-number">
@@ -241,7 +243,7 @@ const ModernNavbar = () => {
                 className="menu-contact-link"
               >
                 <div className="menu-contact-link-content">
-                  <span className="menu-contact-link-text">
+                  <span className={`menu-contact-link-text ${contactItem.isPixel ? 'pixel-font' : 'art-font'}`}>
                     {contactItem.name}
                   </span>
                   <span className="menu-contact-link-number">

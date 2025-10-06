@@ -18,11 +18,11 @@ const OsmoNavbarNew = () => {
   const navItems = [
     { name: "收藏页", href: "#favorites" },
     { name: "360度全景", href: "#features" },
-    { name: "随机标语", href: "#story" }
+    { name: "随机标语", href: "#story", isPixel: true }
   ];
 
   // 联系我单独放在底部
-  const contactItem = { name: "联系我", href: "#contact" };
+  const contactItem = { name: "联系我", href: "#contact", isPixel: true };
 
   // 社交链接
   const socialLinks = [
@@ -143,13 +143,13 @@ const OsmoNavbarNew = () => {
                 <div className="menu-button-text">
                   <p 
                     ref={el => menuButtonTextsRef.current[0] = el}
-                    className="p-large"
+                    className="p-large art-font"
                   >
                     Menu
                   </p>
                   <p 
                     ref={el => menuButtonTextsRef.current[1] = el}
-                    className="p-large"
+                    className="p-large art-font"
                   >
                     Close
                   </p>
@@ -224,10 +224,10 @@ const OsmoNavbarNew = () => {
                     }}
                     className="menu-link"
                   >
-                    <p className="menu-link-heading">
+                    <p className={`menu-link-heading ${item.isPixel ? 'pixel-font' : 'art-font'}`}>
                       {item.name}
                     </p>
-                    <p className="eyebrow">
+                    <p className="eyebrow art-font">
                       {String(index + 1).padStart(2, '0')}
                     </p>
                     <div className="menu-link-bg" />
@@ -248,10 +248,10 @@ const OsmoNavbarNew = () => {
                 className="menu-link"
                 data-menu-fade=""
               >
-                <p className="menu-link-heading">
+                <p className={`menu-link-heading ${contactItem.isPixel ? 'pixel-font' : 'art-font'}`}>
                   {contactItem.name}
                 </p>
-                <p className="eyebrow">
+                <p className="eyebrow art-font">
                   06
                 </p>
                 <div className="menu-link-bg" />
@@ -262,7 +262,7 @@ const OsmoNavbarNew = () => {
             <div className="menu-details">
               <p 
                 ref={el => fadeTargetsRef.current[1] = el}
-                className="p-small"
+                className="p-small art-font"
                 data-menu-fade=""
               >
                 Socials
@@ -275,7 +275,7 @@ const OsmoNavbarNew = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-large text-link"
+                    className="p-large text-link art-font"
                     data-menu-fade=""
                   >
                     {social.name}

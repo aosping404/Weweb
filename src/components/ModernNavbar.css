@@ -148,6 +148,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 2rem;
+  padding-top: 6rem;
 }
 
 /* Navigation links */
@@ -187,6 +188,26 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 0.75;
+}
+
+.menu-nav-link-text.pixel-font {
+  font-family: "Press Start 2P", "Courier New", monospace !important;
+  font-size: 2.75rem !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+  letter-spacing: 0.1em !important;
+  line-height: 0.75 !important;
+  color: #ffffff !important;
+}
+
+.menu-nav-link-text.normal-font {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 2.75rem !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  line-height: 0.75 !important;
+  color: #ffffff !important;
 }
 
 .menu-nav-link-number {
@@ -240,6 +261,16 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 0.75;
+}
+
+.menu-contact-link-text.pixel-font {
+  font-family: "Press Start 2P", "Courier New", monospace !important;
+  font-size: 2.75rem !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+  letter-spacing: 0.1em !important;
+  line-height: 0.75 !important;
+  color: #ffffff !important;
 }
 
 .menu-contact-link-number {

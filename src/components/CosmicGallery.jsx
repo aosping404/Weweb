@@ -50,7 +50,7 @@ const CosmicGallery = () => {
       btn.style.pointerEvents = disabled ? "none" : "";
     });
 
-    const thumbs = document.querySelectorAll(".slide-thumb");
+    const thumbs = document.querySelectorAll(".cosmic-gallery .slide-thumb");
     thumbs.forEach((thumb) => {
       thumb.style.pointerEvents = disabled ? "none" : "";
     });
@@ -181,7 +181,7 @@ const CosmicGallery = () => {
       const previous = this.current;
       this.current = index;
 
-      const thumbs = document.querySelectorAll(".slide-thumb");
+      const thumbs = document.querySelectorAll(".cosmic-gallery .slide-thumb");
       thumbs.forEach((thumb, i) => {
         thumb.classList.toggle("active", i === index);
       });
@@ -311,7 +311,7 @@ const CosmicGallery = () => {
           ? --this.current
           : this.slidesTotal - 1;
 
-      const thumbs = document.querySelectorAll(".slide-thumb");
+      const thumbs = document.querySelectorAll(".cosmic-gallery .slide-thumb");
       thumbs.forEach((thumb, index) => {
         if (index === this.current) {
           thumb.classList.add("active");
@@ -474,7 +474,7 @@ const CosmicGallery = () => {
     const initializeComponents = (slideshowInstance) => {
       // 创建缩略图
       const createThumbnails = () => {
-        const thumbsContainer = document.querySelector(".slide-thumbs");
+        const thumbsContainer = document.querySelector(".cosmic-gallery .slide-thumbs");
         if (thumbsContainer) {
           thumbsContainer.innerHTML = "";
           cosmicImages.forEach((imgSrc, index) => {
