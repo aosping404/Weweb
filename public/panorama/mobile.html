@@ -78,9 +78,9 @@
             <div>Beta: <span id="beta-value">0</span>°</div>
             <div>Tilt: <span id="tilt-value">0</span>°</div>
             <div style="font-size: 9px; margin-top: 4px; opacity: 0.8;">
-                屏幕朝上→前方<br/>
-                正视前方→地面<br/>
-                倒置→天花板
+                屏幕朝上→天空<br/>
+                正视前方→前方<br/>
+                屏幕朝下→地面
             </div>
         </div>
     </div>
@@ -174,12 +174,12 @@
                     // 修正陀螺仪角度映射
                     let pan = gyroData.alpha; // 水平旋转保持不变
                     
-                    // 重新修正垂直旋转映射逻辑：
-                    // 手机屏幕朝上（beta接近90度）时，应该显示正前方（tilt = 0）
-                    // 手机正视前方（beta接近0度）时，应该显示地面（tilt = -90）
-                    // 手机倒置（beta接近-90度）时，应该显示天花板（tilt = 90）
-                    // 这样模拟出手机屏幕朝向哪个方向，就显示该方向的前方画面
-                    let tilt = 90 - gyroData.beta; // 重新计算映射关系
+                    // 修正垂直旋转映射逻辑，实现直观的方向对应：
+                    // 手机屏幕朝上（beta接近90度）时，应该显示天空/天花板（tilt = 90）
+                    // 手机正视前方（beta接近0度）时，应该显示正前方（tilt = 0）
+                    // 手机朝下（beta接近-90度）时，应该显示地面（tilt = -90）
+                    // 这样手机朝哪个方向，全景图就朝哪个方向
+                    let tilt = gyroData.beta; // 直接使用beta值，实现同向映射
                     tilt = Math.max(-90, Math.min(90, tilt)); // 限制范围
 
                     // 更新调试信息显示
