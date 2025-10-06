@@ -47,6 +47,22 @@
             padding: 10px;
             border-radius: 5px;
             display: none;
+            max-width: 200px;
+            line-height: 1.4;
+        }
+        #debug-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 8px;
+            border-radius: 5px;
+            display: none;
+            max-width: 150px;
+            line-height: 1.3;
         }
     </style>
 </head>
@@ -56,6 +72,11 @@
         <div id="gyro-info">
             <div>陀螺仪控制已启用</div>
             <div>请允许设备方向权限</div>
+        </div>
+        <div id="debug-info">
+            <div>调试信息</div>
+            <div>Beta: <span id="beta-value">0</span>°</div>
+            <div>Tilt: <span id="tilt-value">0</span>°</div>
         </div>
     </div>
 
@@ -117,6 +138,12 @@
             isGyroEnabled = true;
             showGyroInfo('陀螺仪控制已启用');
             
+            // 显示调试信息
+            const debugInfo = document.getElementById('debug-info');
+            if (debugInfo) {
+                debugInfo.style.display = 'block';
+            }
+            
             window.addEventListener('deviceorientation', handleOrientation, true);
         }
 
@@ -139,9 +166,21 @@
             // 应用旋转到全景图
             if (Math.abs(deltaAlpha) > 0.5 || Math.abs(deltaBeta) > 0.5) {
                 try {
-                    // 直接使用陀螺仪数据设置视角
-                    let pan = gyroData.alpha; // 水平旋转
-                    let tilt = Math.max(-90, Math.min(90, gyroData.beta)); // 垂直旋转，限制范围
+                    // 修正陀螺仪角度映射
+                    let pan = gyroData.alpha; // 水平旋转保持不变
+                    
+                    // 修正垂直旋转映射：
+                    // beta = 0 时（设备水平）应该看向前方（tilt = 0）
+                    // beta = 90 时（设备垂直向上）应该看向地面（tilt = -90）
+                    // beta = -90 时（设备垂直向下）应该看向天空（tilt = 90）
+                    let tilt = -gyroData.beta; // 直接取负值，这样映射关系就正确了
+                    tilt = Math.max(-90, Math.min(90, tilt)); // 限制范围
+
+                    // 更新调试信息显示
+                    const betaValue = document.getElementById('beta-value');
+                    const tiltValue = document.getElementById('tilt-value');
+                    if (betaValue) betaValue.textContent = Math.round(gyroData.beta);
+                    if (tiltValue) tiltValue.textContent = Math.round(tilt);
 
                     // 尝试不同的API方法
                     if (typeof pano.setPanTilt === 'function') {
@@ -151,7 +190,7 @@
                         pano.setTilt(tilt);
                     } else if (typeof pano.setViewerSize === 'function') {
                         // 如果API不可用，至少确保播放器正常工作
-                        console.log("Gyro data:", { pan, tilt });
+                        console.log("Gyro data:", { pan, tilt, beta: gyroData.beta });
                     }
                 } catch (e) {
                     console.log("Gyro control error:", e);
