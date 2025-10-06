@@ -80,7 +80,8 @@
             <div style="font-size: 9px; margin-top: 4px; opacity: 0.8;">
                 正视前方→前方<br/>
                 屏幕朝天→天空<br/>
-                屏幕朝下→地面
+                屏幕朝下→地面<br/>
+                <span style="color: #ff6b6b;">反向映射</span>
             </div>
         </div>
     </div>
@@ -174,14 +175,19 @@
                     // 修正陀螺仪角度映射
                     let pan = gyroData.alpha; // 水平旋转保持不变
                     
-                    // 重新修正垂直旋转映射逻辑：
-                    // 根据实际测试结果：手机正方向→天花板，手机朝天→正前方
-                    // 目标：实现手机朝哪个方向，全景图就朝哪个方向
-                    // 手机正视前方（beta接近0度）时，应该显示正前方（tilt = 0）
-                    // 手机屏幕朝天（beta接近90度）时，应该显示天空（tilt = 90）
-                    // 手机朝下（beta接近-90度）时，应该显示地面（tilt = -90）
-                    // 使用90度偏移来修正映射关系
-                    let tilt = 90 - gyroData.beta; // 使用90度偏移修正映射
+                    // 重新设计垂直旋转映射逻辑：
+                    // 基于实际测试结果分析：
+                    // 1. 手机朝上不会触发改变 - 说明beta角度范围可能不是-90到90
+                    // 2. 手机正方向时看到天花板 - 说明当前映射需要调整
+                    // 3. 手机朝天时看到正前方 - 这是正确的
+                    // 
+                    // 目标映射关系：
+                    // 手机正视前方 → 显示正前方
+                    // 手机屏幕朝天 → 显示天空
+                    // 手机屏幕朝下 → 显示地面
+                    // 
+                    // 使用反向映射来修正方向颠倒问题
+                    let tilt = -gyroData.beta; // 使用负值来修正方向颠倒
                     tilt = Math.max(-90, Math.min(90, tilt)); // 限制范围
 
                     // 更新调试信息显示
@@ -189,6 +195,14 @@
                     const tiltValue = document.getElementById('tilt-value');
                     if (betaValue) betaValue.textContent = Math.round(gyroData.beta);
                     if (tiltValue) tiltValue.textContent = Math.round(tilt);
+                    
+                    // 输出详细调试信息到控制台
+                    console.log("Gyro Debug:", {
+                        beta: Math.round(gyroData.beta),
+                        tilt: Math.round(tilt),
+                        alpha: Math.round(gyroData.alpha),
+                        gamma: Math.round(gyroData.gamma)
+                    });
 
                     // 尝试不同的API方法
                     if (typeof pano.setPanTilt === 'function') {
