@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    <title>360度全景体验 - 移动端</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com; font-src 'self' https://fonts.gstatic.com https://fonts.cdnfonts.com; img-src 'self' data: https: https://cdn.cosmos.so; connect-src 'self' https:; frame-src 'self';">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <style type="text/css">
+        html {
+            height: 100%;
+            touch-action: pan-y; /* 只允许垂直滑动翻页 */
+        }
+        body {
+            height: 100%;
+            margin: 0px;
+            overflow: hidden;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            background: #000;
+        }
+        #container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #gyro-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="loading">Loading...</div>
+        <div id="gyro-info">
+            <div>陀螺仪控制已启用</div>
+            <div>请允许设备方向权限</div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="pano2vr_player.js"></script>
+    <script src="webxr/three.min.js"></script>
+    <script src="webxr/webxr-polyfill.min.js"></script>
+    
+    <script type="text/javascript">
+        let pano;
+        let isGyroEnabled = false;
+        let gyroData = { alpha: 0, beta: 0, gamma: 0 };
+        let lastGyroData = { alpha: 0, beta: 0, gamma: 0 };
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // 创建全景播放器
+        function initPano() {
+            pano = new pano2vrPlayer("container");
+            // 使用绝对路径加载XML配置，确保从正确的服务器加载
+            var currentHost = window.location.protocol + "//" + window.location.host;
+            var xmlPath = currentHost + "/panorama/pano.xml";
+            console.log("Loading XML from:", xmlPath);
+            pano.readConfigUrlAsync(xmlPath);
+            
+            // 移动端特殊配置
+            if (isMobile) {
+                // 启用陀螺仪控制
+                setTimeout(() => {
+                    // 调试：显示可用的方法
+                    console.log("Pano2VR available methods:", Object.getOwnPropertyNames(pano));
+                    initGyroscope();
+                }, 2000); // 等待播放器完全加载
+            }
+        }
+
+        // 初始化陀螺仪
+        function initGyroscope() {
+            if (typeof DeviceOrientationEvent !== 'undefined') {
+                // 请求权限（iOS 13+）
+                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(response => {
+                            if (response === 'granted') {
+                                enableGyroscope();
+                            } else {
+                                showGyroInfo('陀螺仪权限被拒绝');
+                            }
+                        })
+                        .catch(console.error);
+                } else {
+                    enableGyroscope();
+                }
+            } else {
+                showGyroInfo('设备不支持陀螺仪');
+            }
+        }
+
+        // 启用陀螺仪
+        function enableGyroscope() {
+            isGyroEnabled = true;
+            showGyroInfo('陀螺仪控制已启用');
+            
+            window.addEventListener('deviceorientation', handleOrientation, true);
+        }
+
+        // 处理设备方向变化
+        function handleOrientation(event) {
+            if (!isGyroEnabled || !pano) return;
+
+            gyroData.alpha = event.alpha || 0; // 绕Z轴旋转 (0-360)
+            gyroData.beta = event.beta || 0;   // 绕X轴旋转 (-180到180)
+            gyroData.gamma = event.gamma || 0; // 绕Y轴旋转 (-90到90)
+
+            // 计算旋转增量
+            let deltaAlpha = gyroData.alpha - lastGyroData.alpha;
+            let deltaBeta = gyroData.beta - lastGyroData.beta;
+
+            // 处理alpha的360度边界
+            if (deltaAlpha > 180) deltaAlpha -= 360;
+            if (deltaAlpha < -180) deltaAlpha += 360;
+
+            // 应用旋转到全景图
+            if (Math.abs(deltaAlpha) > 0.5 || Math.abs(deltaBeta) > 0.5) {
+                try {
+                    // 直接使用陀螺仪数据设置视角
+                    let pan = gyroData.alpha; // 水平旋转
+                    let tilt = Math.max(-90, Math.min(90, gyroData.beta)); // 垂直旋转，限制范围
+
+                    // 尝试不同的API方法
+                    if (typeof pano.setPanTilt === 'function') {
+                        pano.setPanTilt(pan, tilt);
+                    } else if (typeof pano.setPan === 'function' && typeof pano.setTilt === 'function') {
+                        pano.setPan(pan);
+                        pano.setTilt(tilt);
+                    } else if (typeof pano.setViewerSize === 'function') {
+                        // 如果API不可用，至少确保播放器正常工作
+                        console.log("Gyro data:", { pan, tilt });
+                    }
+                } catch (e) {
+                    console.log("Gyro control error:", e);
+                }
+            }
+
+            // 更新上次数据
+            lastGyroData = { ...gyroData };
+        }
+
+        // 显示陀螺仪信息
+        function showGyroInfo(message) {
+            const info = document.getElementById('gyro-info');
+            if (info) {
+                info.innerHTML = message;
+                info.style.display = 'block';
+                setTimeout(() => {
+                    info.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener("load", function() {
+            initPano();
+        });
+
+        // 防止页面滚动
+        document.addEventListener('touchmove', function(e) {
+            // 只允许垂直滑动翻页，阻止水平滑动
+            if (Math.abs(e.touches[0].clientX - e.touches[0].pageX) > 10) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // 处理页面可见性变化
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // 页面隐藏时暂停陀螺仪
+                isGyroEnabled = false;
+            } else {
+                // 页面显示时恢复陀螺仪
+                if (isMobile) {
+                    setTimeout(() => {
+                        isGyroEnabled = true;
+                    }, 100);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "This is the 'Subway' of the multiverse 360 Panorama Painting.\nhope you enjoy it!\n\nQ.Where is ANTMAN?\n\nIf you want to see the process of making this painting, please come to my channel!\nhttps://www.youtube.com/@nixellcho/videos",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			}
+		}
+	},
+	"preview" : "preview.gif",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"tags" : [ "Anime" ],
+	"title" : "Subway 360° Panorama",
+	"type" : "web",
+	"version" : 0
+}

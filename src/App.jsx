@@ -1,97 +1,16 @@
 import About from "./components/About";
 import Hero from "./components/Hero";
-import NavBar from "./components/Navbar";
-import Features from "./components/Features";
+import ModernNavbar from "./components/ModernNavbar";
+import CosmicGallery from "./components/CosmicGallery";
+import Panorama from "./components/Panorama";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Button from "./components/Button";
-import { TiLocationArrow } from "react-icons/ti";
-import { useWindowScroll } from "react-use";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useEffect } from "react";
+import { ScanningProvider } from "./context/ScanningContext";
 
 
-function App() {
-  const { y: currentScrollY } = useWindowScroll();
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [isButtonExpanded, setIsButtonExpanded] = useState(false); // 新增：按钮弹出状态
-  const scrollTimeoutRef = useRef(null);
-  const buttonRef = useRef(null);
-  const expandTimeoutRef = useRef(null);
-
-  useEffect(() => {
-    // 清除之前的定时器
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-
-    // 设置滚动状态
-    setIsScrolling(true);
-
-    // 设置1秒后停止滚动的定时器
-    scrollTimeoutRef.current = setTimeout(() => {
-      setIsScrolling(false);
-    }, 5000);
-
-    setLastScrollY(currentScrollY);
-
-    // 清理函数
-    return () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [currentScrollY]);
-
-  // 清理定时器
-  useEffect(() => {
-    return () => {
-      if (expandTimeoutRef.current) {
-        clearTimeout(expandTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // 招新按钮滚动动画
-  useEffect(() => {
-    if (buttonRef.current) {
-      gsap.to(buttonRef.current, {
-        x: isScrolling ? -200 : 0,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    }
-  }, [isScrolling]);
-
-  // 招新按钮悬停处理
-  const handleButtonMouseEnter = () => {
-    // 清除之前的定时器
-    if (expandTimeoutRef.current) {
-      clearTimeout(expandTimeoutRef.current);
-    }
-    setIsButtonExpanded(true);
-  };
-
-  const handleButtonMouseLeave = () => {
-    // 延迟收起，给用户时间点击
-    expandTimeoutRef.current = setTimeout(() => {
-      setIsButtonExpanded(false);
-    }, 200);
-  };
-
-  // 招新按钮点击处理
-  const handleButtonClick = () => {
-    if (isButtonExpanded) {
-      // 只有在弹出状态下才跳转
-      window.open('https://aosworking.space', '_blank');
-    } else {
-      // 如果未弹出，先弹出
-      setIsButtonExpanded(true);
-    }
-  };
-
+function AppContent() {
   // 禁用复制、剪切、选择内容和右键菜单
   useEffect(() => {
     const handleContextMenu = (e) => {
@@ -168,36 +87,30 @@ function App() {
   }, []);
 
   return (
-    <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#ffffff]">
-      <div id="top"></div>
-      <NavBar />
-      <Hero />
-      <About />
-      <Features />
-      <Story />
-      <Contact />
-      <Footer />
-
-      {/* 全局浮动按钮 */}
-      <div
-        ref={buttonRef}
-        className="fixed left-[50px] top-3/4 -translate-y-1/2 z-[9999]"
-        onMouseEnter={handleButtonMouseEnter}
-        onMouseLeave={handleButtonMouseLeave}
-      >
-        <div className="relative">
-          <Button
-            id="lianjie"
-            title="现在招新中！"
-            leftIcon={<TiLocationArrow />}
-            containerClass={`bg-[#6b7280] flex-center gap-1 scale-[1.3] transform border-2 border-white shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.6),0_0_60px_rgba(255,255,255,0.4)] transition-all duration-300 ${isButtonExpanded ? 'scale-[1.4] shadow-[0_0_30px_rgba(255,255,255,1),0_0_60px_rgba(255,255,255,0.8),0_0_90px_rgba(255,255,255,0.6)]' : 'animate-pulse'
-              }`}
-            onClick={handleButtonClick}
-          />
+    <ScanningProvider>
+      <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#0a0a0f] page-container">
+        <div id="top"></div>
+        
+        {/* 导航栏 */}
+        <ModernNavbar />
+        
+        {/* 页面内容 */}
+        <div className="content-mobile">
+          <Hero />
+          <About />
+          <Panorama />
+          <Story />
+          <CosmicGallery />
+          <Contact />
+          <Footer />
         </div>
-      </div>
-    </main>
+      </main>
+    </ScanningProvider>
   );
+}
+
+function App() {
+  return <AppContent />;
 }
 
 export default App;

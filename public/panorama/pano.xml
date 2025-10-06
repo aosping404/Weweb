@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panorama apprev="18080" appversion="6.1.13" id="node1">
+  <input width="2048" levelingpitch="0" levelbias="0.400" overlap="1" levelingroll="0" height="2048" levelbiashidpi="1.000" leveltilesize="510" leveltileurl="tiles/node1/cf_%c/l_%l/c_%x/tile_%y.jpg">
+    <level width="2048" predecode="0" preload="0" height="2048"/>
+    <level width="1024" predecode="0" preload="0" height="1024"/>
+    <level width="512" predecode="0" preload="0" height="512"/>
+    <level width="256" predecode="1" preload="1" height="256"/>
+    <preview strip="1" color="0x808080"/>
+  </input>
+  <view fovmode="0" pannorth="0">
+    <start projection="9" pan="0" tilt="-3" fov="79"/>
+    <flyin projection="9" pan="0" tilt="-90" fov="170"/>
+    <min pan="0" tilt="-90" fovpixel="2"/>
+    <max fovfisheye="360" fovstereographic="270" pan="360" tilt="90" scaletofit="1" fov="120"/>
+  </view>
+  <userdata latitude="" info="" tags="psd" author="" longitude="" nodeid="node1" heading="0" datetime="2023-05-07 오후 6:35" title="" copyright="" comment="" source="" description="" customnodeid=""/>
+  <hotspots width="180" wordwrap="1" height="20">
+    <label width="180" bordercolor="0x000000" borderradius="1" enabled="1" wordwrap="1" height="20" border="1" textcolor="0x000000" textalpha="1" backgroundcolor="0xffffff" backgroundalpha="1" borderalpha="1" background="1"/>
+    <polystyle bordercolor="0x0000ff" mode="0" backgroundcolor="0x0000ff" backgroundalpha="0.25098" borderalpha="1" handcursor="1"/>
+  </hotspots>
+  <media/>
+  <transition zoomafteroutfov="20" zoomin="0" enabled="1" blendcolor="0x000000" zoomafterinfov="90" zoomoutpause="1" softedge="0" type="crossdissolve" blendtime="1" zoomout="0" zoomspeed="2" zoomfov="20"/>
+  <autorotate nodefilter="" delay="0.10" useanimation="0" enabled="1" returntohorizon="0.000" speed="-0.010" nodedelay="0.00" startloaded="0" noderandom="1"/>
+  <flyintransition enabled="1" speed="2.00"/>
+  <animation animsequence="Animation01" syncanimationwithvideo="0" useinautorotation="0"/>
+  <control lockedkeyboard="0" invertcontrol="1" contextfullscreen="1" contextprojections="0" sensitivity="8" invertwheel="0" lockedkeyboardzoom="1" dblclickfullscreen="0" rubberband="1" contextvr="1" lockedmouse="0" speedwheel="0" simulatemass="1" lockedwheel="1" hideabout="0"/>
+</panorama>

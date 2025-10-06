@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  weweblast:
+    build: .
+    ports:
+      - "0.0.0.0:9989:9989"
+    container_name: weweblast-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      # 如果需要持久化数据，可以添加卷挂载
+      - ./public:/app/public:ro

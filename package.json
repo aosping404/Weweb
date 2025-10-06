@@ -10,19 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.1",
+    "@gsap/react": "^2.1.2",
     "@react-three/drei": "^9.56.28",
     "@react-three/fiber": "^8.11.5",
-    "@react-three/postprocessing": "^2.7.1",
-    "@studio-freight/lenis": "^1.0.42",
     "clsx": "^2.1.1",
-    "gsap": "^3.12.5",
+    "gsap": "^3.13.0",
     "lamina": "^1.1.23",
-    "lenis": "^1.1.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
-    "react-use": "^17.5.1",
     "three": "^0.150.1"
   },
   "devDependencies": {

@@ -1,0 +1,648 @@
+<div class="osmo-ui">
+    <header class="header">
+      <div class="container is--full">
+        <nav class="nav-row">
+          <a href="https://osmo.supply/" aria-label="home" target="_blank" class="nav-logo-row w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 66 20" fill="none" class="nav-logo__wordmark">
+              <path d="M9.67499 19.3499C4.32499 19.3499 0.899994 15.4249 0.899994 10.0499C0.899994 4.6749 4.32499 0.774902 9.67499 0.774902C15.025 0.774902 18.45 4.6749 18.45 10.0499C18.45 15.4249 15.025 19.3499 9.67499 19.3499ZM3.77499 10.0499C3.77499 13.7249 5.44999 16.9749 9.67499 16.9749C13.9 16.9749 15.575 13.7249 15.575 10.0499C15.575 6.3749 13.9 3.1499 9.67499 3.1499C5.44999 3.1499 3.77499 6.3749 3.77499 10.0499Z" fill="currentColor"></path>
+              <path d="M25.7115 19.3499C21.8365 19.3499 19.9115 17.3499 19.8365 14.7499H22.3115C22.4115 16.2249 23.3115 17.3749 25.6865 17.3749C27.8365 17.3749 28.4115 16.4249 28.4115 15.4999C28.4115 13.8999 26.7115 13.7249 25.0615 13.3749C22.8365 12.8499 20.2865 12.1999 20.2865 9.5499C20.2865 7.3499 22.0615 5.8749 25.1365 5.8749C28.6365 5.8749 30.3115 7.7499 30.4865 9.9499H28.0115C27.8365 8.9749 27.3115 7.8499 25.1865 7.8499C23.5365 7.8499 22.8365 8.4999 22.8365 9.4499C22.8365 10.7749 24.2615 10.8999 26.0615 11.2999C28.4115 11.8499 30.9615 12.5249 30.9615 15.3749C30.9615 17.8499 29.0615 19.3499 25.7115 19.3499Z" fill="currentColor"></path>
+              <path d="M40.5435 10.8249C40.5435 9.1249 40.1935 7.9749 38.3186 7.9749C36.4936 7.9749 35.3435 9.2499 35.3435 11.1749V18.9999H32.8935V6.2499H35.3435V7.8499H35.3935C36.0685 6.8749 37.2435 5.8749 39.1685 5.8749C40.9435 5.8749 42.0435 6.6749 42.5435 8.0999H42.5935C43.5185 6.8749 44.8185 5.8749 46.7685 5.8749C49.3435 5.8749 50.6436 7.4249 50.6436 10.1499V18.9999H48.1936V10.8249C48.1936 9.1249 47.8435 7.9749 45.9685 7.9749C44.1435 7.9749 42.9935 9.2499 42.9935 11.1749V18.9999H40.5435V10.8249Z" fill="currentColor"></path>
+              <path d="M59.0281 19.3749C55.0531 19.3749 52.6531 16.6249 52.6531 12.6249C52.6531 8.6499 55.0531 5.8499 59.0531 5.8499C63.0031 5.8499 65.4031 8.6249 65.4031 12.5999C65.4031 16.5999 63.0031 19.3749 59.0281 19.3749ZM55.2031 12.6249C55.2031 15.2749 56.4031 17.3499 59.0531 17.3499C61.6531 17.3499 62.8531 15.2749 62.8531 12.6249C62.8531 9.9499 61.6531 7.8999 59.0531 7.8999C56.4031 7.8999 55.2031 9.9499 55.2031 12.6249Z" fill="currentColor"></path>
+            </svg><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 160 160" fill="none" class="nav-logo__icon">
+              <path d="M94.8284 53.8578C92.3086 56.3776 88 54.593 88 51.0294V0H72V59.9999C72 66.6273 66.6274 71.9999 60 71.9999H0V87.9999H51.0294C54.5931 87.9999 56.3777 92.3085 53.8579 94.8283L18.3431 130.343L29.6569 141.657L65.1717 106.142C67.684 103.63 71.9745 105.396 72 108.939V160L88.0001 160L88 99.9999C88 93.3725 93.3726 87.9999 100 87.9999H160V71.9999H108.939C105.407 71.9745 103.64 67.7091 106.12 65.1938L106.142 65.1716L141.657 29.6568L130.343 18.3432L94.8284 53.8578Z" fill="currentColor"></path>
+            </svg></a>
+          <div class="nav-row__right"><button role="button" data-menu-toggle="" class="menu-button">
+              <div class="menu-button-text">
+                <p class="p-large">Menu</p>
+                <p class="p-large">Close</p>
+              </div>
+              <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 16 16" fill="none" class="menu-button-icon">
+                  <path d="M7.33333 16L7.33333 -3.2055e-07L8.66667 -3.78832e-07L8.66667 16L7.33333 16Z" fill="currentColor"></path>
+                  <path d="M16 8.66667L-2.62269e-07 8.66667L-3.78832e-07 7.33333L16 7.33333L16 8.66667Z" fill="currentColor"></path>
+                  <path d="M6 7.33333L7.33333 7.33333L7.33333 6C7.33333 6.73637 6.73638 7.33333 6 7.33333Z" fill="currentColor"></path>
+                  <path d="M10 7.33333L8.66667 7.33333L8.66667 6C8.66667 6.73638 9.26362 7.33333 10 7.33333Z" fill="currentColor"></path>
+                  <path d="M6 8.66667L7.33333 8.66667L7.33333 10C7.33333 9.26362 6.73638 8.66667 6 8.66667Z" fill="currentColor"></path>
+                  <path d="M10 8.66667L8.66667 8.66667L8.66667 10C8.66667 9.26362 9.26362 8.66667 10 8.66667Z" fill="currentColor"></path>
+                </svg></div>
+            </button></div>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+<section class="cloneable">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 160 160" fill="none" class="osmo-icon-svg">
+      <path d="M94.8284 53.8578C92.3086 56.3776 88 54.593 88 51.0294V0H72V59.9999C72 66.6273 66.6274 71.9999 60 71.9999H0V87.9999H51.0294C54.5931 87.9999 56.3777 92.3085 53.8579 94.8283L18.3431 130.343L29.6569 141.657L65.1717 106.142C67.684 103.63 71.9745 105.396 72 108.939V160L88.0001 160L88 99.9999C88 93.3725 93.3726 87.9999 100 87.9999H160V71.9999H108.939C105.407 71.9745 103.64 67.7091 106.12 65.1938L106.142 65.1716L141.657 29.6568L130.343 18.3432L94.8284 53.8578Z" fill="currentColor"></path>
+    </svg>
+    <div data-nav="closed" class="nav">
+      <div data-menu-toggle="" class="overlay"></div>
+      <nav class="menu">
+        <div class="menu-bg">
+          <div class="bg-panel first"></div>
+          <div class="bg-panel second"></div>
+          <div class="bg-panel"></div>
+        </div>
+        <div class="menu-inner">
+          <ul class="menu-list">
+            <li class="menu-list-item">
+              <a href="#" class="menu-link w-inline-block">
+                <p class="menu-link-heading">About us</p>
+                <p class="eyebrow">01</p>
+                <div class="menu-link-bg"></div>
+              </a>
+            </li>
+            <li class="menu-list-item">
+              <a href="#" class="menu-link w-inline-block">
+                <p class="menu-link-heading">Our work</p>
+                <p class="eyebrow">02</p>
+                <div class="menu-link-bg"></div>
+              </a>
+            </li>
+            <li class="menu-list-item">
+              <a href="#" class="menu-link w-inline-block">
+                <p class="menu-link-heading">Services</p>
+                <p class="eyebrow">03</p>
+                <div class="menu-link-bg"></div>
+              </a>
+            </li>
+            <li class="menu-list-item">
+              <a href="#" class="menu-link w-inline-block">
+                <p class="menu-link-heading">Blog</p>
+                <p class="eyebrow">04</p>
+                <div class="menu-link-bg"></div>
+              </a>
+            </li>
+            <li class="menu-list-item">
+              <a href="#" class="menu-link w-inline-block">
+                <p class="menu-link-heading">Contact us</p>
+                <p class="eyebrow">05</p>
+                <div class="menu-link-bg"></div>
+              </a>
+            </li>
+          </ul>
+          <div class="menu-details">
+            <p data-menu-fade="" class="p-small">Socials</p>
+            <div class="socials-row">
+              <a data-menu-fade="" href="#" class="p-large text-link">Instagram</a>
+              <a data-menu-fade="" href="#" class="p-large text-link">LinkedIn</a>
+              <a data-menu-fade="" href="#" class="p-large text-link">X/Twitter</a>
+              <a data-menu-fade="" href="#" class="p-large text-link">Awwwards</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+<div class="osmo-credits">
+  <p class="osmo-credits__p">Resource by <a target="_blank" href="https://www.osmo.supply/" class="osmo-credits__p-a">Osmo</a>
+  </p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
+
+/* ------- Osmo [https://osmo.supply/] ------- */
+/*  Osmo UI: https://slater.app/10324/23333.css 
+ */
+@font-face {
+  font-family: 'PP Neue Corp Tight';
+  src: url('https://cdn.prod.website-files.com/673af51dea86ab95d124c3ee/673b0f5784f7060c0ac05534_PPNeueCorp-TightUltrabold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b239d7aeb290a31ac5_cursor-default%402x.svg")
+      2 0,
+    auto;
+}
+
+a,
+button {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg")
+      12 0,
+    pointer;
+}
+}
+
+.osmo-ui {
+  z-index: 0;
+  pointer-events: none;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.nav-row {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+
+.nav-logo-row {
+  pointer-events: auto;
+  justify-content: space-between;
+  align-items: center;
+  width: 13em;
+  display: flex;
+}
+
+.nav-logo__wordmark {
+  width: 4em;
+}
+
+.nav-logo__icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.container {
+  z-index: 1;
+  max-width: var(--size-container);
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.container.is--full {
+  max-width: 100%;
+}
+
+.nav-row__right {
+  grid-column-gap: .625rem;
+  grid-row-gap: .625rem;
+  pointer-events: auto;
+  justify-content: flex-end;
+  align-items: center;
+  display: flex;
+}
+
+.header {
+  z-index: 110;
+  padding-top: var(--gap);
+  position: fixed;
+  inset: 0% 0% auto;
+}
+
+.website-link {
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+}
+
+.website-link.is--alt {
+  grid-column-gap: .25em;
+  grid-row-gap: .25em;
+  justify-content: flex-start;
+  align-items: center;
+  height: 1.5em;
+  display: flex;
+}
+
+.inline-link__p {
+  margin-bottom: 0;
+}
+
+.body {
+  background-color: var(--color-neutral-300);
+  color: var(--color-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  line-height: 1;
+}
+
+p{
+  margin: 0px
+}
+
+.cloneable {
+  padding: var(--section-padding) var(--container-padding);
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+  display: flex;
+  position: relative;
+  --menu-padding: 2em;
+}
+
+.nav {
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  position: fixed;
+  inset: 0%;
+}
+
+.overlay {
+  z-index: 0;
+  cursor: pointer;
+  background-color: #13131366;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0%;
+}
+
+.menu {
+  padding-bottom: var(--menu-padding);
+  grid-column-gap: 5em;
+  grid-row-gap: 5em;
+  padding-top: calc(3 * var(--menu-padding));
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 35em;
+  height: 100%;
+  margin-left: auto;
+  position: relative;
+  overflow: auto;
+}
+
+.menu-bg {
+  z-index: 0;
+  position: absolute;
+  inset: 0%;
+}
+
+.menu-inner {
+  z-index: 1;
+  grid-column-gap: 5em;
+  grid-row-gap: 5em;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  display: flex;
+  position: relative;
+  overflow: auto;
+}
+
+.bg-panel {
+  z-index: 0;
+  background-color: var(--color-neutral-300);
+  border-top-left-radius: 1.25em;
+  border-bottom-left-radius: 1.25em;
+  position: absolute;
+  inset: 0%;
+}
+
+.bg-panel.first {
+  background-color: var(--color-primary);
+}
+
+.bg-panel.second {
+  background-color: var(--color-neutral-100);
+}
+
+.menu-list {
+  flex-flow: column;
+  width: 100%;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+}
+
+.menu-list-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-link-heading{ text-shadow: 0px 1em 0px var(--color-neutral-200); }
+
+.menu-link {
+  padding-top: .75em;
+  padding-bottom: .75em;
+  padding-left: var(--menu-padding);
+  grid-column-gap: .75em;
+  grid-row-gap: .75em;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.menu-link-heading {
+  z-index: 1;
+  text-transform: uppercase;
+  font-family: PP Neue Corp Tight, Arial, sans-serif;
+  font-size: 5.625em;
+  font-weight: 700;
+  line-height: .75;
+  transition: transform .55s cubic-bezier(.65, .05, 0, 1);
+  position: relative;
+}
+
+.eyebrow {
+  z-index: 1;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  font-family: RM Mono, Arial, sans-serif;
+  font-weight: 400;
+  position: relative;
+}
+
+.menu-link-bg {
+  z-index: 0;
+  background-color: var(--color-neutral-800);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+  transition: transform .55s cubic-bezier(.65, .05, 0, 1);
+  position: absolute;
+  inset: 0%;
+  transform: scale3d(1, 0, 1);
+}
+
+.menu-details {
+  padding-left: var(--menu-padding);
+  grid-column-gap: 1.25em;
+  grid-row-gap: 1.25em;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+}
+
+.p-small {
+  font-size: .875em;
+  font-family: Arial, Helvetica;
+}
+
+.socials-row {
+  grid-column-gap: 1.5em;
+  grid-row-gap: 1.5em;
+  flex-flow: row;
+  display: flex;
+}
+
+.p-large {
+  font-size: 1.125em;
+  font-family: Arial, Helvetica;
+}
+
+.text-link {
+  text-decoration: none;
+  position: relative;
+}
+
+.menu-button {
+  grid-column-gap: .625em;
+  grid-row-gap: .625em;
+  background-color: #0000;
+  justify-content: flex-end;
+  align-items: center;
+  margin: -1em;
+  padding: 1em;
+  display: flex;
+  border: none;
+}
+
+.menu-button-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.menu-button-text {
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  height: 1.125em;
+  display: flex;
+  overflow: hidden;
+}
+
+.icon-wrap {
+  transition: transform .4s cubic-bezier(.65, .05, 0, 1);
+}
+
+@media (hover:hover){
+  
+   /* Menu toggle button*/
+  .menu-button:hover .icon-wrap{transform: rotate(90deg); }
+
+  /* Menu Large Links */
+  .menu-link:hover .menu-link-heading{ transform: translate(0px, -1em); transition-delay: 0.1s; }
+  .menu-link:hover .menu-link-bg{ transform: scale(1,1) }
+
+  /* Menu Smaller Links */
+  .text-link::after{
+    content: '';
+    position:absolute;
+    left: 0;
+    bottom: 0;
+    width:100%;
+    height:1px;
+    background: var(--color-primary);
+    transform-origin: right center;
+    transform: scale(0,1);
+    transition: transform 0.4s var(--cubic-default)
+  }
+
+  .text-link:hover::after{
+    transform-origin: left center;
+    transform: scale(1,1);	
+  }
+  
+}
+
+.osmo-icon-svg {
+  width: 8em;
+}
+
+@media screen and (max-width: 767px) {
+  .cloneable{
+  	--menu-padding: 1em;
+  }
+  
+  .nav-logo-row {
+    grid-column-gap: 2.5em;
+    grid-row-gap: 2.5em;
+    width: auto;
+  }
+
+  .nav-row__right {
+    grid-column-gap: 0rem;
+    grid-row-gap: 0rem;
+  }
+
+  .cloneable-title {
+    pointer-events: none;
+    width: calc(100% - 5.25em);
+    padding-left: 1em;
+    position: absolute;
+    overflow: hidden;
+  }
+
+  .cloneable-title__nr, .cloneable-title__h1 {
+    font-size: .875em;
+  }
+
+  .clone-in-webflow {
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 0;
+    padding-left: .75em;
+  }
+
+  .clone-in-webflow__p {
+    display: none;
+  }
+
+  .cloneable-title__gradient, .osmo-ui__bg {
+    display: block;
+  }
+
+  .menu {
+    padding-top: calc(6 * var(--menu-padding));
+    width: 100%;
+  }
+
+  .bg-panel {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .menu-list-item {
+    height: 4.5em;
+  }
+
+  .menu-link-heading {
+    font-size: 4em;
+  }
+
+  .socials-row {
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+  }
+
+  .p-large.text-link {
+    font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .menu {
+    padding-top: calc(7 * var(--menu-padding));
+    padding-bottom: calc(2 * var(--menu-padding));
+  }
+}
+
+.osmo-credits {
+  z-index: 999;
+  pointer-events: none;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4em;
+  padding: 1em;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: 1vw;
+}
+
+.osmo-credits__p {
+  pointer-events: auto;
+  color: rgba(19, 19, 19, 0.5);
+  text-align: center;
+  margin: 0;
+  font-family: PP Neue Montreal, Arial, sans-serif;
+  font-size: 1.125em;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.osmo-credits__p-a {
+  color: var(--color-dark);
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('https://cdn.prod.website-files.com/6819ed8312518f61b84824df/6819ed8312518f61b84825ba_PPNeueMontreal-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+gsap.registerPlugin(CustomEase);
+
+gsap.set(".nav",{display:"none"})
+
+CustomEase.create( "main", "0.65, 0.01, 0.05, 0.99" );
+
+gsap.defaults({
+  ease:"main",
+  duration:0.7
+})
+  
+function initMenu(){
+  let navWrap = document.querySelector(".nav")
+  let state = navWrap.getAttribute("data-nav")
+  let overlay = navWrap.querySelector(".overlay")
+  let menu = navWrap.querySelector(".menu")
+  let bgPanels = navWrap.querySelectorAll(".bg-panel")
+  let menuToggles = document.querySelectorAll("[data-menu-toggle]")
+  let menuLinks = navWrap.querySelectorAll(".menu-link")
+  let fadeTargets = navWrap.querySelectorAll("[data-menu-fade]")
+  let menuButton = document.querySelector(".menu-button")
+  let menuButtonTexts = menuButton.querySelectorAll("p")
+  let menuButtonIcon = menuButton.querySelector(".menu-button-icon")
+
+  let tl = gsap.timeline()
+  
+  const openNav = () =>{
+    navWrap.setAttribute("data-nav", "open")
+    
+    tl.clear()
+    .set(navWrap,{display:"block"})
+    .set(menu,{xPercent:0},"<")
+    .fromTo(menuButtonTexts,{yPercent:0},{yPercent:-100,stagger:0.2})
+    .fromTo(menuButtonIcon,{rotate:0},{rotate:315},"<")
+    .fromTo(overlay,{autoAlpha:0},{autoAlpha:1},"<")
+    .fromTo(bgPanels,{xPercent:101},{xPercent:0,stagger:0.12,duration: 0.575},"<")
+    .fromTo(menuLinks,{yPercent:140,rotate:10},{yPercent:0, rotate:0,stagger:0.05},"<+=0.35")
+    .fromTo(fadeTargets,{autoAlpha:0,yPercent:50},{autoAlpha:1, yPercent:0,stagger:0.04},"<+=0.2")
+  }
+  
+  const closeNav = () =>{
+    navWrap.setAttribute("data-nav", "closed")
+    
+    tl.clear()
+    .to(overlay,{autoAlpha:0})
+    .to(menu,{xPercent:120},"<")
+    .to(menuButtonTexts,{yPercent:0},"<")
+    .to(menuButtonIcon,{rotate:0},"<")
+    .set(navWrap,{display:"none"})
+  }  
+  
+  // Toggle menu open / close depending on its current state
+  menuToggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      state = navWrap.getAttribute("data-nav");
+      if (state === "open") {
+        closeNav();
+      } else {
+        openNav();
+      }
+    });    
+  });
+  
+  // If menu is open, you can close it using the "escape" key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && navWrap.getAttribute("data-nav") === "open") {
+      closeNav();
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  initMenu()
+})

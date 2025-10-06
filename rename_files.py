@@ -2,24 +2,22 @@
 # -*- coding: utf-8 -*-
 """
 批量重命名脚本 - 将mypub文件夹中的图片文件重命名为连续的数字格式
-修复版本：正确处理删除文件后的重新编号
+简化版本：移除缩略图功能，只处理主文件夹中的图片
 """
 
 import os
-import re
 import shutil
 from pathlib import Path
 
 def rename_files():
     # 设置mypub文件夹路径
     mypub_path = Path("public/mypub")
-    thumbnails_path = Path("public/mypub/thumbnails")
     
     if not mypub_path.exists():
         print(f"错误: 文件夹 {mypub_path} 不存在")
         return
     
-    # 获取所有图片文件（从主文件夹）
+    # 获取所有图片文件
     image_extensions = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp'}
     image_files = []
     
@@ -78,58 +76,14 @@ def rename_files():
                 except Exception as e:
                     print(f"移动失败 {temp_file.name}: {e}")
         
-        # 第四步：处理缩略图文件夹
-        if thumbnails_path.exists():
-            print("\n处理缩略图文件夹...")
-            thumbnail_files = []
-            for file_path in thumbnails_path.iterdir():
-                if file_path.is_file() and file_path.suffix.lower() in image_extensions:
-                    thumbnail_files.append(file_path)
-            
-            if thumbnail_files:
-                # 创建临时缩略图文件夹
-                temp_thumbnails = thumbnails_path / "temp_rename"
-                temp_thumbnails.mkdir(exist_ok=True)
-                
-                # 重命名缩略图文件
-                for i, file_path in enumerate(thumbnail_files, 1):
-                    extension = file_path.suffix
-                    new_name = f"image_{i:02d}{extension}"
-                    temp_file_path = temp_thumbnails / new_name
-                    
-                    try:
-                        shutil.copy2(file_path, temp_file_path)
-                        print(f"缩略图重命名: {file_path.name} -> {new_name}")
-                    except Exception as e:
-                        print(f"缩略图重命名失败 {file_path.name}: {e}")
-                
-                # 删除原缩略图文件
-                for file_path in thumbnail_files:
-                    try:
-                        file_path.unlink()
-                    except Exception as e:
-                        print(f"删除缩略图失败 {file_path.name}: {e}")
-                
-                # 移动重命名后的缩略图
-                for temp_file in temp_thumbnails.iterdir():
-                    if temp_file.is_file():
-                        final_path = thumbnails_path / temp_file.name
-                        try:
-                            shutil.move(str(temp_file), str(final_path))
-                        except Exception as e:
-                            print(f"移动缩略图失败 {temp_file.name}: {e}")
-                
-                # 删除临时缩略图文件夹
-                temp_thumbnails.rmdir()
-        
         print(f"\n重命名完成! 共处理 {len(renamed_files)} 个文件")
         
-        # 生成新的fileList数组
-        print("\n新的fileList数组:")
-        print("const fileList = [")
-        for filename in renamed_files:
-            print(f"  '{filename}',")
-        print("];")
+        # 生成符合Grid3D.jsx格式的mediaData数组
+        print("\n新的mediaData数组 (可直接复制到Grid3D.jsx):")
+        print("    const mediaData = [")
+        for i, filename in enumerate(renamed_files, 1):
+            print(f"      {{ src: '/mypub/{filename}', alt: 'Image {i}' }},")
+        print("    ];")
         
         return renamed_files
         

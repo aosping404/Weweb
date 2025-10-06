@@ -1,6 +1,5 @@
 import AnimatedTitle from "./AnimatedTitle";
-import Button from "./Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ImageClipBox = ({ src, clipClass }) => (
   <div className={clipClass}>
@@ -10,7 +9,7 @@ const ImageClipBox = ({ src, clipClass }) => (
 
 const Contact = () => {
   const [copied, setCopied] = useState(false);
-  const qqGroupNumber = "1060292011";
+  const qqGroupNumber = "993056494";
 
   const handleCopyQQGroup = async () => {
     try {
@@ -22,79 +21,43 @@ const Contact = () => {
     }
   };
 
+
   return (
-    <div id="contact" className="my-20 min-h-96 w-screen  px-10">
-      <div className="relative rounded-lg bg-black py-24 text-blue-50 sm:overflow-hidden">
+    <div id="contact" className="mt-0 min-h-96 w-screen px-10 -mt-20">
+      <div className="relative rounded-lg bg-[#0a0a0f] pt-0 pb-24 text-[#5e9cdb] sm:overflow-hidden">
         {/* 移除所有背景图片 */}
 
-        <div className="flex flex-col items-center text-center">
-          <p className="mb-10 font-general text-sm uppercase">
-            加入技术未来
-          </p>
 
-          <AnimatedTitle
-            title="让我们<b>建</b>设 <br /> AIOT创新的 <br /> 新时代"
-            className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
-          />
-          <div className="flex flex-col items-center gap-4 mt-10">
-            {/* 动态箭头指向二维码 */}
-            <div className="flex items-center">
-              <svg
-                className="w-6 h-6 text-white animate-pulse"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 13l5 5m0 0l5-5m-5 5V6"
-                />
-              </svg>
-              <div className="flex space-x-1 ml-2">
-                <div className="w-1 h-1 bg-white rounded-full animate-bounce"></div>
-                <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-              </div>
-            </div>
-
-            {/* 二维码容器 - 支持多个二维码 */}
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              {/* 第一个二维码 */}
-              {/* 第二个二维码 */}
-              <div className="flex flex-col items-center">
-                <div
-                  className="text-sm text-white mt-3 text-center font-medium cursor-pointer transition-colors duration-200 flex items-center gap-2"
-                  style={{ '--hover-color': '#5e9cdb' }}
-                  onMouseEnter={(e) => e.target.style.color = '#5e9cdb'}
-                  onMouseLeave={(e) => e.target.style.color = 'white'}
-                  onClick={handleCopyQQGroup}
-                  title="点击复制QQ群号"
-                >
-                  <span>加入QQ群: {qqGroupNumber}</span>
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                {copied && (
-                  <p className="text-xs mt-1 animate-pulse" style={{ color: '#5e9cdb' }}>
-                    已复制到剪贴板！
-                  </p>
-                )}
-              </div>
-            </div>
+        {/* 联系信息 */}
+        <div className="flex flex-col items-center mt-10">
+          <div
+            className="text-sm text-white text-center font-medium cursor-pointer transition-colors duration-200 flex items-center gap-2"
+            style={{ '--hover-color': '#5e9cdb' }}
+            onMouseEnter={(e) => e.target.style.color = '#5e9cdb'}
+            onMouseLeave={(e) => e.target.style.color = 'white'}
+            onClick={handleCopyQQGroup}
+            title="点击复制QQ群号"
+          >
+            <span>联系我: {qqGroupNumber}</span>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
           </div>
+          {copied && (
+            <p className="text-xs mt-1 animate-pulse" style={{ color: '#5e9cdb' }}>
+              已复制到剪贴板！
+            </p>
+          )}
         </div>
       </div>
     </div>

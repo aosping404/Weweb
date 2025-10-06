@@ -1,5 +1,6 @@
 @import url("https://fonts.cdnfonts.com/css/general-sans");
 @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter&display=swap");
+@import "./styles/mobile.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -77,18 +78,19 @@ body {
   }
 
   .about-image {
-    @apply absolute left-1/2 top-0 z-20 h-[60vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-3xl md:w-[30vw];
+    @apply absolute left-1/2 top-1/2 z-20 h-[80vh] w-[80vw] origin-center -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl;
   }
 
-  /* 移动端优化：about.png向上移动80px */
+  /* 移动端优化 */
   @media (max-width: 768px) {
     .about-image {
-      top: -80px;
+      height: 70vh;
+      width: 90vw;
     }
   }
 
   .animated-title {
-    @apply flex flex-col gap-1 text-7xl uppercase leading-[.8] text-white sm:px-32 md:text-[6rem];
+    @apply flex flex-col gap-1 uppercase leading-[.8] text-white;
   }
 
   .animated-word {
@@ -115,6 +117,18 @@ body {
 
   @keyframes fadeInUp {
     to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 文字动画 */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
       opacity: 1;
       transform: translateY(0);
     }

@@ -8,6 +8,32 @@ gsap.registerPlugin(ScrollTrigger);
 const AnimatedTitle = ({ title, containerClass }) => {
   const containerRef = useRef(null);
 
+  // 检测是否为中文文本
+  const isChinese = (text) => {
+    return /[\u4e00-\u9fff]/.test(text);
+  };
+
+  // 处理文本分割
+  const processText = (text) => {
+    if (isChinese(text)) {
+      // 中文按字符分割，但保持标点符号和字符在一起
+      return text.split('').map((char, index) => {
+        // 如果是标点符号，与前一个字符合并
+        if (/[，。！？；：""''（）【】]/.test(char)) {
+          return null; // 标记为需要合并
+        }
+        return char;
+      }).filter((char, index, arr) => {
+        // 过滤掉需要合并的字符，但保留标点符号
+        if (char === null) return false;
+        return true;
+      });
+    } else {
+      // 英文按空格分割
+      return text.split(" ");
+    }
+  };
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       const titleAnimation = gsap.timeline({
@@ -39,9 +65,9 @@ const AnimatedTitle = ({ title, containerClass }) => {
       {title.split("<br />").map((line, index) => (
         <div
           key={index}
-          className="flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3"
+          className={`flex-center max-w-full flex-wrap ${isChinese(line) ? 'gap-1 md:gap-2' : 'gap-2 md:gap-3'}`}
         >
-          {line.split(" ").map((word, idx) => (
+          {processText(line).map((word, idx) => (
             <span
               key={idx}
               className="animated-word"
