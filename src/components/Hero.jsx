@@ -110,18 +110,16 @@ const Hero = () => {
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-[#5e9cdb]">
           <span className="animate-pulse">往</span>
           <span className="animate-pulse" style={{animationDelay: '0.2s'}}>前</span>
-          <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60 animate-pulse" style={{animationDelay: '0.4s'}}>and</span>
           <span className="animate-pulse" style={{animationDelay: '0.6s'}}>走</span>
         </h1>
 
         <div className="absolute left-0 top-0 z-40 size-full">
-          <div className="mt-24 px-5 sm:px-10">
+          <div className="mt-28 px-5 sm:px-10">
             <h1 className="art-font art-heading hero-heading text-[#5e9cdb]">
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">这</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">个</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">世</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">界</span>
-              <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60">and</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">太</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">吵</span>
             </h1>
@@ -129,30 +127,21 @@ const Hero = () => {
             <h2 className="mb-5 max-w-4xl art-font art-heading text-2xl md:text-4xl lg:text-5xl text-white font-bold leading-relaxed">
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">别</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">听</span>
-              <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60">and</span>
+              <span className="mx-2 text-[#8bb3e8] text-m font-light opacity-60">and</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">别</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">看</span>
-              <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60">and</span>
+              <span className="mx-2 text-[#8bb3e8] text-m font-light opacity-60">and</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">别</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">管</span>
-              <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60">and</span>
-              <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">往</span>
-              <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">前</span>
-              <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60">and</span>
-              <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">走</span>
-              <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60">and</span>
-              <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">然</span>
-              <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">后</span>
             </h2>
 
             {/* 添加英文艺术元素 - 采用相册艺术风格 */}
             <div className="mt-8 text-center">
-              <p className="art-font text-[#8bb3e8] text-sm font-light opacity-70 tracking-widest uppercase">
+              <p className="art-font text-[#8bb3e8] text-m font-light opacity-70 tracking-widest uppercase">
                 Digital Art • Creative Vision • Modern Aesthetics
               </p>
               <div className="mt-4 flex justify-center items-center space-x-4">
                 <div className="w-8 h-px bg-gradient-to-r from-transparent to-[#5e9cdb]"></div>
-                <span className="text-[#5e9cdb] text-xs font-mono">✦</span>
                 <div className="w-8 h-px bg-gradient-to-l from-transparent to-[#5e9cdb]"></div>
               </div>
             </div>
@@ -167,7 +156,6 @@ const Hero = () => {
       <h1 className="art-font art-heading hero-heading absolute bottom-5 right-5 text-white">
         <span className="animate-pulse">往</span>
         <span className="animate-pulse" style={{animationDelay: '0.2s'}}>前</span>
-        <span className="mx-2 text-[#8bb3e8] text-sm font-light opacity-60 animate-pulse" style={{animationDelay: '0.4s'}}>and</span>
         <span className="animate-pulse" style={{animationDelay: '0.6s'}}>走</span>
       </h1>
     </div>
