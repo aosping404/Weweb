@@ -74,9 +74,14 @@
             <div>请允许设备方向权限</div>
         </div>
         <div id="debug-info">
-            <div>调试信息</div>
+            <div>陀螺仪调试</div>
             <div>Beta: <span id="beta-value">0</span>°</div>
             <div>Tilt: <span id="tilt-value">0</span>°</div>
+            <div style="font-size: 9px; margin-top: 4px; opacity: 0.8;">
+                屏幕朝上→前方<br/>
+                正视前方→地面<br/>
+                倒置→天花板
+            </div>
         </div>
     </div>
 
@@ -169,11 +174,12 @@
                     // 修正陀螺仪角度映射
                     let pan = gyroData.alpha; // 水平旋转保持不变
                     
-                    // 修正垂直旋转映射：
-                    // beta = 0 时（设备水平）应该看向前方（tilt = 0）
-                    // beta = 90 时（设备垂直向上）应该看向地面（tilt = -90）
-                    // beta = -90 时（设备垂直向下）应该看向天空（tilt = 90）
-                    let tilt = -gyroData.beta; // 直接取负值，这样映射关系就正确了
+                    // 重新修正垂直旋转映射逻辑：
+                    // 手机屏幕朝上（beta接近90度）时，应该显示正前方（tilt = 0）
+                    // 手机正视前方（beta接近0度）时，应该显示地面（tilt = -90）
+                    // 手机倒置（beta接近-90度）时，应该显示天花板（tilt = 90）
+                    // 这样模拟出手机屏幕朝向哪个方向，就显示该方向的前方画面
+                    let tilt = 90 - gyroData.beta; // 重新计算映射关系
                     tilt = Math.max(-90, Math.min(90, tilt)); // 限制范围
 
                     // 更新调试信息显示
