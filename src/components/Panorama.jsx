@@ -1,40 +1,31 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import { useDeviceDetection } from '../hooks/useDeviceDetection';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 const Panorama = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  const { isMobile } = useDeviceDetection();
+  const { ref: containerRef, isIntersecting: isInView } = useIntersectionObserver({
+    threshold: 0.3,
+    rootMargin: '0px'
+  });
   const iframeRef = useRef(null);
-  const containerRef = useRef(null);
 
   useEffect(() => {
-    // 检测是否为移动设备
-    const checkMobile = () => {
-      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      setIsMobile(mobile);
-    };
-
-    checkMobile();
-    
-    // 监听窗口大小变化
-    const handleResize = () => {
-      checkMobile();
-    };
-
-    // 使用 Intersection Observer 检测全景页面是否在视口中
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsInView(entry.isIntersecting);
-        });
-      },
-      {
-        threshold: 0.5, // 当50%的组件可见时触发
-        rootMargin: '0px'
-      }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    // 当全景页面进入视口时，自动滚动到最佳观看位置（向下25px）
+    if (isInView) {
+      setTimeout(() => {
+        const panoramaElement = containerRef.current;
+        if (panoramaElement) {
+          const rect = panoramaElement.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const optimalScrollTop = window.scrollY + rect.top - (viewportHeight * 0.1);
+          
+          window.scrollTo({
+            top: optimalScrollTop,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
     }
 
     // 防止页面滚动影响iframe
@@ -52,23 +43,50 @@ const Panorama = () => {
       }
     };
 
+    // 处理从下往上滑动跳转到About页面
+    let touchStartY = 0;
+    let touchStartTime = 0;
+
+    const handleTouchStart = (e) => {
+      if (isInView) {
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      if (isInView) {
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchEndTime = Date.now();
+        const deltaY = touchStartY - touchEndY; // 向上滑动为正值
+        const deltaTime = touchEndTime - touchStartTime;
+
+        // 检测从下往上滑动：向上滑动超过100px且时间少于500ms
+        if (deltaY > 100 && deltaTime < 500) {
+          // 跳转到About页面（显示586955.jpg）
+          const aboutSection = document.querySelector('#about');
+          if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }
+    };
+
     // 添加事件监听器到iframe容器
     const iframeContainer = iframeRef.current;
     if (iframeContainer) {
       iframeContainer.addEventListener('wheel', handleWheel, { passive: false });
       iframeContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+      iframeContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+      iframeContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     }
-
-    window.addEventListener('resize', handleResize);
     
     return () => {
-      window.removeEventListener('resize', handleResize);
       if (iframeContainer) {
         iframeContainer.removeEventListener('wheel', handleWheel);
         iframeContainer.removeEventListener('touchmove', handleTouchMove);
-      }
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+        iframeContainer.removeEventListener('touchstart', handleTouchStart);
+        iframeContainer.removeEventListener('touchend', handleTouchEnd);
       }
     };
   }, [isInView]);
@@ -85,15 +103,6 @@ const Panorama = () => {
         contain: 'layout style paint'
       }}
     >
-      {/* 标题 */}
-      <div className={`absolute z-50 text-right ${isMobile ? 'top-12 right-4' : 'top-28 right-8'}`}>
-        <h1 className={`art-font art-heading font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`} style={{ fontSize: isMobile ? '1.5rem' : '2rem' }}>
-          360度全景
-        </h1>
-        <p className={`art-font text-white/60 mt-2 ${isMobile ? 'text-2xl' : 'text-3xl'}`} style={{ fontSize: isMobile ? '1.5rem' : '2rem' }}>
-          {isMobile ? '移动端体验' : '桌面端体验'}
-        </p>
-      </div>
 
       {/* 全景展示区域 */}
       <div 
@@ -128,14 +137,23 @@ const Panorama = () => {
         />
       </div>
 
-      {/* 操作提示 */}
-      <div className={`absolute left-1/2 transform -translate-x-1/2 z-50 ${isMobile ? 'bottom-4' : 'bottom-8'}`}>
-        <div className={`bg-black/50 backdrop-blur-md rounded-full border border-white/20 ${isMobile ? 'px-4 py-2' : 'px-6 py-3'}`}>
-          <p className={`art-font text-white text-center ${isMobile ? 'text-xs' : 'text-sm'}`}>
-            {isMobile ? '双指滑动控制全景图，单指滑动翻页' : '拖拽鼠标或使用滚轮探索全景'}
-          </p>
+      {/* 跳过按钮 - 只在移动端显示 */}
+      {isMobile && (
+        <div className="absolute left-1/2 transform -translate-x-1/2 z-50 bottom-12">
+          <button 
+            onClick={() => {
+              // 滚动到随机标语页面
+              const storySection = document.querySelector('#story');
+              if (storySection) {
+                storySection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="pixel-font-no-glow bg-black/50 backdrop-blur-md border border-white/20 px-6 py-3 text-white hover:bg-white/10 transition-colors duration-300 rounded-full"
+          >
+            SKIP
+          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };

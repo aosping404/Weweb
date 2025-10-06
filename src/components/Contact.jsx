@@ -17,7 +17,7 @@ const Contact = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // 2秒后重置状态
     } catch (err) {
-      console.error('复制失败:', err);
+      // 复制失败，静默处理
     }
   };
 

@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 import { useEffect, useRef, useState, useContext } from "react";
+import { isMobileDevice } from '../utils/deviceDetection';
 import { WebGPUCanvas } from "./WebGPUCanvas";
 import { PostProcessing } from "./PostProcessing";
 import ScanningEffectScene from "./ScanningEffectScene";
@@ -28,7 +29,7 @@ const Hero = () => {
 
   useGSAP(() => {
     // 检测是否为移动设备
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile = isMobileDevice();
     
     if (isMobile) {
       // 移动端使用更简单的动画，减少性能消耗
@@ -114,7 +115,7 @@ const Hero = () => {
         </h1>
 
         <div className="absolute left-0 top-0 z-40 size-full">
-          <div className="mt-28 px-5 sm:px-10">
+          <div className="mt-16 sm:mt-28 px-5 sm:px-10">
             <h1 className="art-font art-heading hero-heading text-[#5e9cdb]">
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">这</span>
               <span className="hover:text-[#8bb3e8] transition-colors duration-300 cursor-pointer touch-manipulation">个</span>

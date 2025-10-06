@@ -441,10 +441,8 @@ const CosmicGallery = () => {
       e.stopPropagation();
 
       if (e.key === "ArrowRight" && currentSlideshowInstance) {
-        console.log("Arrow right - next");
         currentSlideshowInstance.next();
       } else if (e.key === "ArrowLeft" && currentSlideshowInstance) {
-        console.log("Arrow left - prev");
         currentSlideshowInstance.prev();
       }
     };
@@ -486,7 +484,6 @@ const CosmicGallery = () => {
             }
 
             thumb.addEventListener("click", () => {
-              console.log("Thumbnail clicked:", index);
               lastHoveredThumbIndex = index;
               slideshowInstance.goTo(index);
             });
@@ -546,14 +543,12 @@ const CosmicGallery = () => {
 
         if (prevButton) {
           prevButton.addEventListener("click", () => {
-            console.log("Prev button clicked");
             slideshowInstance.prev();
           });
         }
 
         if (nextButton) {
           nextButton.addEventListener("click", () => {
-            console.log("Next button clicked");
             slideshowInstance.next();
           });
         }
@@ -604,13 +599,11 @@ const CosmicGallery = () => {
         type: "touch,pointer", // 移除wheel，禁用滚轮翻页
         onDown: () => {
           if (!isAnimating && currentSlideshowInstance) {
-            console.log("Observer down - prev");
             currentSlideshowInstance.prev();
           }
         },
         onUp: () => {
           if (!isAnimating && currentSlideshowInstance) {
-            console.log("Observer up - next");
             currentSlideshowInstance.next();
           }
         },

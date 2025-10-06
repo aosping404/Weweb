@@ -57,7 +57,7 @@
         <div id="loading">Loading...</div>
         <div id="touch-info">
             <div style="font-size: 12px; margin-top: 4px;">
-                双指滑动：控制全景图<br/>
+                单指滑动：控制全景图<br/>
             </div>
         </div>
     </div>
@@ -88,35 +88,25 @@
             }
         }
 
-        // 触摸控制函数
+        // 触摸控制函数 - 简化为单指操作
         function handleTouchStart(e) {
             touchStartTime = Date.now();
             touchStartY = e.touches[0].clientY;
             
-            if (e.touches.length === 2) {
-                // 双指触摸，控制全景图
+            if (e.touches.length === 1) {
+                // 单指触摸，控制全景图
                 isPanoramaTouch = true;
                 e.preventDefault();
-                console.log("Two finger touch - panorama control");
-            } else if (e.touches.length === 1) {
-                // 单指触摸，准备翻页
-                isPanoramaTouch = false;
-                e.preventDefault();
-                console.log("One finger touch - page control");
+                console.log("Single finger touch - panorama control");
             }
         }
 
         function handleTouchMove(e) {
-            if (e.touches.length === 2) {
-                // 双指滑动控制全景图
+            if (e.touches.length === 1) {
+                // 单指滑动控制全景图
                 e.preventDefault();
                 isPanoramaTouch = true;
-                console.log("Two finger move - panorama control active");
-            } else if (e.touches.length === 1) {
-                // 单指滑动翻页
-                e.preventDefault();
-                isPanoramaTouch = false;
-                console.log("One finger move - page control active");
+                console.log("Single finger move - panorama control active");
             }
         }
 
@@ -126,7 +116,7 @@
             
             if (e.touches.length === 0) {
                 // 触摸结束
-                if (touchDuration < 300 && touchDistance < 10 && !isPanoramaTouch) {
+                if (touchDuration < 300 && touchDistance < 10) {
                     // 短时间轻触，可能是翻页操作
                     console.log("Page turn gesture detected");
                 }

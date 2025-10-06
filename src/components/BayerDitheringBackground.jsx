@@ -24,7 +24,7 @@ const BayerDitheringBackground = ({
   useEffect(() => {
     if (!mountRef.current) return;
     
-    console.log('BayerDitheringBackground: Initializing WebGL...');
+    // 初始化WebGL
 
     // 创建场景
     const scene = new THREE.Scene();
@@ -44,7 +44,7 @@ const BayerDitheringBackground = ({
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
     
-    console.log('BayerDitheringBackground: Renderer created and canvas added to DOM');
+    // 渲染器创建完成并添加到DOM
 
     // 创建uniforms
     const MAX_CLICKS = 10;

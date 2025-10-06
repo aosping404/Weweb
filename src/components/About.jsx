@@ -3,7 +3,7 @@ import BayerDitheringBackground from "./BayerDitheringBackground";
 const About = () => {
 
   return (
-    <div className="wrapper relative w-full min-h-[60vh] md:min-h-dvh bg-[#0a0a0f] pt-16 md:pt-0">
+    <div id="about" className="wrapper relative w-full min-h-[60vh] md:min-h-dvh bg-[#0a0a0f] pt-16 md:pt-0">
       <BayerDitheringBackground 
         shape="diamond" 
         pixelSize={3} 

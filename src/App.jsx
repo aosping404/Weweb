@@ -88,11 +88,11 @@ function AppContent() {
 
   return (
     <ScanningProvider>
+      {/* 导航栏 - 移出main元素确保固定定位 */}
+      <ModernNavbar />
+      
       <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#0a0a0f] page-container">
         <div id="top"></div>
-        
-        {/* 导航栏 */}
-        <ModernNavbar />
         
         {/* 页面内容 */}
         <div className="content-mobile">
