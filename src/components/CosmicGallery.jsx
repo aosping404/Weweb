@@ -200,7 +200,7 @@ const CosmicGallery = () => {
         .timeline({
           onStart: () => {
             this.DOM.slides[index].classList.add("slide--current");
-            gsap.set(upcomingSlide, { zIndex: 99 });
+            gsap.set(upcomingSlide, { zIndex: 30 });
           },
           onComplete: () => {
             this.DOM.slides[previous].classList.remove("slide--current");
@@ -333,7 +333,7 @@ const CosmicGallery = () => {
         .timeline({
           onStart: () => {
             this.DOM.slides[this.current].classList.add("slide--current");
-            gsap.set(upcomingSlide, { zIndex: 99 });
+            gsap.set(upcomingSlide, { zIndex: 30 });
           },
           onComplete: () => {
             this.DOM.slides[previous].classList.remove("slide--current");
