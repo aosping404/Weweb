@@ -432,6 +432,10 @@ const CosmicGallery = () => {
     // 初始化滚动和触摸事件
     let currentSlideshowInstance = null;
     let observerInstance = null;
+    let thumbClickHandlers = [];
+    let thumbMouseHandlers = [];
+    let navigationHandlers = [];
+    let mouseHandlers = [];
     
     // 键盘导航
     const handleKeyDown = (e) => {
@@ -453,11 +457,20 @@ const CosmicGallery = () => {
     };
 
     // 等待DOM完全渲染
+    let retryCount = 0;
+    const maxRetries = 50; // 最多重试50次，避免无限循环
+    
     const initSlideshow = () => {
       const slides = slidesRef.current.querySelectorAll(".slide");
-      if (slides.length === 0) {
+      if (slides.length === 0 && retryCount < maxRetries) {
+        retryCount++;
         // 如果幻灯片还没有渲染，等待一下再试
         setTimeout(initSlideshow, 100);
+        return;
+      }
+      
+      if (retryCount >= maxRetries) {
+        console.warn('相册初始化超时，停止重试');
         return;
       }
 
@@ -475,6 +488,7 @@ const CosmicGallery = () => {
         const thumbsContainer = document.querySelector(".cosmic-gallery .slide-thumbs");
         if (thumbsContainer) {
           thumbsContainer.innerHTML = "";
+          
           cosmicImages.forEach((imgSrc, index) => {
             const thumb = document.createElement("div");
             thumb.className = "slide-thumb";
@@ -483,12 +497,13 @@ const CosmicGallery = () => {
               thumb.classList.add("active");
             }
 
-            thumb.addEventListener("click", () => {
+            // 创建事件处理函数
+            const clickHandler = () => {
               lastHoveredThumbIndex = index;
               slideshowInstance.goTo(index);
-            });
+            };
 
-            thumb.addEventListener("mouseenter", () => {
+            const mouseEnterHandler = () => {
               currentHoveredThumb = index;
               lastHoveredThumbIndex = index;
               mouseOverThumbnails = true;
@@ -496,13 +511,25 @@ const CosmicGallery = () => {
               if (!isAnimating) {
                 updateDragLines(index, true);
               }
-            });
+            };
 
-            thumb.addEventListener("mouseleave", () => {
+            const mouseLeaveHandler = () => {
               if (currentHoveredThumb === index) {
                 currentHoveredThumb = null;
               }
-            });
+            };
+
+            // 添加事件监听器并保存引用
+            thumb.addEventListener("click", clickHandler);
+            thumb.addEventListener("mouseenter", mouseEnterHandler);
+            thumb.addEventListener("mouseleave", mouseLeaveHandler);
+
+            // 保存事件处理函数引用用于清理
+            thumbClickHandlers.push({ element: thumb, handler: clickHandler, type: 'click' });
+            thumbMouseHandlers.push(
+              { element: thumb, handler: mouseEnterHandler, type: 'mouseenter' },
+              { element: thumb, handler: mouseLeaveHandler, type: 'mouseleave' }
+            );
 
             thumbsContainer.appendChild(thumb);
           });
@@ -541,16 +568,22 @@ const CosmicGallery = () => {
         const prevButton = document.querySelector(".prev-slide");
         const nextButton = document.querySelector(".next-slide");
 
+        const prevHandler = () => {
+          slideshowInstance.prev();
+        };
+
+        const nextHandler = () => {
+          slideshowInstance.next();
+        };
+
         if (prevButton) {
-          prevButton.addEventListener("click", () => {
-            slideshowInstance.prev();
-          });
+          prevButton.addEventListener("click", prevHandler);
+          navigationHandlers.push({ element: prevButton, handler: prevHandler, type: 'click' });
         }
 
         if (nextButton) {
-          nextButton.addEventListener("click", () => {
-            slideshowInstance.next();
-          });
+          nextButton.addEventListener("click", nextHandler);
+          navigationHandlers.push({ element: nextButton, handler: nextHandler, type: 'click' });
         }
       };
 
@@ -558,15 +591,23 @@ const CosmicGallery = () => {
       const addMouseHandlers = () => {
         const thumbsArea = document.querySelector(".thumbs-container");
         if (thumbsArea) {
-          thumbsArea.addEventListener("mouseenter", () => {
+          const mouseEnterHandler = () => {
             mouseOverThumbnails = true;
-          });
+          };
 
-          thumbsArea.addEventListener("mouseleave", () => {
+          const mouseLeaveHandler = () => {
             mouseOverThumbnails = false;
             currentHoveredThumb = null;
             updateDragLines(null);
-          });
+          };
+
+          thumbsArea.addEventListener("mouseenter", mouseEnterHandler);
+          thumbsArea.addEventListener("mouseleave", mouseLeaveHandler);
+          
+          mouseHandlers.push(
+            { element: thumbsArea, handler: mouseEnterHandler, type: 'mouseenter' },
+            { element: thumbsArea, handler: mouseLeaveHandler, type: 'mouseleave' }
+          );
         }
       };
 
@@ -596,7 +637,7 @@ const CosmicGallery = () => {
       }
       
       observerInstance = Observer.create({
-        type: "touch,pointer", // 移除wheel，禁用滚轮翻页
+        type: "pointer", // 只保留pointer（鼠标点击），移除touch和wheel
         onDown: () => {
           if (!isAnimating && currentSlideshowInstance) {
             currentSlideshowInstance.prev();
@@ -623,16 +664,38 @@ const CosmicGallery = () => {
     setIsInitialized(true);
 
     return () => {
+      // 清理键盘事件监听器
       document.removeEventListener("keydown", handleKeyDown, { capture: true });
+      
+      // 清理Observer
       if (observerInstance) {
         observerInstance.kill();
       }
+      
+      // 清理缩略图事件监听器
+      thumbClickHandlers.forEach(({ element, handler, type }) => {
+        element.removeEventListener(type, handler);
+      });
+      
+      thumbMouseHandlers.forEach(({ element, handler, type }) => {
+        element.removeEventListener(type, handler);
+      });
+      
+      // 清理导航按钮事件监听器
+      navigationHandlers.forEach(({ element, handler, type }) => {
+        element.removeEventListener(type, handler);
+      });
+      
+      // 清理鼠标事件监听器
+      mouseHandlers.forEach(({ element, handler, type }) => {
+        element.removeEventListener(type, handler);
+      });
     };
   }, [isInitialized]);
 
   return (
     <div id="gallery" className="cosmic-gallery mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32 rounded-2xl overflow-hidden">
-      <div className="scroll-hint">scroll or drag</div>
+      <div className="scroll-hint">click to navigate</div>
 
       {/* 底部UI容器 */}
       <div className="bottom-ui-container">
