@@ -22,12 +22,12 @@ const slideTitles = [
 
 // 示例图片数据
 const defaultImages = [
-  "/mypub/image_04.jpg",
+  "https://cdn.cosmos.so/1d4dbaff-8087-4451-a727-9d3266b573dd?format=jpeg",
   "/mypub/image_19.jpg",
-  "/mypub/image_34.jpg",
-  "/mypub/image_21.jpg",
-  "/mypub/image_23.jpg",
-  "/mypub/image_06.jpg"
+  "/mypub/image_24.jpg",
+  "https://cdn.cosmos.so/3dd498a9-169d-4b69-8e2e-df042123c124?format=jpeg",
+  "https://cdn.cosmos.so/ca346107-04c8-4241-85e6-f26c8b64c85c?format=jpeg",
+  "https://cdn.cosmos.so/7d2c5113-b2d3-4f9d-8215-f46fbb679f31?format=jpeg"
 ];
 
 const CosmicGallery = ({ images = defaultImages, titles = slideTitles }) => {
