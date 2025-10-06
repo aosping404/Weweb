@@ -631,7 +631,7 @@ const CosmicGallery = () => {
   }, [isInitialized]);
 
   return (
-    <div id="gallery" className="cosmic-gallery">
+    <div id="gallery" className="cosmic-gallery mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32 rounded-2xl overflow-hidden">
       <div className="scroll-hint">scroll or drag</div>
 
       {/* 底部UI容器 */}
