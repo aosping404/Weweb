@@ -81,10 +81,10 @@
             <div>Beta: <span id="beta-value">0</span>°</div>
             <div>Tilt: <span id="tilt-value">0</span>°</div>
             <div style="font-size: 9px; margin-top: 4px; opacity: 0.8;">
-                正视前方→前方<br/>
-                屏幕朝天→天空<br/>
-                屏幕朝下→地面<br/>
-                <span style="color: #f59e0b;">180度偏移</span>
+                仅左右控制<br/>
+                垂直视角固定<br/>
+                禁用上下控制<br/>
+                <span style="color: #10b981;">水平模式</span>
             </div>
         </div>
     </div>
@@ -175,22 +175,10 @@
             // 应用旋转到全景图
             if (Math.abs(deltaAlpha) > 0.5 || Math.abs(deltaBeta) > 0.5) {
                 try {
-                    // 修正陀螺仪角度映射
+                    // 恢复到之前正确的映射代码，但禁用上下控制
+                    // 只保留左右控制，固定垂直视角
                     let pan = gyroData.alpha; // 水平旋转保持不变
-                    
-                    // 重新修正垂直旋转映射逻辑：
-                    // 问题分析：
-                    // 1. tilt = -beta 时：正视角正确，但上下颠倒
-                    // 2. tilt = beta 时：上下正确，但正视角回到天花板
-                    // 
-                    // 目标映射关系：
-                    // 手机正视前方 → 显示正前方
-                    // 手机屏幕朝天 → 显示天空
-                    // 手机屏幕朝下 → 显示地面
-                    // 
-                    // 使用180度偏移来同时修正正视角和上下颠倒问题
-                    let tilt = 180 - gyroData.beta; // 使用180度偏移
-                    tilt = Math.max(-90, Math.min(90, tilt)); // 限制范围
+                    let tilt = 0; // 固定垂直视角，禁用上下控制
 
                     // 更新调试信息显示
                     const betaValue = document.getElementById('beta-value');
