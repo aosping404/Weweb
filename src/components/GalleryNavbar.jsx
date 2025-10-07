@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import './ModernNavbar.css';
 
-const GalleryNavbar = ({ onBackToHome }) => {
+const GalleryNavbar = ({ onBackToHome, onNavigateToGallery, onNavigateToPanorama }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef(null);
   const menuRef = useRef(null);
@@ -15,10 +16,9 @@ const GalleryNavbar = ({ onBackToHome }) => {
 
   // 导航项目 - 与主页同步
   const navItems = [
-    { name: "360度全景", href: "#panorama", action: () => onBackToHome("#panorama") },
+    { name: "360度全景", href: "#panorama", action: () => onNavigateToPanorama() },
     { name: "随机标语", href: "#story", action: () => onBackToHome("#story") },
-    { name: "相册", href: "#gallery", isActive: true },
-    { name: "OnScroll", href: "#onscroll", subtitle: "ShapeMorph", action: () => onBackToHome("#onscroll") }
+    { name: "相册", href: "#gallery", isActive: true }
   ];
 
   // 联系我单独放在底部
@@ -117,17 +117,17 @@ const GalleryNavbar = ({ onBackToHome }) => {
   return (
     <>
       {/* 顶部导航栏 */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
-        <div className="container mx-auto px-6 py-3">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10" style={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
+        <div className="container mx-auto px-6 py-1.5">
           <nav className="flex items-center justify-between">
             {/* Logo */}
-            <a
+            <a 
               onClick={() => onBackToHome()}
               className="navbar-logo cursor-pointer"
             >
-              <img
-                src="/img/logo_big.png"
-                alt="Aos 时雨"
+              <img 
+                src="/img/logo_big.png" 
+                alt="Aos 时雨" 
                 className="logo-image"
               />
             </a>
@@ -139,13 +139,13 @@ const GalleryNavbar = ({ onBackToHome }) => {
               className="menu-button"
             >
               <div className="menu-button-text">
-                <p
+                <p 
                   ref={el => menuButtonTextsRef.current[0] = el}
                   className="art-font"
                 >
                   Menu
                 </p>
-                <p
+                <p 
                   ref={el => menuButtonTextsRef.current[1] = el}
                   className="art-font"
                 >

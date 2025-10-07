@@ -2,8 +2,7 @@ import About from "./components/About";
 import Hero from "./components/Hero";
 import ModernNavbar from "./components/ModernNavbar";
 import GalleryPage from "./components/GalleryPage";
-import OnScrollShapeMorphPage from "./components/OnScrollShapeMorphPage";
-import CleanPage from "./components/CleanPage";
+import PanoramaPage from "./components/PanoramaPage";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -16,7 +15,7 @@ import Lenis from 'lenis';
 
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'gallery' 或 'onscroll'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'gallery' 或 'panorama'
   const [isTransitioning, setIsTransitioning] = useState(false);
   const lenisRef = useRef(null);
 
@@ -71,7 +70,7 @@ function AppContent() {
 
     setIsTransitioning(true);
 
-    // 退出首页动画
+    // 退出当前页面动画
     const tl = gsap.timeline({
       onComplete: () => {
         setCurrentPage('gallery');
@@ -79,34 +78,59 @@ function AppContent() {
       }
     });
 
-    tl.to(".content-mobile", {
-      autoAlpha: 0,
-      y: -50,
-      duration: 0.6,
-      ease: "power2.in"
-    });
+    // 根据当前页面选择退出动画的目标元素
+    let exitTarget;
+    if (currentPage === 'home') {
+      exitTarget = ".content-mobile";
+    } else if (currentPage === 'panorama') {
+      exitTarget = ".panorama-page";
+    }
+    
+    if (exitTarget) {
+      tl.to(exitTarget, {
+        autoAlpha: 0,
+        y: -50,
+        duration: 0.6,
+        ease: "power2.in"
+      });
+    } else {
+      tl.set({}, { duration: 0.1 });
+    }
   };
 
-  // 导航到 OnScrollShapeMorph 页面
-  const navigateToOnScroll = () => {
+
+  // 导航到 360度全景 页面
+  const navigateToPanorama = () => {
     if (isTransitioning) return;
 
     setIsTransitioning(true);
 
-    // 退出首页动画
+    // 退出当前页面动画
     const tl = gsap.timeline({
       onComplete: () => {
-        setCurrentPage('onscroll');
+        setCurrentPage('panorama');
         setIsTransitioning(false);
       }
     });
 
-    tl.to(".content-mobile", {
-      autoAlpha: 0,
-      y: -50,
-      duration: 0.6,
-      ease: "power2.in"
-    });
+    // 根据当前页面选择退出动画的目标元素
+    let exitTarget;
+    if (currentPage === 'home') {
+      exitTarget = ".content-mobile";
+    } else if (currentPage === 'gallery') {
+      exitTarget = ".gallery-page";
+    }
+    
+    if (exitTarget) {
+      tl.to(exitTarget, {
+        autoAlpha: 0,
+        y: -50,
+        duration: 0.6,
+        ease: "power2.in"
+      });
+    } else {
+      tl.set({}, { duration: 0.1 });
+    }
   };
 
   // 返回首页
@@ -134,13 +158,21 @@ function AppContent() {
     });
 
     // 根据当前页面选择退出动画的目标元素
-    const exitTarget = currentPage === 'gallery' ? ".gallery-page" : ".onscroll-shape-morph-page";
-    tl.to(exitTarget, {
-      autoAlpha: 0,
-      y: 50,
-      duration: 0.6,
-      ease: "power2.in"
-    });
+    let exitTarget;
+    if (currentPage === 'gallery') {
+      exitTarget = ".gallery-page";
+    } else if (currentPage === 'panorama') {
+      exitTarget = ".panorama-page";
+    }
+    
+    if (exitTarget) {
+      tl.to(exitTarget, {
+        autoAlpha: 0,
+        y: 50,
+        duration: 0.6,
+        ease: "power2.in"
+      });
+    }
   };
 
   // 页面进入动画
@@ -238,7 +270,7 @@ function AppContent() {
   return (
     <ScanningProvider>
       {/* 导航栏 - 只在首页显示 */}
-      {currentPage === 'home' && <ModernNavbar onNavigateToGallery={navigateToGallery} onNavigateToOnScroll={navigateToOnScroll} />}
+      {currentPage === 'home' && <ModernNavbar onNavigateToGallery={navigateToGallery} onNavigateToPanorama={navigateToPanorama} />}
 
       <main className="relative min-h-screen w-screen overflow-x-hidden page-container">
         <div id="top"></div>
@@ -249,17 +281,24 @@ function AppContent() {
           <div className="content-mobile">
             <Hero />
             <About />
-            <CleanPage />
             <Story />
             <Contact />
             <Footer />
           </div>
         ) : currentPage === 'gallery' ? (
           /* 相册页面 */
-          <GalleryPage onBackToHome={backToHome} />
+          <GalleryPage 
+            onBackToHome={backToHome} 
+            onNavigateToGallery={navigateToGallery}
+            onNavigateToPanorama={navigateToPanorama}
+          />
         ) : (
-          /* OnScrollShapeMorph 页面 */
-          <OnScrollShapeMorphPage onBackToHome={backToHome} />
+          /* 360度全景页面 */
+          <PanoramaPage 
+            onBackToHome={backToHome} 
+            onNavigateToGallery={navigateToGallery}
+            onNavigateToPanorama={navigateToPanorama}
+          />
         )}
       </main>
     </ScanningProvider>

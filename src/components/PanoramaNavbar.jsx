@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import './ModernNavbar.css';
 
-const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
+const PanoramaNavbar = ({ onBackToHome, onNavigateToGallery, onNavigateToPanorama }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef(null);
   const menuRef = useRef(null);
@@ -14,15 +14,15 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
   const menuLinksRef = useRef([]);
   const fadeTargetsRef = useRef([]);
 
-  // 导航项目
+  // 导航项目 - 与主页同步
   const navItems = [
-    { name: "360度全景", href: "#panorama", action: "panorama" },
-    { name: "随机标语", href: "#story" },
-    { name: "相册", href: "#gallery", action: "gallery" }
+    { name: "360度全景", href: "#panorama", isActive: true },
+    { name: "随机标语", href: "#story", action: () => onBackToHome("#story") },
+    { name: "相册", href: "#gallery", action: () => onNavigateToGallery() }
   ];
 
   // 联系我单独放在底部
-  const contactItem = { name: "联系我", href: "#contact" };
+  const contactItem = { name: "联系我", href: "#contact", action: () => onBackToHome("#contact") };
 
   // 社交链接
   const socialLinks = [
@@ -35,7 +35,7 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
   useEffect(() => {
     // 初始化GSAP设置
     gsap.set(menuRef.current, { display: "none" });
-    
+
     // 确保Menu文字初始可见
     if (menuButtonTextsRef.current[0]) {
       gsap.set(menuButtonTextsRef.current[0], { yPercent: 0 });
@@ -43,9 +43,8 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
     if (menuButtonTextsRef.current[1]) {
       gsap.set(menuButtonTextsRef.current[1], { yPercent: 125 });
     }
-    
+
     // 注册自定义缓动
-    gsap.registerPlugin();
     gsap.defaults({
       ease: "power2.inOut",
       duration: 0.7
@@ -54,42 +53,42 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
 
   const openMenu = () => {
     setIsMenuOpen(true);
-    
+
     const tl = gsap.timeline();
-    
+
     tl.clear()
       .set(menuRef.current, { display: "block" })
       .set(menuRef.current, { xPercent: 0 }, "<")
-      .fromTo(menuButtonTextsRef.current, 
-        { yPercent: 0 }, 
+      .fromTo(menuButtonTextsRef.current,
+        { yPercent: 0 },
         { yPercent: -125, stagger: 0.2, duration: 0.3 })
-      .fromTo(menuButtonIconRef.current, 
-        { rotate: 0 }, 
+      .fromTo(menuButtonIconRef.current,
+        { rotate: 0 },
         { rotate: 315 }, "<")
-      .fromTo(overlayRef.current, 
-        { autoAlpha: 0 }, 
+      .fromTo(overlayRef.current,
+        { autoAlpha: 0 },
         { autoAlpha: 1 }, "<")
-      .fromTo(bgPanelsRef.current, 
-        { xPercent: 101 }, 
+      .fromTo(bgPanelsRef.current,
+        { xPercent: 101 },
         { xPercent: 0, stagger: 0.12, duration: 0.575 }, "<")
-      .fromTo(menuLinksRef.current, 
-        { yPercent: 140, rotate: 10 }, 
+      .fromTo(menuLinksRef.current,
+        { yPercent: 140, rotate: 10 },
         { yPercent: 0, rotate: 0, stagger: 0.05 }, "<+=0.35")
-      .fromTo(fadeTargetsRef.current, 
-        { autoAlpha: 0, yPercent: 50 }, 
+      .fromTo(fadeTargetsRef.current,
+        { autoAlpha: 0, yPercent: 50 },
         { autoAlpha: 1, yPercent: 0, stagger: 0.04 }, "<+=0.2");
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-    
+
     const tl = gsap.timeline();
-    
+
     tl.clear()
       .to(overlayRef.current, { autoAlpha: 0 })
       .to(menuRef.current, { xPercent: 120 }, "<")
-      .fromTo(menuButtonTextsRef.current, 
-        { yPercent: -125 }, 
+      .fromTo(menuButtonTextsRef.current,
+        { yPercent: -125 },
         { yPercent: 0, stagger: 0.2, duration: 0.3 }, "<")
       .to(menuButtonIconRef.current, { rotate: 0 }, "<")
       .set(menuRef.current, { display: "none" });
@@ -123,8 +122,8 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
           <nav className="flex items-center justify-between">
             {/* Logo */}
             <a 
-              href="#top" 
-              className="navbar-logo"
+              onClick={() => onBackToHome()}
+              className="navbar-logo cursor-pointer"
             >
               <img 
                 src="/img/logo_big.png" 
@@ -153,13 +152,11 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
                   Close
                 </p>
               </div>
-              <div className="menu-button-icon">
-                <svg 
-                  ref={menuButtonIconRef}
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
+              <div
+                ref={menuButtonIconRef}
+                className="menu-button-icon"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </div>
@@ -169,34 +166,34 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
       </header>
 
       {/* 全屏菜单 */}
-      <div 
+      <div
         ref={navRef}
         className={`fixed inset-0 z-40 ${isMenuOpen ? 'block' : 'hidden'}`}
         data-nav={isMenuOpen ? "open" : "closed"}
       >
         {/* 遮罩层 */}
-        <div 
+        <div
           ref={overlayRef}
           onClick={closeMenu}
           className="menu-overlay"
         />
 
         {/* 菜单内容 */}
-        <nav 
+        <nav
           ref={menuRef}
           className="menu-panel"
         >
           {/* 背景面板 */}
           <div className="menu-bg-panels">
-            <div 
+            <div
               ref={el => bgPanelsRef.current[0] = el}
               className="menu-bg-panel first"
             />
-            <div 
+            <div
               ref={el => bgPanelsRef.current[1] = el}
               className="menu-bg-panel second"
             />
-            <div 
+            <div
               ref={el => bgPanelsRef.current[2] = el}
               className="menu-bg-panel third"
             />
@@ -210,24 +207,18 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
                 <li key={index} className="menu-nav-item">
                   <a
                     ref={el => menuLinksRef.current[index] = el}
-                    href={item.href}
                     onClick={(e) => {
+                      e.preventDefault();
                       closeMenu();
-                      // 根据action类型调用对应的导航函数
-                      if (item.action === 'gallery' && onNavigateToGallery) {
-                        e.preventDefault();
-                        onNavigateToGallery();
-                      } else if (item.action === 'panorama' && onNavigateToPanorama) {
-                        e.preventDefault();
-                        onNavigateToPanorama();
+                      if (item.action) {
+                        setTimeout(item.action, 300);
                       }
-                      // 其他链接让浏览器自然滚动到对应位置
                     }}
-                    className="menu-nav-link"
+                    className={`menu-nav-link ${item.isActive ? 'active' : ''}`}
                   >
                     <div className="menu-nav-link-content">
                       <div className="menu-nav-link-text-container">
-                        <span className={`menu-nav-link-text ${item.name === '360度全景' ? 'normal-font' : (item.isPixel ? 'pixel-font' : 'art-font')}`}>
+                        <span className={`menu-nav-link-text ${item.name === '360度全景' ? 'normal-font' : 'art-font'}`}>
                           {item.name}
                         </span>
                         {item.subtitle && (
@@ -250,15 +241,17 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
             <div className="menu-contact">
               <a
                 ref={el => fadeTargetsRef.current[0] = el}
-                href={contactItem.href}
                 onClick={(e) => {
+                  e.preventDefault();
                   closeMenu();
-                  // 让浏览器自然滚动到对应位置
+                  if (contactItem.action) {
+                    setTimeout(contactItem.action, 300);
+                  }
                 }}
                 className="menu-contact-link"
               >
                 <div className="menu-contact-link-content">
-                  <span className={`menu-contact-link-text ${contactItem.isPixel ? 'pixel-font' : 'art-font'}`}>
+                  <span className="menu-contact-link-text art-font">
                     {contactItem.name}
                   </span>
                   <span className="menu-contact-link-number">
@@ -271,7 +264,7 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
 
             {/* 社交链接 */}
             <div className="menu-socials">
-              <p 
+              <p
                 ref={el => fadeTargetsRef.current[1] = el}
                 className="menu-socials-label"
               >
@@ -295,9 +288,8 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToPanorama }) => {
           </div>
         </nav>
       </div>
-
     </>
   );
 };
 
-export default ModernNavbar;
+export default PanoramaNavbar;
