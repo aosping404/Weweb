@@ -7,19 +7,22 @@ import CleanPage from "./components/CleanPage";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScanningProvider } from "./context/ScanningContext";
+import Lenis from 'lenis';
 
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('home'); // 'home', 'gallery' 或 'onscroll'
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const lenisRef = useRef(null);
 
-  // GSAP设置
+  // GSAP设置和Lenis平滑滚动初始化
   useEffect(() => {
-    gsap.registerPlugin(CustomEase);
+    gsap.registerPlugin(CustomEase, ScrollTrigger);
     gsap.set("body", { autoAlpha: 1 });
 
     // 设置默认缓动
@@ -27,7 +30,40 @@ function AppContent() {
       ease: "power2.inOut",
       duration: 0.7
     });
+
+    // 初始化 Lenis 平滑滚动
+    const initSmoothScrolling = () => {
+      lenisRef.current = new Lenis({
+        lerp: 0.1,
+        smoothWheel: true
+      });
+
+      lenisRef.current.on('scroll', () => ScrollTrigger.update());
+
+      const scrollFn = (time) => {
+        lenisRef.current.raf(time);
+        requestAnimationFrame(scrollFn);
+      };
+
+      requestAnimationFrame(scrollFn);
+    };
+
+    initSmoothScrolling();
+
+    // 清理函数
+    return () => {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+      }
+    };
   }, []);
+
+  // 页面切换时更新 ScrollTrigger
+  useEffect(() => {
+    if (lenisRef.current) {
+      ScrollTrigger.refresh();
+    }
+  }, [currentPage]);
 
   // 导航到相册页面
   const navigateToGallery = () => {
@@ -204,7 +240,7 @@ function AppContent() {
       {/* 导航栏 - 只在首页显示 */}
       {currentPage === 'home' && <ModernNavbar onNavigateToGallery={navigateToGallery} onNavigateToOnScroll={navigateToOnScroll} />}
 
-      <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#0a0a0f] page-container">
+      <main className="relative min-h-screen w-screen overflow-x-hidden page-container">
         <div id="top"></div>
 
         {/* 根据当前页面显示不同内容 */}

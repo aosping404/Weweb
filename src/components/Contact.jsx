@@ -1,4 +1,5 @@
 import AnimatedTitle from "./AnimatedTitle";
+import BayerDitheringBackground from "./BayerDitheringBackground";
 import { useState, useEffect } from "react";
 
 const ImageClipBox = ({ src, clipClass }) => (
@@ -24,7 +25,14 @@ const Contact = () => {
 
   return (
     <div id="contact" className="mt-0 min-h-96 w-screen px-10 -mt-20">
-      <div className="relative rounded-lg bg-[#0a0a0f] pt-0 pb-24 text-[#5e9cdb] sm:overflow-hidden">
+      <BayerDitheringBackground 
+        shape="diamond" 
+        pixelSize={3} 
+        color="#5e9cdb"
+        className="opacity-100"
+        style={{ zIndex: 0 }}
+      />
+      <div className="relative rounded-lg pt-0 pb-24 text-[#5e9cdb] sm:overflow-hidden">
         {/* 移除所有背景图片 */}
 
 

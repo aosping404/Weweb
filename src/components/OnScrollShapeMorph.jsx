@@ -272,66 +272,79 @@ const fx3 = (itemElement, options) => {
     const innerElements = imageElement.querySelectorAll('.content__img-inner');
     const text = itemElement.querySelector('.content__text');
     
+    // 设置初始状态为8.jpg可见，7.jpg隐藏（反向演示）
+    gsap.set(innerElements[0], { opacity: 0 });
+    gsap.set(innerElements[1], { opacity: 1 });
+    
     return gsap.timeline({
         defaults: { ease: 'none' },
         onStart: () => {
             if ( settings.perspective ) {
                 gsap.set([imageElement, itemElement], { perspective: settings.perspective });
             }
+            // 设置初始状态为8.jpg可见
+            gsap.set(innerElements[0], { opacity: 0 });
+            gsap.set(innerElements[1], { opacity: 1 });
         },
         scrollTrigger: settings.scrollTrigger
     })
+    // 反向演示：从最终状态开始
     .fromTo(imageElement, {
-        scale: 0.3,
-        filter: 'brightness(100%) contrast(100%)',
-        'clip-path': settings.clipPaths.step1.initial
+        scale: 1.2,
+        filter: 'brightness(60%) contrast(400%) opacity(0%)',
+        rotationX: 25,
+        rotationY: 2,
+        'clip-path': settings.clipPaths.step2.final
     }, {
         ease: 'sine',
-        rotationX: -35,
-        rotationY: 35,
-        filter: 'brightness(60%) contrast(400%)',
-        scale: 0.7,
-        'clip-path': settings.clipPaths.step1.final
-    }, 0)
-    .to(innerElements[0], {
-        ease: 'sine',
-        skewY: 10,
-        scaleY: 1.2,
-    }, 0)
-    .add(() => {
-        innerElements[0].classList.toggle('content__img-inner--hidden');
-        innerElements[1].classList.toggle('content__img-inner--hidden');
-    }, '>')
-    .to(imageElement, {
-        ease: 'sine.in',
-        startAt: { 'clip-path': settings.clipPaths.step2.initial },
-        'clip-path': settings.clipPaths.step2.final,
-        filter: 'brightness(100%) contrast(100%)',
-        scale: 1,
+        filter: 'brightness(100%) contrast(100%) opacity(100%)',
         rotationX: 0,
         rotationY: 0,
-    }, '<')
-    .to(innerElements[1], {
+        scale: 1,
+        'clip-path': settings.clipPaths.step2.initial
+    }, 0)
+    .fromTo(innerElements[1], {
+        skewY: 0,
+        scaleY: 1,
+    }, {
+        ease: 'sine',
+        skewY: 10,
+        scaleY: 2,
+    }, 0)
+    .add(() => {
+        // 反向切换：从8.jpg切换到7.jpg
+        innerElements[1].classList.add('content__img-inner--hidden');
+        innerElements[0].classList.remove('content__img-inner--hidden');
+    }, '>')
+    .fromTo(imageElement, {
+        scale: 0.7,
+        filter: 'brightness(60%) contrast(400%)',
+        rotationX: -35,
+        rotationY: 35,
+        'clip-path': settings.clipPaths.step1.final
+    }, {
         ease: 'sine.in',
-        startAt: {skewY: 10, scaleY: 2},
+        filter: 'brightness(100%) contrast(100%)',
+        scale: 0.3,
+        rotationX: 0,
+        rotationY: 0,
+        'clip-path': settings.clipPaths.step1.initial
+    }, '<')
+    .fromTo(innerElements[0], {
+        skewY: 10,
+        scaleY: 1.2,
+    }, {
+        ease: 'sine.in',
         skewY: 0,
         scaleY: 1,
     }, '<')
     .fromTo(text, {
-        opacity: 0,
-        yPercent: 40,
-    }, {
         opacity: 1,
         yPercent: 0,
+    }, {
+        opacity: 0,
+        yPercent: 40,
     }, '>')
-    .to(imageElement, {
-        ease: 'sine',
-        startAt: {filter: 'brightness(100%) contrast(100%) opacity(100%)'},
-        filter: 'brightness(60%) contrast(400%) opacity(0%)',
-        rotationX: 25,
-        rotationY: 2,
-        scale: 1.2
-    }, '<')
 }
 
 const fx4 = (itemElement, options) => {
@@ -738,17 +751,17 @@ const OnScrollShapeMorph = () => {
         // 初始化平滑滚动
         initSmoothScrolling();
         
-        // 延迟应用滚动动画，确保 DOM 完全渲染
-        setTimeout(() => {
+        // 确保 DOM 完全渲染后应用滚动动画
+        requestAnimationFrame(() => {
           scroll();
-        }, 100);
+        });
       } catch (error) {
         console.error('初始化失败:', error);
         document.body.classList.remove('loading');
         initSmoothScrolling();
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           scroll();
-        }, 100);
+        });
       }
     };
 

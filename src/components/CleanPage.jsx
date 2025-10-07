@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDeviceDetection } from '../hooks/useDeviceDetection';
+import BayerDitheringBackground from "./BayerDitheringBackground";
 
 const CleanPage = () => {
   const { isMobile } = useDeviceDetection();
@@ -51,6 +52,13 @@ const CleanPage = () => {
         zIndex: 1
       }}
     >
+      <BayerDitheringBackground 
+        shape="diamond" 
+        pixelSize={3} 
+        color="#5e9cdb"
+        className="opacity-100"
+        style={{ zIndex: 0 }}
+      />
       {/* 全屏按钮 - 中间靠下位置 */}
       <button
         onClick={toggleFullscreen}

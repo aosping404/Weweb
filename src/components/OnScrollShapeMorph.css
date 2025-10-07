@@ -63,7 +63,7 @@ body.loading .onscroll-shape-morph::after {
 .onscroll-shape-morph {
   margin: 0;
   color: #fff;
-  background-color: #0b0826;
+  background-color: transparent;
   font-family: 'Tenon', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

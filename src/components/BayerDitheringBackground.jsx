@@ -7,7 +7,8 @@ const BayerDitheringBackground = ({
   shape = 'diamond', 
   pixelSize = 3, 
   color = '#f6cf3e',
-  className = '' 
+  className = '',
+  style = {}
 }) => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
@@ -23,6 +24,8 @@ const BayerDitheringBackground = ({
 
   useEffect(() => {
     if (!mountRef.current) return;
+    
+    console.log('BayerDitheringBackground: Initializing with color:', color);
     
     // 初始化WebGL
 
@@ -125,7 +128,7 @@ const BayerDitheringBackground = ({
     <div 
       ref={mountRef} 
       className={`absolute inset-0 w-full h-full ${className}`}
-      style={{ zIndex: 1 }}
+      style={{ ...style }}
     />
   );
 };

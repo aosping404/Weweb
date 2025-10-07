@@ -72,12 +72,13 @@ const FloatingImage = () => {
   }, []);
 
   return (
-    <div id="story" className="min-h-dvh w-screen bg-[#0a0a0f] text-[#5e9cdb] relative">
+    <div id="story" className="min-h-dvh w-screen text-[#5e9cdb] relative">
       <BayerDitheringBackground 
         shape="diamond" 
         pixelSize={3} 
         color="#5e9cdb"
-        className="opacity-60"
+        className="opacity-100"
+        style={{ zIndex: 0 }}
       />
       <div className="flex size-full flex-col items-center py-6 md:py-10 pb-16 md:pb-24 relative z-30">
         <div className="relative size-full flex flex-col items-center justify-center">

@@ -120,7 +120,7 @@ const ModernNavbar = ({ onNavigateToGallery, onNavigateToOnScroll }) => {
     <>
       {/* 顶部导航栏 */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10" style={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
-        <div className="container mx-auto px-6 py-3">
+        <div className="container mx-auto px-6 py-1.5">
           <nav className="flex items-center justify-between">
             {/* Logo */}
             <a 

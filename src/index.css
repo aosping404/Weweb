@@ -8,7 +8,7 @@
 body {
   width: 100dvw;
   overflow-x: hidden;
-  background-color: #dfdff0;
+  background-color: #0a0a0f;
   font-family: "General Sans", sans-serif;
 }
 
@@ -601,6 +601,10 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.char {
+  opacity: 0;
 }
 
 /* 加载动画关键帧 */
